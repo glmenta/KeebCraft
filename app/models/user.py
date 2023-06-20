@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-
+from datetime import datetime
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -13,6 +13,14 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+    user_info = db.Column(db.String(255), nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
+    keeb_builds = db.relationship('KeebBuild', back_populates='user', cascade='all, delete-orphan')
+    parts = db.relationship('Part', back_populates='user', cascade='all, delete-orphan')
+    comments = db.relationship('Comment', back_populates='user', cascade='all, delete-orphan')
+    user_images = db.relationship('UserImage', back_populates='user', cascade='all, delete-orphan')
 
     @property
     def password(self):
@@ -29,5 +37,8 @@ class User(db.Model, UserMixin):
         return {
             'id': self.id,
             'username': self.username,
-            'email': self.email
+            'email': self.email,
+            'user_info': self.user_info,
+            'user_img': [img.to_dict() for img in self.user_images],
+            'keeb_builds': [build.to_dict() for build in self.keeb_builds]
         }
