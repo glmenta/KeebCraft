@@ -43,7 +43,7 @@ def upgrade():
     sa.Column('keycaps', sa.String(length=50)),
     sa.Column('switches', sa.String(length=50)),
     sa.Column('stabilizers', sa.String(length=50)),
-    sa.Column('pcb', sa.String(length=50)),
+    sa.Column('plate', sa.String(length=50)),
     sa.Column('keeb_info', sa.String(length=255)),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),

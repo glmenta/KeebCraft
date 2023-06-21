@@ -7,8 +7,9 @@ class BuildPart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     build_id = db.Column(db.Integer, db.ForeignKey('keeb_builds.id'), nullable=False)
     part_id = db.Column(db.Integer, db.ForeignKey('parts.id'), nullable=False)
-    build = db.relationship('KeebBuild', back_populates='build_parts')
-    part = db.relationship('Part', back_populates='build_parts')
+
+    # build = db.relationship('KeebBuild', back_populates='build_parts')
+    # part = db.relationship('Part', back_populates='build_parts')
 
     def to_dict(self):
         return {
@@ -31,7 +32,7 @@ class KeebBuild(db.Model):
     keycaps = db.Column(db.String(50))
     switches = db.Column(db.String(50))
     stabilizers = db.Column(db.String(50))
-    pcb = db.Column(db.String(50))
+    plate = db.Column(db.String(50))
     keeb_info = db.Column(db.String(255))
     created_at = db.Column(db.DateTime, nullable=True)
     updated_at = db.Column(db.DateTime, nullable=True)
