@@ -36,6 +36,7 @@ def seed():
         db.session.execute(f'TRUNCATE table {SCHEMA}.comments RESTART IDENTITY CASCADE;')
         undo_users()
     seed_users()
+    seed_part_types()
     seed_parts()
     seed_build_parts()
     seed_favorite_builds()
@@ -45,7 +46,7 @@ def seed():
     seed_build_images()
     seed_user_images()
     seed_parts_images()
-    seed_part_types()
+
     # Add other seed functions here
 
 
