@@ -8,7 +8,7 @@ class UserImage (db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     url = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
@@ -29,7 +29,7 @@ class PartImage (db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    part_id = db.Column(db.Integer, db.ForeignKey('parts.id'), nullable=False)
+    part_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('parts.id')), nullable=False)
     url = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
@@ -50,7 +50,7 @@ class BuildImage (db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    build_id = db.Column(db.Integer, db.ForeignKey('keeb_builds.id'), nullable=False)
+    build_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('keeb_builds.id')), nullable=False)
     url = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)

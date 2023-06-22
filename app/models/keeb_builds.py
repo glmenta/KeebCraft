@@ -5,8 +5,8 @@ class BuildPart(db.Model):
     __tablename__ = 'build_parts'
 
     id = db.Column(db.Integer, primary_key=True)
-    build_id = db.Column(db.Integer, db.ForeignKey('keeb_builds.id'), nullable=False)
-    part_id = db.Column(db.Integer, db.ForeignKey('parts.id'), nullable=False)
+    build_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('keeb_builds.id')), nullable=False)
+    part_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('parts.id')), nullable=False)
 
     build = db.relationship('KeebBuild', back_populates='build_parts')
     # part = db.relationship('Part', back_populates='build_parts')
@@ -25,7 +25,7 @@ class KeebBuild(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     name = db.Column(db.String(50))
     case = db.Column(db.String(50))
     size = db.Column(db.String(50))

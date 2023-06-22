@@ -8,9 +8,9 @@ class FavoriteBuild(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    build_id = db.Column(db.Integer, db.ForeignKey('keeb_builds.id'), nullable=False)
-    favorite_id = db.Column(db.Integer, db.ForeignKey('favorites.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
+    build_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('keeb_builds.id')), nullable=False)
+    favorite_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('favorites.id')), nullable=False)
 
     build = db.relationship('KeebBuild', back_populates='favorite_builds')
 
