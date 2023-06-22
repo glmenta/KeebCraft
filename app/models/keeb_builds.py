@@ -9,13 +9,14 @@ class BuildPart(db.Model):
     part_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('parts.id')), nullable=False)
 
     build = db.relationship('KeebBuild', back_populates='build_parts')
-    # part = db.relationship('Part', back_populates='build_parts')
+    part = db.relationship('Part', back_populates='build_parts')
 
     def to_dict(self):
         return {
             'id': self.id,
             'build_id': self.build_id,
-            'part_id': self.part_id
+            'part_id': self.part_id,
+            'part': self.part.to_dict()
         }
 
 class KeebBuild(db.Model):

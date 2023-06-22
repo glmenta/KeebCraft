@@ -35,6 +35,7 @@ class Part(db.Model):
     user = db.relationship('User', back_populates='parts')
     types = db.relationship('PartType', back_populates='parts')
     part_images = db.relationship('PartImage', back_populates='parts', cascade='all, delete-orphan', passive_deletes=True)
+    build_parts = db.relationship('BuildPart', back_populates='part')
 
     def to_dict(self):
         return {
