@@ -34,13 +34,13 @@ class PartImage (db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
-    part = db.relationship('Part', back_populates='part_images')
+    parts = db.relationship('Part', back_populates='part_images')
 
     def to_dict(self):
         return {
             'id': self.id,
             'part_id': self.part_id,
-            'url': self
+            'url': self.url
         }
 
 class BuildImage (db.Model):
@@ -50,12 +50,12 @@ class BuildImage (db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    build_id = db.Column(db.Integer, db.ForeignKey('builds.id'), nullable=False)
+    build_id = db.Column(db.Integer, db.ForeignKey('keeb_builds.id'), nullable=False)
     url = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
-    build = db.relationship('Build', back_populates='build_images')
+    build = db.relationship('KeebBuild', back_populates='build_images')
 
     def to_dict(self):
         return {

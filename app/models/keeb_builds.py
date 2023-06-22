@@ -8,7 +8,7 @@ class BuildPart(db.Model):
     build_id = db.Column(db.Integer, db.ForeignKey('keeb_builds.id'), nullable=False)
     part_id = db.Column(db.Integer, db.ForeignKey('parts.id'), nullable=False)
 
-    # build = db.relationship('KeebBuild', back_populates='build_parts')
+    build = db.relationship('KeebBuild', back_populates='build_parts')
     # part = db.relationship('Part', back_populates='build_parts')
 
     def to_dict(self):

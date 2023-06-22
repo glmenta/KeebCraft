@@ -9,8 +9,10 @@ class FavoriteBuild(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    build_id = db.Column(db.Integer, db.ForeignKey('builds.id'), nullable=False)
+    build_id = db.Column(db.Integer, db.ForeignKey('keeb_builds.id'), nullable=False)
     favorite_id = db.Column(db.Integer, db.ForeignKey('favorites.id'), nullable=False)
+
+    build = db.relationship('KeebBuild', back_populates='favorite_builds')
 
     def to_dict(self):
         return {
