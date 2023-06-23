@@ -1,6 +1,6 @@
 from app.models.favorites import db, FavoriteBuild, environment, SCHEMA
 from sqlalchemy.sql import text
-from .favorites import seed_favorites()
+from .favorites import seed_favorites
 
 def seed_favorite_builds():
     seed_favorites()
