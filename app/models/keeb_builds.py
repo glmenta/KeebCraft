@@ -57,6 +57,5 @@ class KeebBuild(db.Model):
             'keycaps': self.keycaps,
             'switches': self.switches,
             'stabilizers': self.stabilizers,
-            'pcb': self.pcb,
             'keeb_info': self.keeb_info,
         }
