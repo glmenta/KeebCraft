@@ -61,5 +61,5 @@ class BuildImage (db.Model):
         return {
             'id': self.id,
             'build_id': self.build_id,
-            'url': self
+            'url': self.url
         }

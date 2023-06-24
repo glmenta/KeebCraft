@@ -25,6 +25,7 @@ def get_current_keebs():
     }
 
 #view keeb by id
+#this route still does not work
 @keeb_builds_routes.route('/<int:id>', methods=['GET'])
 def get_keeb(id):
     keeb = KeebBuild.query.get(id)
