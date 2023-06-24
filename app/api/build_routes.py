@@ -3,6 +3,8 @@ from flask_login import login_required, current_user, logout_user
 from ..models.keeb_builds import KeebBuild
 from ..models.images import BuildImage
 from ..models.comments import Comment
+from ..forms.keeb_form import KeebForm
+from ..models.db import db
 import json
 
 keeb_builds_routes = Blueprint('keebs', __name__)
@@ -54,3 +56,44 @@ def get_keeb(id):
             "statusCode": 404
         }
         return jsonify(res), 404
+
+@keeb_builds_routes.route('/new', methods=['POST'])
+@login_required
+def new_keeb():
+    form = KeebForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        name = form.name.data
+        case = form.case.data
+        size = form.size.data
+        keycaps = form.keycaps.data
+        switches = form.switches.data
+        stabilizers = form.stabilizers.data
+        keeb_info = form.keeb_info.data
+
+        new_keeb = KeebBuild(
+            user_id=current_user.id,
+            name=name,
+            case=case,
+            size=size,
+            keycaps=keycaps,
+            switches=switches,
+            stabilizers=stabilizers,
+            keeb_info=keeb_info,
+        )
+
+        db.session.add(new_keeb)
+        db.session.commit()
+
+        img_url = form.img_url.data
+        keeb_id = new_keeb.id
+        new_image = BuildImage(
+            build_id = keeb_id,
+            url = img_url
+        )
+        db.session.add(new_image)
+        db.session.commit()
+
+        return jsonify(new_keeb.to_dict()), 201
+    else:
+        return jsonify(form.errors), 400

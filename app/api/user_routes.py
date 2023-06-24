@@ -28,7 +28,13 @@ def user(id):
 @login_required
 def get_user_keebs(id):
     user = User.query.get(id)
+
+    if user is None:
+        return jsonify({"error": "User not found"}), 404
+
     keeb_builds = KeebBuild.query.filter(KeebBuild.user_id == user.id).all()
+
+
     return {
         "Keebs": [keeb.to_dict() for keeb in keeb_builds]
     }
