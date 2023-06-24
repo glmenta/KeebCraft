@@ -27,7 +27,8 @@ def user(id):
 @user_routes.route('/<int:id>/keebs', methods=['GET'])
 @login_required
 def get_user_keebs(id):
-    keeb_builds = KeebBuild.query.filter(KeebBuild.user_id == id).all()
+    user = User.query.get(id)
+    keeb_builds = KeebBuild.query.filter(KeebBuild.user_id == user.id).all()
     return {
         "Keebs": [keeb.to_dict() for keeb in keeb_builds]
     }
