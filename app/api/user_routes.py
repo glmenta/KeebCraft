@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify
 from flask_login import login_required
 from app.models import User
-
+from app.models.keeb_builds import KeebBuild
 user_routes = Blueprint('users', __name__)
 
 
@@ -23,3 +23,11 @@ def user(id):
     """
     user = User.query.get(id)
     return user.to_dict()
+
+@user_routes.route('/<int:id>/keebs', methods=['GET'])
+@login_required
+def get_user_keebs(id):
+    keeb_builds = KeebBuild.query.filter(KeebBuild.user_id == id).all()
+    return {
+        "Keebs": [keeb.to_dict() for keeb in keeb_builds]
+    }
