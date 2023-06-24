@@ -5,6 +5,7 @@ from ..models.images import BuildImage
 from ..models.comments import Comment
 from ..forms.keeb_form import KeebForm
 from ..models.db import db
+from ..models.parts import Part, PartType
 import json
 
 keeb_builds_routes = Blueprint('keebs', __name__)
@@ -57,8 +58,10 @@ def get_keeb(id):
         }
         return jsonify(res), 404
 
-@keeb_builds_routes.route('/new', methods=['POST'])
+@keeb_builds_routes.route('/new', methods=['GET', 'POST'])
 @login_required
+def new_keeb_parts():
+    parts = Part.query.all()
 def new_keeb():
     form = KeebForm()
     form['csrf_token'].data = request.cookies['csrf_token']
