@@ -6,9 +6,10 @@ from app.models import Part
 class KeebForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
     case = SelectField('case', validators=[DataRequired()], coerce=int)
-    size = SelectField('size', coerce=int)
+    size = StringField('size', coerce=int)
     keycaps = SelectField('keycaps', validators=[DataRequired()], coerce=int)
     switches = SelectField('switches', validators=[DataRequired()], coerce=int)
+    plate = SelectField('plate', validators=[DataRequired()], coerce=int)
     stabilizers = SelectField('stabilizers', validators=[DataRequired()], coerce=int)
     keeb_info = StringField('keeb_info', validators=[DataRequired()])
     img_url = StringField('img_url')
@@ -19,8 +20,18 @@ class KeebForm(FlaskForm):
         self.populate_select_fields()
 
     def populate_select_fields(self):
-        self.case.choices = [(part.id, part.name) for part in Part.query.all()]
-        self.size.choices = [(part.id, part.name) for part in Part.query.all()]
-        self.keycaps.choices = [(part.id, part.name) for part in Part.query.all()]
-        self.switches.choices = [(part.id, part.name) for part in Part.query.all()]
-        self.stabilizers.choices = [(part.id, part.name) for part in Part.query.all()]
+        switch_id = 1
+        case_id = 2
+        keycap_id = 3
+        stab_id = 4
+        plate_id = 5
+        switch_parts = Part.query.filter(Part.type_id == switch_id).all()
+        case_parts = Part.query.filter(Part.type_id == case_id).all()
+        keycap_parts = Part.query.filter(Part.type_id == keycap_id).all()
+        stab_parts = Part.query.filter(Part.type_id == stab_id).all()
+        plate_parts = Part.query.filter(Part.type_id == plate_id).all()
+        self.case.choices = [(part.id, part.name) for part in case_parts]
+        self.plate.choices = [(part.id, part.name) for part in plate_parts]
+        self.keycaps.choices = [(part.id, part.name) for part in keycap_parts]
+        self.switches.choices = [(part.id, part.name) for part in switch_parts]
+        self.stabilizers.choices = [(part.id, part.name) for part in stab_parts]
