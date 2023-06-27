@@ -61,47 +61,54 @@ def get_keeb(id):
 @keeb_builds_routes.route('/new', methods=['GET', 'POST'])
 @login_required
 def new_keeb_parts():
-    parts = Part.query.all()
     if request.method == 'GET':
+        parts = Part.query.all()
         return jsonify(parts=[part.to_dict() for part in parts])
 
     if request.method == 'POST':
         form = KeebForm()
         form['csrf_token'].data = request.cookies['csrf_token']
+
         if form.validate_on_submit():
-            name = form.name.data
-            case = form.case.data
-            size = form.size.data
-            keycaps = form.keycaps.data
-            switches = form.switches.data
-            stabilizers = form.stabilizers.data
-            keeb_info = form.keeb_info.data
+            selected_parts = form.parts.data
+            existing_parts = Part.query.filter(Part.id.in_(selected_parts)).all()
 
-            new_keeb = KeebBuild(
-                user_id=current_user.id,
-                name=name,
-                case=case,
-                size=size,
-                keycaps=keycaps,
-                switches=switches,
-                stabilizers=stabilizers,
-                keeb_info=keeb_info,
-            )
+            if len(existing_parts) == len(selected_parts):
+                name = form.name.data
+                case = form.case.data
+                size = form.size.data
+                keycaps = form.keycaps.data
+                switches = form.switches.data
+                stabilizers = form.stabilizers.data
+                keeb_info = form.keeb_info.data
 
-            db.session.add(new_keeb)
-            db.session.commit()
-
-            img_url = form.img_url.data
-
-            if img_url:
-                keeb_id = new_keeb.id
-                new_image = BuildImage(
-                    build_id = keeb_id,
-                    url = img_url
+                new_keeb = KeebBuild(
+                    user_id=current_user.id,
+                    name=name,
+                    case=case,
+                    size=size,
+                    keycaps=keycaps,
+                    switches=switches,
+                    stabilizers=stabilizers,
+                    keeb_info=keeb_info,
                 )
-                db.session.add(new_image)
+
+                db.session.add(new_keeb)
                 db.session.commit()
 
-            return jsonify(new_keeb.to_dict()), 201
+                img_url = form.img_url.data
+
+                if img_url:
+                    keeb_id = new_keeb.id
+                    new_image = BuildImage(
+                        build_id=keeb_id,
+                        url=img_url
+                    )
+                    db.session.add(new_image)
+                    db.session.commit()
+
+                return jsonify(new_keeb.to_dict()), 201
+            else:
+                return jsonify(errors='Invalid parts selected'), 400
         else:
             return jsonify(form.errors), 400
