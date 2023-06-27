@@ -34,4 +34,4 @@ def get_part_by_type(id):
     type = PartType.query.get(id)
     part = Part.query.filter(Part.part_type_id == id).all()
     if (part):
-        image = PartImage.query.filter(PartImage.part_id == id).all()
+        pass
