@@ -58,7 +58,7 @@ def get_part_by_type(id):
         }
         return jsonify(res), 404
 
-    parts = Part.query.filter_by(part_type_id=id).all()
+    parts = Part.query.filter_by(type_id=id).all()
     images = PartImage.query.filter(PartImage.part_id.in_([part.id for part in parts])).all()
 
     res = {
