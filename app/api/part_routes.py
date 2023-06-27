@@ -29,6 +29,25 @@ def get_part(id):
     if (part):
         image = PartImage.query.filter(PartImage.part_id == id).all()
 
+        res = {
+            "id": part.id,
+            "user_id": part.user_id,
+            "type_id": part.type_id,
+            "name": part.name,
+            "description": part.description,
+            "images": [image.to_dict() for image in image]
+        }
+
+        return jsonify(res), 200
+
+    else:
+        res = {
+            "message": "Part could not be found.",
+            "statusCode": 404
+        }
+        return jsonify(res), 404
+
+
 @part_routes.route('/type/<int:id>', methods=['GET'])
 def get_part_by_type(id):
     type = PartType.query.get(id)
