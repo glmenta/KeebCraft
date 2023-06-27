@@ -10,7 +10,7 @@ class PartType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(50))
 
-    parts = db.relationship('Part', back_populates='types')
+    parts = db.relationship('Part', back_populates='part_type')
 
     def to_dict(self):
         return {
@@ -33,7 +33,7 @@ class Part(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
     user = db.relationship('User', back_populates='parts')
-    types = db.relationship('PartType', back_populates='parts')
+    part_type = db.relationship('PartType', back_populates='parts')
     part_images = db.relationship('PartImage', back_populates='parts', cascade='all, delete-orphan', passive_deletes=True)
     build_parts = db.relationship('BuildPart', back_populates='part')
 
