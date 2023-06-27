@@ -5,12 +5,12 @@ from app.models import Part
 
 class KeebForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
-    case = SelectField('case', validators=[DataRequired()], coerce=int)
-    size = StringField('size', coerce=int)
-    keycaps = SelectField('keycaps', validators=[DataRequired()], coerce=int)
-    switches = SelectField('switches', validators=[DataRequired()], coerce=int)
-    plate = SelectField('plate', validators=[DataRequired()], coerce=int)
-    stabilizers = SelectField('stabilizers', validators=[DataRequired()], coerce=int)
+    case = SelectField('case', validators=[DataRequired()])
+    size = StringField('size')
+    keycaps = SelectField('keycaps', validators=[DataRequired()])
+    switches = SelectField('switches', validators=[DataRequired()])
+    plate = SelectField('plate', validators=[DataRequired()])
+    stabilizers = SelectField('stabilizers', validators=[DataRequired()])
     keeb_info = StringField('keeb_info', validators=[DataRequired()])
     img_url = StringField('img_url')
     submit = SubmitField('Submit')
