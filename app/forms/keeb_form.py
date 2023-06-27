@@ -25,13 +25,15 @@ class KeebForm(FlaskForm):
         keycap_id = 3
         stab_id = 4
         plate_id = 5
+
         switch_parts = Part.query.filter(Part.type_id == switch_id).all()
         case_parts = Part.query.filter(Part.type_id == case_id).all()
         keycap_parts = Part.query.filter(Part.type_id == keycap_id).all()
         stab_parts = Part.query.filter(Part.type_id == stab_id).all()
         plate_parts = Part.query.filter(Part.type_id == plate_id).all()
-        self.case.choices = [(part.id, part.name) for part in case_parts]
-        self.plate.choices = [(part.id, part.name) for part in plate_parts]
-        self.keycaps.choices = [(part.id, part.name) for part in keycap_parts]
-        self.switches.choices = [(part.id, part.name) for part in switch_parts]
-        self.stabilizers.choices = [(part.id, part.name) for part in stab_parts]
+
+        self.case.choices = [(str(part.id), part.name) for part in case_parts]
+        self.plate.choices = [(str(part.id), part.name) for part in plate_parts]
+        self.keycaps.choices = [(str(part.id), part.name) for part in keycap_parts]
+        self.switches.choices = [(str(part.id), part.name) for part in switch_parts]
+        self.stabilizers.choices = [(str(part.id), part.name) for part in stab_parts]
