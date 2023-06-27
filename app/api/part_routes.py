@@ -53,4 +53,20 @@ def get_part_by_type(id):
     type = PartType.query.get(id)
     part = Part.query.filter(Part.part_type_id == id).all()
     if (part):
-        pass
+        image = PartImage.query.filter(PartImage.part_id == id).all()
+        res = {
+            "id": part.id,
+            "user_id": part.user_id,
+            "type_id": part.type_id,
+            "name": part.name,
+            "description": part.description,
+            "images": [image.to_dict() for image in image]
+        }
+        return jsonify(res), 200
+
+    else:
+        res = {
+            "message": "Type does not exist.",
+            "statusCode": 404
+        }
+        return jsonify(res), 404
