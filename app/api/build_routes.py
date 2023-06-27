@@ -92,13 +92,15 @@ def new_keeb_parts():
             db.session.commit()
 
             img_url = form.img_url.data
-            keeb_id = new_keeb.id
-            new_image = BuildImage(
-                build_id = keeb_id,
-                url = img_url
-            )
-            db.session.add(new_image)
-            db.session.commit()
+
+            if img_url:
+                keeb_id = new_keeb.id
+                new_image = BuildImage(
+                    build_id = keeb_id,
+                    url = img_url
+                )
+                db.session.add(new_image)
+                db.session.commit()
 
             return jsonify(new_keeb.to_dict()), 201
         else:
