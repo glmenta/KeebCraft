@@ -38,3 +38,8 @@ class KeebForm(FlaskForm):
         self.keycaps.choices = [(str(part.id), part.name) for part in keycap_parts]
         self.switches.choices = [(str(part.id), part.name) for part in switch_parts]
         self.stabilizers.choices = [(str(part.id), part.name) for part in stab_parts]
+        print("Case choices:", self.case.choices)
+        print("Plate choices:", self.plate.choices)
+        print("Keycap choices:", self.keycaps.choices)
+        print("Switch choices:", self.switches.choices)
+        print("Stabilizer choices:", self.stabilizers.choices)
