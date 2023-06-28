@@ -75,12 +75,17 @@ def new_keeb_parts():
 
             if len(existing_parts) == len(selected_parts):
                 name = form.name.data
-                case = form.case.data
                 size = form.size.data
-                keycaps = form.keycaps.data
-                switches = form.switches.data
-                stabilizers = form.stabilizers.data
                 keeb_info = form.keeb_info.data
+                # case = form.case.data
+                # keycaps = form.keycaps.data
+                # switches = form.switches.data
+                # stabilizers = form.stabilizers.data
+                case = next((part.name for part in existing_parts if str(part.id) == form.case.data), None)
+                keycaps = next((part.name for part in existing_parts if str(part.id) == form.keycaps.data), None)
+                switches = next((part.name for part in existing_parts if str(part.id) == form.switches.data), None)
+                stabilizers = next((part.name for part in existing_parts if str(part.id) == form.stabilizers.data), None)
+
 
                 new_keeb = KeebBuild(
                     user_id=current_user.id,
