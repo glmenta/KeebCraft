@@ -4,6 +4,7 @@ from ..models.images import PartImage
 from ..forms.keeb_form import KeebForm
 from ..models.db import db
 from ..models.parts import Part, PartType
+from ..forms.part_form import PartForm, EditPartForm
 import json
 
 part_routes = Blueprint('parts', __name__)
@@ -78,3 +79,34 @@ def get_part_by_type(id):
         res["parts"].append(part_data)
 
     return jsonify(res), 200
+
+@part_routes.route('/new', methods=['GET', 'POST'])
+@login_required
+def new_part():
+    form = PartForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        part = Part(
+            name=form.name.data,
+            description=form.description.data,
+            type_id=form.type_id.data,
+            user_id=current_user.id
+        )
+
+        db.session.add(part)
+        db.session.commit()
+
+        return jsonify(part.to_dict()), 201
+    else:
+        return jsonify(form.errors), 200
+
+@part_routes.route('/<int:id>', methods=['PUT'])
+@login_required
+def update_part(id):
+    existing_part = Part.query.get(id)
+
+    if existing_part and current_user.id == existing_part.user_id:
+        form = EditPartForm()
+        form['csrf_token'].data = request.cookies['csrf_token']
+        if form.validate():
+            pass
