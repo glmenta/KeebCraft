@@ -100,7 +100,7 @@ def new_part():
     else:
         return jsonify(form.errors), 200
 
-@part_routes.route('/<int:id>', methods=['PUT'])
+@part_routes.route('/<int:id>/edit', methods=['PUT'])
 @login_required
 def update_part(id):
     existing_part = Part.query.get(id)
