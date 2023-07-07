@@ -108,5 +108,18 @@ def update_part(id):
     if existing_part and current_user.id == existing_part.user_id:
         form = EditPartForm()
         form['csrf_token'].data = request.cookies['csrf_token']
-        if form.validate():
-            pass
+
+        if form.validate_on_submit():
+            existing_part.name = form.name.data
+            existing_part.description = form.description.data
+            existing_part.type_id = form.type_id.data
+
+            db.session.commit()
+
+            return jsonify(existing_part.to_dict()), 200
+
+        else:
+            return jsonify(form.errors), 400
+
+    else:
+        return jsonify({'message': 'Unauthorized'}), 401
