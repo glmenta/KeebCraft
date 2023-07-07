@@ -123,3 +123,24 @@ def update_part(id):
 
     else:
         return jsonify({'message': 'Unauthorized'}), 401
+
+@part_routes.route('/<int:id>/delete', methods=['DELETE'])
+@login_required
+def delete_part(id):
+    existing_part = Part.query.filter_by(id=id, user_id=current_user.id).first()
+    if existing_part:
+        PartImage.query.filter_by(part_id=id).delete()
+        db.session.delete(existing_part)
+        db.session.commit()
+        res = {
+            "id": existing_part.id,
+            "message": "Deleted",
+            "statusCode": 200
+        }
+        return jsonify(res), 200
+    else:
+        res = {
+            "message": "Part could not be found.",
+            "statusCode": 404
+        }
+        return jsonify(res), 404
