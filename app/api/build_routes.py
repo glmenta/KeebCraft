@@ -111,3 +111,67 @@ def new_keeb_parts():
                 return jsonify(errors='Invalid parts selected'), 400
         else:
             return jsonify(form.errors), 400
+
+@keeb_builds_routes.route('/<int:id>/edit', methods=['GET','PUT'])
+@login_required
+def update_keeb(id):
+    if request.method == 'GET':
+        parts = Part.query.all()
+        return jsonify(parts=[part.to_dict() for part in parts])
+
+    keeb = KeebBuild.query.get(id)
+    if not keeb or keeb.user_id != current_user.id:
+        return jsonify(errors='Keeb build not found or user not authorized'), 404
+
+    if request.method in ['PUT']:
+        data = request.get_json()
+        form = KeebForm(data=data)
+        form['csrf_token'].data = request.cookies['csrf_token']
+
+        if form.validate_on_submit():
+            selected_parts = [
+                form.case.data,
+                form.keycaps.data,
+                form.switches.data,
+                form.stabilizers.data
+            ]
+
+            existing_parts = Part.query.filter(Part.name.in_(selected_parts)).all()
+
+            if len(existing_parts) == len(selected_parts):
+                keeb.name = form.name.data
+                keeb.size = form.size.data
+                keeb.case = form.case.data
+                keeb.keycaps = form.keycaps.data
+                keeb.switches = form.switches.data
+                keeb.stabilizers = form.stabilizers.data
+                keeb.plate = form.plate.data if form.plate.data else None
+                keeb.keeb_info = form.keeb_info.data
+
+                db.session.commit()
+
+                img_url = form.img_url.data
+
+                if img_url:
+                    image = BuildImage.query.filter_by(build_id=keeb.id).first()
+
+                    if image:
+                        image.url = img_url
+                    else:
+                        new_image = BuildImage(
+                            build_id=keeb.id,
+                            url=img_url
+                        )
+                        db.session.add(new_image)
+
+                    db.session.commit()
+
+                return jsonify(keeb.to_dict()), 200
+            else:
+                return jsonify(errors='Invalid parts selected'), 400
+        else:
+            return jsonify(form.errors), 400
+@keeb_builds_routes.route('/<int:id>/delete', methods=['DELETE'])
+@login_required
+def delete_keeb(id):
+    pass
