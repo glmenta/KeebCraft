@@ -67,7 +67,8 @@ def new_keeb_parts():
 
     if request.method == 'POST':
         data = request.get_json()
-        form = KeebForm(data=data, meta={'csrf': False})
+        form = KeebForm(data=data)
+        form['csrf_token'].data = request.cookies['csrf_token']
 
         if form.validate_on_submit():
             selected_parts = [
