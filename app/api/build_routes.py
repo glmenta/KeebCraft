@@ -174,4 +174,20 @@ def update_keeb(id):
 @keeb_builds_routes.route('/<int:id>/delete', methods=['DELETE'])
 @login_required
 def delete_keeb(id):
-    pass
+    keeb = KeebBuild.query.get(id)
+    if keeb and keeb.user_id == current_user.id:
+        BuildImage.query.filter_by(build_id=id).delete()
+        db.session.delete(keeb)
+        db.session.commit()
+        res = {
+            "id": keeb.id,
+            "message": "Deleted",
+            "statusCode": 200
+        }
+        return jsonify(res), 200
+    else:
+        res = {
+            "message": "Keeb could not be found.",
+            "statusCode": 404
+        }
+        return jsonify(res), 404
