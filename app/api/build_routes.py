@@ -66,36 +66,30 @@ def new_keeb_parts():
         return jsonify(parts=[part.to_dict() for part in parts])
 
     if request.method == 'POST':
-        form = KeebForm(request.form)
-        form['csrf_token'].data = request.cookies['csrf_token']
+        data = request.get_json()
+        form = KeebForm(data=data, meta={'csrf': False})
 
         if form.validate_on_submit():
-            selected_parts = form.parts.data
-            existing_parts = Part.query.filter(Part.id.in_(selected_parts)).all()
+            selected_parts = [
+                form.case.data,
+                form.keycaps.data,
+                form.switches.data,
+                form.stabilizers.data
+            ]
+
+            existing_parts = Part.query.filter(Part.name.in_(selected_parts)).all()
 
             if len(existing_parts) == len(selected_parts):
-                name = form.name.data
-                size = form.size.data
-                keeb_info = form.keeb_info.data
-                # case = form.case.data
-                # keycaps = form.keycaps.data
-                # switches = form.switches.data
-                # stabilizers = form.stabilizers.data
-                case = next((part.name for part in existing_parts if str(part.id) == form.case.data), None)
-                keycaps = next((part.name for part in existing_parts if str(part.id) == form.keycaps.data), None)
-                switches = next((part.name for part in existing_parts if str(part.id) == form.switches.data), None)
-                stabilizers = next((part.name for part in existing_parts if str(part.id) == form.stabilizers.data), None)
-
-
                 new_keeb = KeebBuild(
                     user_id=current_user.id,
-                    name=name,
-                    case=case,
-                    size=size,
-                    keycaps=keycaps,
-                    switches=switches,
-                    stabilizers=stabilizers,
-                    keeb_info=keeb_info,
+                    name=form.name.data,
+                    size=form.size.data,
+                    case=form.case.data,
+                    keycaps=form.keycaps.data,
+                    switches=form.switches.data,
+                    stabilizers=form.stabilizers.data,
+                    plate=form.plate.data if form.plate.data else None,
+                    keeb_info=form.keeb_info.data,
                 )
 
                 db.session.add(new_keeb)
@@ -104,9 +98,8 @@ def new_keeb_parts():
                 img_url = form.img_url.data
 
                 if img_url:
-                    keeb_id = new_keeb.id
                     new_image = BuildImage(
-                        build_id=keeb_id,
+                        build_id=new_keeb.id,
                         url=img_url
                     )
                     db.session.add(new_image)

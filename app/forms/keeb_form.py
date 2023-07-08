@@ -20,26 +20,21 @@ class KeebForm(FlaskForm):
         self.populate_select_fields()
 
     def populate_select_fields(self):
+
         switch_id = 1
         case_id = 2
         keycap_id = 3
         stab_id = 4
         plate_id = 5
 
-        switch_parts = Part.query.filter(Part.type_id == switch_id).all()
-        case_parts = Part.query.filter(Part.type_id == case_id).all()
-        keycap_parts = Part.query.filter(Part.type_id == keycap_id).all()
-        stab_parts = Part.query.filter(Part.type_id == stab_id).all()
-        plate_parts = Part.query.filter(Part.type_id == plate_id).all()
-        (print('this is switch parts', switch_parts))
+        switch_parts = Part.query.filter(Part.type_id == switch_id).all() if Part.query.filter(Part.type_id == switch_id).first() else []
+        case_parts = Part.query.filter(Part.type_id == case_id).all() if Part.query.filter(Part.type_id == case_id).first() else []
+        keycap_parts = Part.query.filter(Part.type_id == keycap_id).all() if Part.query.filter(Part.type_id == keycap_id).first() else []
+        stab_parts = Part.query.filter(Part.type_id == stab_id).all() if Part.query.filter(Part.type_id == stab_id).first() else []
+        plate_parts = Part.query.filter(Part.type_id == plate_id).all() if Part.query.filter(Part.type_id == plate_id).first() else []
 
-        self.case.choices = [(str(part.id), part.name) for part in case_parts]
-        self.plate.choices = [(str(part.id), part.name) for part in plate_parts]
-        self.keycaps.choices = [(str(part.id), part.name) for part in keycap_parts]
-        self.switches.choices = [(str(part.id), part.name) for part in switch_parts]
-        self.stabilizers.choices = [(str(part.id), part.name) for part in stab_parts]
-        print("Case choices:", self.case.choices)
-        print("Plate choices:", self.plate.choices)
-        print("Keycap choices:", self.keycaps.choices)
-        print("Switch choices:", self.switches.choices)
-        print("Stabilizer choices:", self.stabilizers.choices)
+        self.case.choices = [(part.name, part.name) for part in case_parts]
+        self.plate.choices = [(part.name, part.name) for part in plate_parts]
+        self.keycaps.choices = [(part.name, part.name) for part in keycap_parts]
+        self.switches.choices = [(part.name, part.name) for part in switch_parts]
+        self.stabilizers.choices = [(part.name, part.name) for part in stab_parts]
