@@ -6,6 +6,7 @@ import LoginFormPage from "./components/LoginFormPage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import KeebBuildPage from "./components/KeebBuildPage";
+import KeebDetailPage from "./components/KeebDetailPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,9 +26,13 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
+          <Route path="/keebs/:keebId">
+            <KeebDetailPage />
+          </Route>
           <Route path="/keebs">
             <KeebBuildPage />
           </Route>
+
         </Switch>
       )}
     </>

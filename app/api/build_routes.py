@@ -44,6 +44,7 @@ def get_keeb(id):
             "size": keeb.size,
             "keycaps": keeb.keycaps,
             "switches": keeb.switches,
+            "plate": keeb.plate,
             "stabilizers": keeb.stabilizers,
             "keeb_info": keeb.keeb_info,
             "images": [image.to_dict() for image in image],
@@ -75,7 +76,8 @@ def new_keeb_parts():
                 form.case.data,
                 form.keycaps.data,
                 form.switches.data,
-                form.stabilizers.data
+                form.stabilizers.data,
+                form.plate.data
             ]
 
             existing_parts = Part.query.filter(Part.name.in_(selected_parts)).all()

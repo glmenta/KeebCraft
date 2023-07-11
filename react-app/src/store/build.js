@@ -58,8 +58,9 @@ export const fetchAllKeebs = () => async (dispatch) => {
     }
 }
 
-export const fetchKeeb = (buildId) => async (dispatch) => {
-    const res = await csrfFetch(`/api/keebs/${buildId}`);
+export const fetchKeeb = (keebId) => async (dispatch) => {
+    console.log('this is thunk')
+    const res = await csrfFetch(`/api/keebs/${keebId}`);
     if (res.ok) {
         const data = await res.json();
         console.log('this is data from thunk', data)
@@ -129,16 +130,16 @@ const keebReducer = (state = initialState, action) => {
             newState.keebs = action.keeb;
             return newState;
         case GET_KEEB:
-            newState.allKeebs[action.keeb.id] = action.keeb;
+            newState.keebs[action.keeb.id] = action.keeb;
             return newState;
         case CREATE_KEEB:
-            newState.allKeebs[action.keeb.id] = action.keeb;
+            newState.keebs[action.keeb.id] = action.keeb;
             return newState;
         case UPDATE_KEEB:
-            newState.allKeebs[action.keeb.id] = action.keeb;
+            newState.keebs[action.keeb.id] = action.keeb;
             return newState;
         case DELETE_KEEB:
-            delete newState.allKeebs[action.keeb.id];
+            delete newState.keebs[action.keeb.id];
             return newState;
         case GET_USER_KEEBS:
             newState.userKeebs = action.keeb;

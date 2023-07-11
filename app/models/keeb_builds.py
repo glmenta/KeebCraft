@@ -57,6 +57,7 @@ class KeebBuild(db.Model):
             'keycaps': self.keycaps,
             'switches': self.switches,
             'stabilizers': self.stabilizers,
+            'plate': self.plate,
             'keeb_info': self.keeb_info,
             'img_url': [build_image.to_dict() for build_image in self.build_images],
         }

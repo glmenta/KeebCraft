@@ -9,17 +9,19 @@ function KeebBuildPage() {
     const keebs = keebArr.flat()
     const user = useSelector((state) => state.session.user);
     const [isLoaded, setIsLoaded] = useState(false);
+
     useEffect(() => {
         dispatch(KeebActions.fetchAllKeebs());
         setIsLoaded(true);
     }, [dispatch])
+
     return (
         <div className="build-container">
             {isLoaded && keebs.length > 0 && (
                 <ul>
                     {keebs.map((kb) => (
                         <li key={kb.id}>
-                            <Link to={`/keeb/${kb.id}`}>{kb.name}</Link>
+                            <Link to={`/keebs/${kb.id}`}>{kb.name}</Link>
                         </li>
                     ))}
                 </ul>

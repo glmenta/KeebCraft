@@ -43,5 +43,6 @@ class Part(db.Model):
             'user_id': self.user_id,
             'type_id': self.type_id,
             'name': self.name,
-            'description': self.description
+            'description': self.description,
+            'part_img': [img.to_dict() for img in self.part_images],
         }
