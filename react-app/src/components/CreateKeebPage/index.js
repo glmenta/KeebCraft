@@ -9,6 +9,8 @@ function CreateKeebPage() {
 
     const [name, setName] = useState("");
     const [keebcase, setKeebcase] = useState("");
+    const [keycaps, setKeycaps] = useState("");
+    const [switches, setSwitches] = useState("");
 
     const dispatch = useDispatch();
     const history = useHistory();
