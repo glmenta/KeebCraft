@@ -2,10 +2,12 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import session from './session'
 import keebReducer from './build';
+import partsReducer from './part';
 
 const rootReducer = combineReducers({
   session,
-  keebs: keebReducer
+  keebs: keebReducer,
+  parts: partsReducer
 });
 
 

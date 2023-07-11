@@ -7,6 +7,7 @@ import * as UserActions from "../../store/session";
 function KeebDetailPage() {
     const { keebId } = useParams();
     const dispatch = useDispatch();
+
     const allKeebs = useSelector((state) => state.keebs);
     console.log('this is all the keebs', allKeebs)
     const allUsers = useSelector((state) => state.session.users) || [];
@@ -22,9 +23,6 @@ function KeebDetailPage() {
 
     const userId = user?.id
     const [isLoaded, setIsLoaded] = useState(false);
-
-
-
 
     useEffect(() => {
         if (!keebId) {
@@ -44,14 +42,21 @@ function KeebDetailPage() {
                         <div className='keeb-details'>
                             <div className='keeb-main'>
                                 <h2>{currKeeb.name}</h2>
-                                <img src={currKeeb.img_url}></img>
+                                <img
+                                    src={currKeeb.img_url}
+                                    alt={currKeeb.name}
+                                ></img>
                                 <p>By: {creatorUser?.username}</p>
                                 <p>{currKeeb.keeb_info}</p>
+                            </div>
+                            <div className='fav-button'>
+                                <button>Add to Favorites!</button>
                             </div>
                             <div className='part-details'>
                                 <div>
                                     <h3>Case</h3>
                                     <p>{currKeeb.case}</p>
+                                    <p>img here</p>
                                 </div>
                                 <div>
                                     <h3>Keycaps</h3>
@@ -69,14 +74,14 @@ function KeebDetailPage() {
                                     <h3>Plate</h3>
                                     <p>{currKeeb.plate}</p>
                                 </div>
-
-
-
-
-
                             </div>
                             <div>
                             </div>
+                        </div>
+                    </div>
+                    <div className='comments-section'>
+                        <div className='comments-container'>
+                            comments here
                         </div>
                     </div>
                 </div>
