@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf";
+import { fetchAllParts } from "./part";
 
 const GET_ALL_KEEBS = "keebs/GET_ALL_KEEBS";
 const GET_KEEB = "keebs/GET_KEEB";
@@ -78,6 +79,8 @@ export const getUserKeebsThunk = () => async (dispatch) => {
     }
 }
 export const createKeebThunk = (keeb) => async (dispatch) => {
+    await dispatch(fetchAllParts());
+
     const res = await csrfFetch("/api/keebs/new", {
         method: "POST",
         headers: {
@@ -89,6 +92,12 @@ export const createKeebThunk = (keeb) => async (dispatch) => {
         const data = await res.json();
         dispatch(createKeeb(data));
         return data;
+    } else {
+        const data = await res.json();
+        const errors = typeof data.errors === 'string' ? { _error: data.errors } : data.errors;
+        return {
+            errors: errors
+        }
     }
 }
 

@@ -8,7 +8,7 @@ import Navigation from "./components/Navigation";
 import KeebBuildPage from "./components/KeebBuildPage";
 import KeebDetailPage from "./components/KeebDetailPage";
 import LandingPage from "./components/LandingPage";
-
+import CreateKeebPage from "./components/CreateKeebPage";
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -27,6 +27,9 @@ function App() {
           </Route>
           <Route path="/signup">
             <SignupFormPage />
+          </Route>
+          <Route exact path="/keebs/new">
+            <CreateKeebPage/>
           </Route>
           <Route path="/keebs/:keebId">
             <KeebDetailPage />

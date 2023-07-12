@@ -86,7 +86,6 @@ def new_keeb_parts():
                 new_keeb = KeebBuild(
                     user_id=current_user.id,
                     name=form.name.data,
-                    size=form.size.data,
                     case=form.case.data,
                     keycaps=form.keycaps.data,
                     switches=form.switches.data,

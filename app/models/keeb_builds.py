@@ -32,7 +32,6 @@ class KeebBuild(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     name = db.Column(db.String(50))
     case = db.Column(db.String(50))
-    size = db.Column(db.String(50))
     keycaps = db.Column(db.String(50))
     switches = db.Column(db.String(50))
     stabilizers = db.Column(db.String(50))
@@ -53,7 +52,6 @@ class KeebBuild(db.Model):
             'user_id': self.user_id,
             'name': self.name,
             'case': self.case,
-            'size': self.size,
             'keycaps': self.keycaps,
             'switches': self.switches,
             'stabilizers': self.stabilizers,
