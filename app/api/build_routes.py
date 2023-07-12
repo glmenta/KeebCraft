@@ -41,7 +41,6 @@ def get_keeb(id):
             "user_id": keeb.user_id,
             "name": keeb.name,
             "case": keeb.case,
-            "size": keeb.size,
             "keycaps": keeb.keycaps,
             "switches": keeb.switches,
             "plate": keeb.plate,

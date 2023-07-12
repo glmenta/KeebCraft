@@ -50,7 +50,6 @@ def upgrade():
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=50), nullable=True),
     sa.Column('case', sa.String(length=50), nullable=True),
-    sa.Column('size', sa.String(length=50), nullable=True),
     sa.Column('keycaps', sa.String(length=50), nullable=True),
     sa.Column('switches', sa.String(length=50), nullable=True),
     sa.Column('stabilizers', sa.String(length=50), nullable=True),
