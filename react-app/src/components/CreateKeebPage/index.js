@@ -15,6 +15,7 @@ function CreateKeebPage() {
     const [plate, setPlate] = useState("");
     const [stabs, setStabs] = useState("");
     const [description, setDescription] = useState("");
+    const [imgUrl, setImgUrl] = useState("");
     const [forge, setForge] = useState(false);
     const [errors, setErrors] = useState({});
 
@@ -23,7 +24,7 @@ function CreateKeebPage() {
 
     const user = useSelector((state) => state.session.user);
     const parts = useSelector((state) => state.parts.parts);
-    console.log('these are all the parts', parts);
+
     let switchList, caseList, keycapList, stabList, plateList;
     if (parts && parts.Parts) {
         const partsArray = parts.Parts;
@@ -47,19 +48,20 @@ function CreateKeebPage() {
 
         const payload = {
             name,
-            keebcase,
+            case: keebcase,
             keycaps,
             switches,
             plate,
-            stabs,
-            description,
+            stabilizers: stabs,
+            keeb_info: description,
+            img_url: imgUrl
         }
-
+        console.log('this is the payload', payload);
         const res = await dispatch(createKeebThunk(payload));
-
+        console.log('this is the res', res.id);
         if (res.ok) {
             const newKeebId = res.id
-            const url = `/api/keebs/${newKeebId}`;
+            const url = `/keebs/${newKeebId}`;
             setName("");
             setKeebcase("");
             setKeycaps("");
@@ -67,6 +69,7 @@ function CreateKeebPage() {
             setPlate("");
             setStabs("");
             setDescription("");
+            setImgUrl("");
             setErrors({});
             history.push(url);
         } else {
@@ -139,6 +142,12 @@ function CreateKeebPage() {
                         </option>
                     ))}
                 </select>
+                <input
+                    type="text"
+                    placeholder="Image URL"
+                    value={imgUrl}
+                    onChange={(e) => setImgUrl(e.target.value)}
+                />
                 <textarea
                     placeholder="Description"
                     value={description}
@@ -146,7 +155,7 @@ function CreateKeebPage() {
                 />
                 <button type="submit">Create Keeb</button>
             </form>
-            {Object.values(errors).map((error, idx) => (
+            {errors && Object.values(errors).map((error, idx) => (
                 <div key={idx}>{error}</div>
             ))}
         </div>

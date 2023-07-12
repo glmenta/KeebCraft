@@ -66,6 +66,7 @@ def new_keeb_parts():
         return jsonify(parts=[part.to_dict() for part in parts])
 
     if request.method == 'POST':
+        print('this is from the route', request.get_json())
         data = request.get_json()
         form = KeebForm(data=data)
         form['csrf_token'].data = request.cookies['csrf_token']
