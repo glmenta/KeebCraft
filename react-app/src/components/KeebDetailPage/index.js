@@ -14,7 +14,7 @@ function KeebDetailPage() {
     const userArr = allUsers.users;
     const currKeeb = useSelector((state) => state.keebs.keebs[keebId]);
     console.log('tests', currKeeb)
-    const creatorId = currKeeb?.id
+    const creatorId = currKeeb?.user_id
     console.log('creatorId', creatorId)
     console.log('userArr', userArr)
     const creatorUser = userArr?.find(user => user.id === creatorId);

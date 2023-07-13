@@ -101,8 +101,8 @@ export const createKeebThunk = (keeb) => async (dispatch) => {
     }
 }
 
-export const updateKeebThunk = (keeb) => async (dispatch) => {
-    const res = await csrfFetch(`/api/keebs/${keeb.id}`, {
+export const updateKeebThunk = (keebId, keeb) => async (dispatch) => {
+    const res = await csrfFetch(`/api/keebs/${keebId}/edit`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
