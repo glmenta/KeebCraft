@@ -1,30 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createPartThunk, fetchAllPartTypes } from "../../store/part";
+import * as PartActions from "../../store/part";
 
-function CreatePartModal({ isOpen, onClose }) {
+function UpdatePartModal({ isOpen, onClose, partId }) {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [typeId, setTypeId] = useState("");
     const [partTypes, setPartTypes] = useState([]);
-    console.log('partTypes', partTypes);
     const dispatch = useDispatch();
 
+    const part = useSelector((state) => state.parts.parts.Parts.find(p => p.id === partId));
+
     useEffect(() => {
-        dispatch(fetchAllPartTypes())
+        if(part){
+            setName(part.name);
+            setDescription(part.description);
+            setTypeId(part.type_id);
+        }
+    }, [part]);
+
+    useEffect(() => {
+        dispatch(PartActions.fetchAllPartTypes())
         .then(setPartTypes);
     }, [dispatch]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const part = {
+        const updatedPart = {
+            id: part.id,
             name,
             description,
             type_id: typeId,
         };
 
-        dispatch(createPartThunk(part));
+        await dispatch(PartActions.updatePartThunk(updatedPart));
+        dispatch(PartActions.fetchAllParts());
         onClose();
     };
 
@@ -39,7 +50,7 @@ function CreatePartModal({ isOpen, onClose }) {
     return (
         <div className="part-modal" onClick={onClose}>
             <div className="modal-content" onClick={stopPropagation}>
-                <h2>New Part</h2>
+                <h2>Update Part</h2>
                 <form onSubmit={handleSubmit}>
                     <label>
                         Name
@@ -71,11 +82,11 @@ function CreatePartModal({ isOpen, onClose }) {
                             ))}
                         </select>
                     </label>
-                    <button type="submit">Create</button>
+                    <button type="submit">Update</button>
                 </form>
             </div>
         </div>
     );
 }
 
-export default CreatePartModal;
+export default UpdatePartModal;

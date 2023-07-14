@@ -68,6 +68,7 @@ export const fetchPart = (part) => async (dispatch) => {
 
 export const fetchAllPartTypes = () => async (dispatch) => {
     const res = await csrfFetch("/api/parts/types");
+    console.log('this is res', res)
     if (res.ok) {
         const data = await res.json();
         dispatch(getAllPartTypes(data));
@@ -91,7 +92,8 @@ export const createPartThunk = (part) => async (dispatch) => {
 }
 
 export const updatePartThunk = (part) => async (dispatch) => {
-    const res = await csrfFetch(`/api/parts/${part.id}`, {
+    console.log('part from thunk', part)
+    const res = await csrfFetch(`/api/parts/${part.id}/edit`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -118,6 +120,7 @@ export const deletePartThunk = (part) => async (dispatch) => {
 
 const initialState = {
     parts: {},
+    partTypes: {}
 }
 
 const partsReducer = (state = initialState, action) => {

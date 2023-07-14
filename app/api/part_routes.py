@@ -8,6 +8,10 @@ from ..forms.part_form import PartForm, EditPartForm
 import json
 
 part_routes = Blueprint('parts', __name__)
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+    return '.' in filename and \
+    filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @part_routes.route('/', methods=['GET'])
 def get_all_parts():
@@ -48,6 +52,11 @@ def get_part(id):
         }
         return jsonify(res), 404
 
+@part_routes.route('/types', methods=['GET'])
+def get_all_part_types():
+    part_types = PartType.query.all()
+    res = [part_type.to_dict() for part_type in part_types]
+    return jsonify(res), 200
 
 @part_routes.route('/type/<int:id>', methods=['GET'])
 def get_part_by_type(id):
@@ -83,7 +92,8 @@ def get_part_by_type(id):
 @part_routes.route('/new', methods=['GET', 'POST'])
 @login_required
 def new_part():
-    form = PartForm()
+    data = request.get_json()
+    form = PartForm(data=data)
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         part = Part(
@@ -94,6 +104,18 @@ def new_part():
         )
 
         db.session.add(part)
+        db.session.commit()
+    part_img_url = form.part_img.data
+
+    if part_img_url:
+        if not allowed_file(part_img_url):
+            return jsonify({"error": "Invalid image file type. Please use jpg, jpeg, png or gif"}), 400
+
+        new_img = PartImage(
+            part_id=part.id,
+            url=part_img_url
+        )
+        db.session.add(new_img)
         db.session.commit()
 
         return jsonify(part.to_dict()), 201
@@ -114,15 +136,31 @@ def update_part(id):
             existing_part.description = form.description.data
             existing_part.type_id = form.type_id.data
 
+            part_img_url = form.part_img.data
+
+            if part_img_url:
+                if not allowed_file(part_img_url):
+                    return jsonify({"error": "Invalid image file type. Please use jpg, jpeg, png or gif"}), 400
+
+                existing_img = PartImage.query.filter_by(part_id=id).first()
+
+                if existing_img:
+                    existing_img.url = part_img_url
+                else:
+                    new_img = PartImage(
+                        part_id=existing_part.id,
+                        url=part_img_url
+                    )
+                    db.session.add(new_img)
+
             db.session.commit()
 
             return jsonify(existing_part.to_dict()), 200
-
         else:
             return jsonify(form.errors), 400
-
     else:
         return jsonify({'message': 'Unauthorized'}), 401
+
 
 @part_routes.route('/<int:id>/delete', methods=['DELETE'])
 @login_required
