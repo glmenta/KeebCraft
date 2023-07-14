@@ -5,6 +5,7 @@ const CREATE_PART = "parts/CREATE_PART";
 const GET_PART = "parts/GET_PART";
 const UPDATE_PART = "parts/UPDATE_PART";
 const DELETE_PART = "parts/DELETE_PART";
+const GET_ALL_PART_TYPES = "parts/GET_ALL_PART_TYPES";
 
 export const getAllParts = (parts) => {
     return {
@@ -27,6 +28,12 @@ export const getPart = (part) => {
     };
 }
 
+export const getAllPartTypes = (partTypes) => {
+    return {
+        type: GET_ALL_PART_TYPES,
+        partTypes,
+    };
+}
 export const updatePart = (part) => {
     return {
         type: UPDATE_PART,
@@ -58,6 +65,16 @@ export const fetchPart = (part) => async (dispatch) => {
         return data
     }
 }
+
+export const fetchAllPartTypes = () => async (dispatch) => {
+    const res = await csrfFetch("/api/parts/types");
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(getAllPartTypes(data));
+        return data
+    }
+}
+
 export const createPartThunk = (part) => async (dispatch) => {
     const res = await csrfFetch("/api/parts/new", {
         method: "POST",
@@ -111,6 +128,9 @@ const partsReducer = (state = initialState, action) => {
             return newState;
         case GET_PART:
             newState.parts[action.part.id] = action.part;
+            return newState;
+        case GET_ALL_PART_TYPES:
+            newState.partTypes = action.partTypes;
             return newState;
         case CREATE_PART:
             newState.parts[action.part.id] = action.part;

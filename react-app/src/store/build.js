@@ -6,6 +6,7 @@ const GET_KEEB = "keebs/GET_KEEB";
 const CREATE_KEEB = "keebs/CREATE_KEEB";
 const UPDATE_KEEB = "keebs/UPDATE_KEEB";
 const DELETE_KEEB = "keebs/DELETE_KEEB";
+const REMOVE_USER_KEEB = "keebs/REMOVE_USER_KEEB";
 const GET_USER_KEEBS = "keebs/GET_USER_KEEBS";
 
 export const getAllKeebs = (keeb) => {
@@ -50,6 +51,13 @@ export const getUserKeebs = (keeb) => {
     };
 }
 
+export const removeUserKeeb = (keebId) => {
+    return {
+        type: REMOVE_USER_KEEB,
+        keebId,
+    };
+};
+
 export const fetchAllKeebs = () => async (dispatch) => {
     const res = await csrfFetch("/api/keebs");
     if (res.ok) {
@@ -70,11 +78,11 @@ export const fetchKeeb = (keebId) => async (dispatch) => {
     }
 }
 
-export const getUserKeebsThunk = () => async (dispatch) => {
-    const res = await csrfFetch("/api/keebs/user");
+export const getUserKeebsThunk = (userId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/users/${userId}/keebs`);
     if (res.ok) {
         const data = await res.json();
-        dispatch(getUserKeebs(data));
+        dispatch(getUserKeebs(data.Keebs));
         return data;
     }
 }
@@ -116,13 +124,14 @@ export const updateKeebThunk = (keebId, keeb) => async (dispatch) => {
     }
 }
 
-export const deleteKeebThunk = (keeb) => async (dispatch) => {
-    const res = await csrfFetch(`/api/keebs/${keeb.id}`, {
+export const deleteKeebThunk = (keebId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/keebs/${keebId}/delete`, {
         method: "DELETE",
     });
     if (res.ok) {
         const data = await res.json();
         dispatch(deleteKeeb(data));
+        dispatch(removeUserKeeb(keebId));
         return data;
     }
 }
@@ -150,8 +159,14 @@ const keebReducer = (state = initialState, action) => {
         case DELETE_KEEB:
             delete newState.keebs[action.keeb.id];
             return newState;
+        case REMOVE_USER_KEEB:
+            delete newState.userKeebs[action.keebId];
+            return newState;
         case GET_USER_KEEBS:
-            newState.userKeebs = action.keeb;
+            newState.userKeebs = action.keeb.reduce((acc, keeb) => {
+                acc[keeb.id] = keeb;
+                return acc;
+            }, {});
             return newState;
         default:
             return state;

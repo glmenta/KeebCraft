@@ -10,7 +10,8 @@ import KeebDetailPage from "./components/KeebDetailPage";
 import LandingPage from "./components/LandingPage";
 import CreateKeebPage from "./components/CreateKeebPage";
 import UpdateKeebPage from "./components/UpdateKeebPage";
-
+import UserKeebsPage from "./components/UserKeebsPage";
+import PartListPage from "./components/PartListPage";
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -33,6 +34,9 @@ function App() {
           <Route exact path="/keebs/new">
             <CreateKeebPage/>
           </Route>
+          <Route exact path="/users/:userId/keebs">
+            <UserKeebsPage />
+          </Route>
           <Route exact path="/keebs/:keebId/edit" component={UpdateKeebPage}>
             <UpdateKeebPage/>
           </Route>
@@ -41,6 +45,9 @@ function App() {
           </Route>
           <Route path="/keebs">
             <KeebBuildPage />
+          </Route>
+          <Route path='/parts'>
+            <PartListPage/>
           </Route>
           <Route path="/" exact>
             <LandingPage />
