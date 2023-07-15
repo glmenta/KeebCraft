@@ -6,6 +6,7 @@ const GET_PART = "parts/GET_PART";
 const UPDATE_PART = "parts/UPDATE_PART";
 const DELETE_PART = "parts/DELETE_PART";
 const GET_ALL_PART_TYPES = "parts/GET_ALL_PART_TYPES";
+const GET_USER_PARTS = "parts/GET_USER_PARTS";
 
 export const getAllParts = (parts) => {
     return {
@@ -26,6 +27,13 @@ export const getPart = (part) => {
         type: GET_PART,
         part,
     };
+}
+
+export const getUserParts = (part) => {
+    return {
+        type: GET_USER_PARTS,
+        part,
+    }
 }
 
 export const getAllPartTypes = (partTypes) => {
@@ -66,6 +74,14 @@ export const fetchPart = (part) => async (dispatch) => {
     }
 }
 
+export const fetchUserParts = (userId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/users/${userId}/parts`);
+    if (res.ok) {
+        const data = await res.json();
+        dispatch(getUserParts(data));
+        return data
+    }
+}
 export const fetchAllPartTypes = () => async (dispatch) => {
     const res = await csrfFetch("/api/parts/types");
     console.log('this is res', res)
@@ -120,6 +136,7 @@ export const deletePartThunk = (part) => async (dispatch) => {
 
 const initialState = {
     parts: {},
+    userParts: {},
     partTypes: {}
 }
 
@@ -131,6 +148,9 @@ const partsReducer = (state = initialState, action) => {
             return newState;
         case GET_PART:
             newState.parts[action.part.id] = action.part;
+            return newState;
+        case GET_USER_PARTS:
+            newState.parts = { ...newState.parts, ...action.part };
             return newState;
         case GET_ALL_PART_TYPES:
             newState.partTypes = action.partTypes;

@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllParts, updatePartThunk } from "../../store/part";
+import { fetchUserParts, updatePartThunk } from "../../store/part";
 import UpdatePartModal from "../PartUpdateModal";
 
 function UserPartsPage() {
     const dispatch = useDispatch();
-    const parts = useSelector((state) => state.parts.parts.Parts);
+    const userParts = useSelector((state) => state.parts.parts.Parts);
     const userId = useSelector((state) => state.session.user.id);
-    console.log('parts', parts);
+    console.log('parts', userParts);
     const [isLoaded, setIsLoaded] = useState(false);
     const [updateModalPartId, setUpdateModalPartId] = useState(null);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [deletedPartId, setDeletedPartId] = useState(null);
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchAllParts())
+        dispatch(fetchUserParts(userId))
             .then(() => setIsLoaded(true))
             .catch((err) => {
                 console.error(err);
             });
-    }, [dispatch]);
+    }, [dispatch, userId, refresh]);
 
     const handleShow = (partId) => {
         setUpdateModalPartId(partId);
@@ -33,7 +36,7 @@ function UserPartsPage() {
 
     return (
         <div>
-            {Object.values(parts)
+            {Object.values(userParts)
                 .filter((part) => part.user_id === userId)
                 .map((part) => (
                     <div key={part.id}>

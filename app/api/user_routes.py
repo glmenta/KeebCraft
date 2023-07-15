@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify
 from flask_login import login_required
 from app.models import User
 from app.models.keeb_builds import KeebBuild
+from app.models.parts import Part
 user_routes = Blueprint('users', __name__)
 
 
@@ -37,4 +38,18 @@ def get_user_keebs(id):
 
     return {
         "Keebs": [keeb.to_dict() for keeb in keeb_builds]
+    }
+
+@user_routes.route('/<int:id>/parts', methods=['GET'])
+@login_required
+def get_user_parts(id):
+    user = User.query.get(id)
+
+    if user is None:
+        return jsonify({"error": "User not found"}), 404
+
+    parts = Part.query.filter(Part.user_id == user.id).all()
+
+    return {
+        "Parts": [part.to_dict() for part in parts]
     }
