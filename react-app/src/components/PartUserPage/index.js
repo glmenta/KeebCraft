@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserParts, updatePartThunk } from "../../store/part";
+import * as PartActions from "../../store/part";
 import UpdatePartModal from "../PartUpdateModal";
-
+import DeletePartModal from "../PartDeleteModal";
 function UserPartsPage() {
     const dispatch = useDispatch();
     const userParts = useSelector((state) => state.parts.parts.Parts);
@@ -30,9 +31,27 @@ function UserPartsPage() {
         setUpdateModalPartId(null);
     };
 
+    const handleDeleteShow = (partId) => {
+        setDeleteModal(partId)
+        setDeletedPartId(partId);
+    }
+    const handleDeleteClose = () => {
+        setDeleteModal(null)
+    }
     if (!isLoaded) {
         return null;
     }
+    const handleDelete = (partId) => {
+        console.log('part id from handledelete', partId)
+        dispatch(PartActions.deletePartThunk(partId))
+        .then(() => {
+            setDeletedPartId(partId);
+            setRefresh(prevState => !prevState);
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    };
 
     return (
         <div>
@@ -47,6 +66,15 @@ function UserPartsPage() {
                                 partId={part.id}
                                 isOpen={updateModalPartId === part.id}
                                 onClose={handleClose}
+                            />
+                        )}
+                        <button onClick={() => handleDeleteShow(part.id)}>Delete Part</button>
+                        {deleteModal === part.id && (
+                            <DeletePartModal
+                                partId={part.id}
+                                isOpen={deleteModal === part.id}
+                                onClose={handleDeleteClose}
+                                handleDelete={() => handleDelete(part.id)}
                             />
                         )}
                     </div>

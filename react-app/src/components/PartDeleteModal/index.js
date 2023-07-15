@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import * as PartActions from "../../store/part";
 import { useHistory } from "react-router-dom";
 
-function DeletePartModal({ partId, show, handleClose }) {
+function DeletePartModal({ partId, isOpen, handleDeleteClose, handleDelete }) {
     const dispatch = useDispatch();
     const history = useHistory();
-
-    const handleDelete = () => {
-        console.log('partId', partId);
-        dispatch(PartActions.deletePartThunk(partId))
-        handleClose();
-    }
-
-    if (!show) {
+    console.log('modal')
+    console.log('partId', partId)
+    if (!isOpen) {
         return null;
     }
 
@@ -21,7 +15,7 @@ function DeletePartModal({ partId, show, handleClose }) {
         <div className="delete-modal">
             <h3>Are you sure you want to delete this part?</h3>
             <button onClick={handleDelete}>Yes</button>
-            <button onClick={handleClose}>No</button>
+            <button onClick={handleDeleteClose}>No</button>
         </div>
     )
 }

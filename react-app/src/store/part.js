@@ -123,8 +123,8 @@ export const updatePartThunk = (part) => async (dispatch) => {
     }
 }
 
-export const deletePartThunk = (part) => async (dispatch) => {
-    const res = await csrfFetch(`/api/parts/${part.id}`, {
+export const deletePartThunk = (partId) => async (dispatch) => {
+    const res = await csrfFetch(`/api/parts/${partId}/delete`, {
         method: "DELETE",
     });
     if (res.ok) {
