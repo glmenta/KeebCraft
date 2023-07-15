@@ -62,10 +62,10 @@ export const fetchAllKeebs = () => async (dispatch) => {
     const res = await csrfFetch("/api/keebs");
     if (res.ok) {
         const data = await res.json();
-        dispatch(getAllKeebs(data));
-        return data
+        dispatch(getAllKeebs(data.Keebs));
+        return data;
     }
-}
+};
 
 export const fetchKeeb = (keebId) => async (dispatch) => {
     console.log('this is thunk')
@@ -145,7 +145,9 @@ const keebReducer = (state = initialState, action) => {
     let newState = { ...state };
     switch (action.type) {
         case GET_ALL_KEEBS:
-            newState.keebs = action.keeb;
+            for (const keeb of action.keeb) {
+                newState.keebs[keeb.id] = keeb;
+            }
             return newState;
         case GET_KEEB:
             newState.keebs[action.keeb.id] = action.keeb;

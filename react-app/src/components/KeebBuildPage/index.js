@@ -5,8 +5,9 @@ import * as KeebActions from "../../store/build";
 
 function KeebBuildPage() {
     const dispatch = useDispatch();
-    const keebArr = useSelector((state) => Object.values(state.keebs.keebs));
-    const keebs = keebArr.flat()
+    const keebs= useSelector((state) => Object.values(state.keebs.keebs));
+    // const keebs = keebArr
+    console.log('keebs', keebs)
     const user = useSelector((state) => state.session.user);
     const [isLoaded, setIsLoaded] = useState(false);
 
