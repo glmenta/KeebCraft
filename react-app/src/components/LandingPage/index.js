@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import * as sessionActions from "../../store/session";
-
+import './landing.css'
 function LandingPage() {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.session.user);
@@ -22,9 +22,9 @@ function LandingPage() {
     }
 
     return (
-        <div>
-            <h1>Welcome to KeebForge!</h1>
-            <p>Explore Keebs</p>
+        <div className="landing-page">
+            <h1>KeebCraft</h1>
+            <p>Forge your unique keyboard</p>
             <Link to="/keebs">
                 <button>Enter</button>
             </Link>
