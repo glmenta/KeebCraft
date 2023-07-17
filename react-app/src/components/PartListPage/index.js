@@ -24,7 +24,7 @@ function PartListPage() {
         .catch((err) => {
             console.error(err);
         });
-    }, [dispatch]);
+    }, [dispatch, createModalOpen]);
 
 
     useEffect(() => {
@@ -51,6 +51,10 @@ function PartListPage() {
         console.log("detailModal state after setting: ", detailModal);
     };
 
+    const onPartCreated = (newPart) => {
+        setParts(prevParts => [...prevParts, newPart]);
+    };
+
     const closeModal = () => {
         setSelectedPartId(null);
         setDetailModal(false);
@@ -66,7 +70,7 @@ function PartListPage() {
                 <button onClick={openCreateModal}>Create Part</button>
                 )}
                     { createModalOpen && (
-                        <CreatePartModal isOpen={createModalOpen} onClose={closeCreateModal} />
+                        <CreatePartModal isOpen={createModalOpen} onClose={closeCreateModal} onPartCreated={onPartCreated}/>
                     )}
                 <button onClick={handleCheckKeebs}>Back to Keebs</button>
             </div>

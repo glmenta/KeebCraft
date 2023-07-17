@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createPartThunk, fetchAllPartTypes } from "../../store/part";
 import './create.css'
-function CreatePartModal({ isOpen, onClose }) {
+function CreatePartModal({ isOpen, onClose, onPartCreated }) {
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -46,16 +46,15 @@ function CreatePartModal({ isOpen, onClose }) {
             type_id: typeId,
             part_img: imgUrl
         };
-
-        //const res = await dispatch(createPartThunk(part))
         try {
-            const res = await dispatch(createPartThunk(part));
+            const newPart = await dispatch(createPartThunk(part));
 
-            if (res.errors) {
-                setErrors(res.errors);
+            if (newPart.errors) {
+                setErrors(newPart.errors);
             } else {
+                onPartCreated(newPart);
                 onClose();
-                history.push(`/parts/${res.id}`);
+                history.push(`/parts/${newPart.id}`);
             }
         } catch (error) {
             console.error('Error:', error);

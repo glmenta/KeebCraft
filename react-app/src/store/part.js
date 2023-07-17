@@ -105,6 +105,9 @@ export const createPartThunk = (part) => async (dispatch) => {
         const data = await res.json();
         dispatch(createPart(data));
         return data
+    } else {
+        const errorData = await res.json();
+        return {errors: errorData.errors}
     }
 }
 
