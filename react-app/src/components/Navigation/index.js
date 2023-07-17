@@ -12,7 +12,7 @@ function Navigation({ isLoaded }){
 			<div className='navbar-elements'>
 				<div className='home-link'>
 					<li>
-						<NavLink exact to="/" activeClassName="active">KeebCraft</NavLink>
+						<NavLink exact to="/keebs" activeClassName="active">KeebCraft</NavLink>
 					</li>
 				</div>
 				<div className='profile-button'>

@@ -60,7 +60,7 @@ function UserPartsPage() {
                 .map((part) => (
                     <div key={part.id}>
                         <h2>{part.name}</h2>
-                        <img src={part?.part_img[0].url} />
+                        <img src={part?.part_img?.[0]?.url || 'default_url'} />
                         <button onClick={() => handleShow(part.id)}>Update Part</button>
                         {updateModalPartId === part.id && (
                             <UpdatePartModal
