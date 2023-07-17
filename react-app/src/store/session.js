@@ -79,31 +79,37 @@ export const logout = () => async (dispatch) => {
 };
 
 export const signUp = (username, email, password) => async (dispatch) => {
-	const response = await fetch("/api/auth/signup", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			username,
-			email,
-			password,
-		}),
-	});
+	try {
+		const response = await fetch("/api/auth/signup", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				username,
+				email,
+				password,
+			}),
+		});
 
-	if (response.ok) {
+		if (!response.ok) {
+			const errorData = await response.json();
+			if (errorData.errors) {
+				return { errors: errorData.errors };
+			}
+			throw new Error("Signup request failed due to server error");
+		}
+
 		const data = await response.json();
 		dispatch(setUser(data));
-		return null;
-	} else if (response.status < 500) {
-		const data = await response.json();
-		if (data.errors) {
-			return data.errors;
-		}
-	} else {
-		return ["An error occurred. Please try again."];
+		return { ok: true };
+
+	} catch (error) {
+		console.error(error);
+		return { errors: ["An error occurred. Please try again."] };
 	}
 };
+
 
 export const fetchUsers = () => async (dispatch) => {
     const res = await csrfFetch("/api/users");

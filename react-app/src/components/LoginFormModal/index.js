@@ -29,8 +29,6 @@ function LoginFormModal() {
     }
 };
 
-
-
   const handleDemoLogin = async (e) => {
     e.preventDefault();
     setErrors([]);
