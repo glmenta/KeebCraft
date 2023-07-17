@@ -7,6 +7,8 @@
   height: 60px;
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  flex-direction: row;
   align-items: center;
   width: 100%;
   padding: 0 20px;
@@ -62,7 +64,7 @@
 }
 
 .profile-dropdown {
-  /* display: none; */
+  display: none;
   position: absolute;
   right: 0;
   top: 100%;
@@ -78,6 +80,8 @@
   padding: 10px 0;
   color: black;
   text-align: left;
+  display: flex;
+  flex-direction: row;
 }
 
 .profile-dropdown button {

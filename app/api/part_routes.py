@@ -6,7 +6,7 @@ from ..models.db import db
 from ..models.parts import Part, PartType
 from ..forms.part_form import PartForm, EditPartForm
 import json
-
+import logging
 part_routes = Blueprint('parts', __name__)
 def allowed_file(filename):
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -105,22 +105,25 @@ def new_part():
 
         db.session.add(part)
         db.session.commit()
-    part_img_url = form.part_img.data
+        part_img_url = form.part_img.data
 
-    if part_img_url:
-        if not allowed_file(part_img_url):
-            return jsonify({"error": "Invalid image file type. Please use jpg, jpeg, png or gif"}), 400
+        if part_img_url:
+            if not allowed_file(part_img_url):
+                return jsonify({"error": "Invalid image file type. Please use jpg, jpeg, png or gif"}), 400
 
-        new_img = PartImage(
-            part_id=part.id,
-            url=part_img_url
-        )
-        db.session.add(new_img)
-        db.session.commit()
+            new_img = PartImage(
+                part_id=part.id,
+                url=part_img_url
+            )
+            db.session.add(new_img)
+            db.session.commit()
 
-        return jsonify(part.to_dict()), 201
+            return jsonify(part.to_dict()), 201
+        else:
+            return jsonify(part.to_dict()), 201
     else:
-        return jsonify(form.errors), 200
+        return jsonify(form.errors), 400
+
 
 @part_routes.route('/<int:id>/edit', methods=['PUT'])
 @login_required

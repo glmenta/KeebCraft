@@ -1,32 +1,78 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { createPartThunk, fetchAllPartTypes } from "../../store/part";
-
+import './create.css'
 function CreatePartModal({ isOpen, onClose }) {
+
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [typeId, setTypeId] = useState("");
     const [partTypes, setPartTypes] = useState([]);
+    const [errors, setErrors] = useState({});
+    const [imgUrl, setImgUrl] = useState("");
+    const [typeId, setTypeId] = useState(partTypes[0]?.id || "");
     console.log('partTypes', partTypes);
     const dispatch = useDispatch();
+    const history = useHistory();
 
+    // useEffect(() => {
+    //     dispatch(fetchAllPartTypes())
+    //     .then(setPartTypes);
+    // }, [dispatch]);
     useEffect(() => {
         dispatch(fetchAllPartTypes())
-        .then(setPartTypes);
+        .then((data) => {
+            setPartTypes(data);
+            setTypeId(data[0]?.id || "");
+        });
     }, [dispatch]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        let error  = {};
+
+        if (!name) error.name = 'Please input a name';
+        if (!description) error.description = 'Please input a description';
+        if (!imgUrl) error.imgUrl = 'Please input an image URL';
+        if (!typeId) error.typeId = 'Please select a type';
+
+
+        if (Object.keys(error).length > 0) {
+            setErrors(error);
+            return;
+        }
+
+        setErrors({});
 
         const part = {
             name,
             description,
             type_id: typeId,
+            part_img: imgUrl
         };
 
-        dispatch(createPartThunk(part));
-        onClose();
+        //const res = await dispatch(createPartThunk(part))
+        try {
+            const res = await dispatch(createPartThunk(part));
+
+            if (res.errors) {
+                setErrors(res.errors);
+            } else {
+                onClose();
+                history.push(`/parts/${res.id}`);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
+        // if (res.errors) {
+        //     setErrors(res.errors);
+        // } else {
+        //     onClose();
+        //     history.push(`/parts/${res.id}`);
+        // }
     };
+
 
     const stopPropagation = (e) => {
         e.stopPropagation();
@@ -47,8 +93,8 @@ function CreatePartModal({ isOpen, onClose }) {
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            required
                         />
+                        {errors.name && <div className="error-message">{errors.name}</div>}
                     </label>
                     <label>
                         Description
@@ -56,20 +102,42 @@ function CreatePartModal({ isOpen, onClose }) {
                             type="text"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            required
                         />
+                        {errors.description && <div className="error-message">{errors.description}</div>}
                     </label>
                     <label>
                         Type
-                        <select
+                        {partTypes.length ? (
+                            <select
+                                value={typeId}
+                                onChange={(e) => setTypeId(e.target.value)}
+                            >
+                                {partTypes.map((type) => (
+                                    <option key={type.id} value={type.id}>{type.type}</option>
+                                ))}
+                            </select>
+                        ) : (
+                            <p>Loading part types...</p>
+                        )}
+
+                        {/* <select
                             value={typeId}
                             onChange={(e) => setTypeId(e.target.value)}
-                            required
                         >
                             {partTypes.map((type) => (
                                 <option key={type.id} value={type.id}>{type.type}</option>
                             ))}
-                        </select>
+                        </select> */}
+                    </label>
+                    {errors.typeId && <div className="error-message">{errors.typeId}</div>}
+                    <label>
+                        Image URL
+                        <input
+                            type="text"
+                            value={imgUrl}
+                            onChange={(e) => setImgUrl(e.target.value)}
+                        />
+                        {errors.imgUrl && <div className="error-message">{errors.imgUrl}</div>}
                     </label>
                     <button type="submit">Create</button>
                 </form>

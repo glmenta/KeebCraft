@@ -93,6 +93,7 @@ export const fetchAllPartTypes = () => async (dispatch) => {
 }
 
 export const createPartThunk = (part) => async (dispatch) => {
+    console.log("Part data being sent: ", part);
     const res = await csrfFetch("/api/parts/new", {
         method: "POST",
         headers: {
