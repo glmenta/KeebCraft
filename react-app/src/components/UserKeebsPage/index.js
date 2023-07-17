@@ -71,13 +71,13 @@ function UserKeebsPage() {
             .map((keeb) => (
             <div key={keeb.id}>
             <h2>{keeb.name}</h2>
-            <button onClick={() => handleShow(keeb.id)}>Delete Keeb!</button>
+            <img src={keeb?.img_url[0].url}/>
             <div>
                 <Link to={`/keebs/${keeb.id}/edit`}>
                     <button>Update Keeb!</button>
                 </Link>
             </div>
-
+            <button onClick={() => handleShow(keeb.id)}>Delete Keeb!</button>
             {deleteModal[keeb.id] && (
                 <DeleteKeebModal
                 keebId={deletedKeebId}

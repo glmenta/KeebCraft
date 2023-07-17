@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as KeebActions from "../../store/build";
 import * as UserActions from "../../store/session";
@@ -8,7 +8,7 @@ import './keeb.css'
 function KeebDetailPage() {
     const { keebId } = useParams();
     const dispatch = useDispatch();
-
+    const history = useHistory();
     const allKeebs = useSelector((state) => state.keebs);
     const allUsers = useSelector((state) => state.session.users) || [];
     const userArr = allUsers.users;
@@ -38,6 +38,10 @@ function KeebDetailPage() {
     const handleFeature = () => {
         alert("Feature Coming Soon!");
     };
+
+    const backToKeebs = () => {
+        history.push("/keebs");
+    }
     return (
         <div className="keeb-detail">
             {!isLoaded ? (
