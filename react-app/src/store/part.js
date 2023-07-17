@@ -133,10 +133,17 @@ export const deletePartThunk = (partId) => async (dispatch) => {
     });
     if (res.ok) {
         const data = await res.json();
-        dispatch(deletePart(data));
-        return data
+        if (data.statusCode === 200) {
+            dispatch(deletePart(partId));
+            return data;
+        } else {
+            throw new Error(data.message || 'Unknown error');
+        }
+    } else {
+        throw new Error('Server error');
     }
 }
+
 
 const initialState = {
     parts: {},

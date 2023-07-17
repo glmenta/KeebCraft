@@ -1,26 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as PartActions from "../../store/part";
-
-function UpdatePartModal({ isOpen, onClose, partId }) {
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [typeId, setTypeId] = useState("");
-    const [imgUrl, setImgUrl] = useState("");
+import './update.css'
+function UpdatePartModal({ isOpen, onClose, part }) {
+    const [name, setName] = useState(part ? part.name : "");
+    const [description, setDescription] = useState(part ? part.description : "");
+    const [typeId, setTypeId] = useState(part ? part.type_id : "");
+    const [imgUrl, setImgUrl] = useState(part && part.part_img[0] ? part.part_img[0].url : "");
     const [partTypes, setPartTypes] = useState([]);
     const [errors, setErrors] = useState({});
     const dispatch = useDispatch();
-
-    const part = useSelector((state) => state.parts.parts.Parts.find(p => p.id === partId));
-
-    useEffect(() => {
-        if(part){
-            setName(part.name);
-            setDescription(part.description);
-            setTypeId(part.type_id);
-            setImgUrl(part?.part_img[0].url || "");
-        }
-    }, [part]);
 
     useEffect(() => {
         dispatch(PartActions.fetchAllPartTypes())
@@ -73,9 +62,10 @@ function UpdatePartModal({ isOpen, onClose, partId }) {
 
     return (
         <div className="part-modal" onClick={onClose}>
+            <div className='modal-bg' >
             <div className="modal-content" onClick={stopPropagation}>
                 <h2>Update Part</h2>
-                <form onSubmit={handleSubmit}>
+                <form className='modal-form'onSubmit={handleSubmit}>
                     <label>
                         Name
                         <input
@@ -121,6 +111,7 @@ function UpdatePartModal({ isOpen, onClose, partId }) {
                     </label>
                     <button type="submit">Update</button>
                 </form>
+            </div>
             </div>
         </div>
     );

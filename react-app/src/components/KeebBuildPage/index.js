@@ -40,12 +40,12 @@ function KeebBuildPage() {
             {isLoaded && keebs.length > 0 && (
                 <ul>
                 {keebs.map((kb) => (
-                    <li key={kb.id} className='keeb-tile'>
                     <Link to={`/keebs/${kb.id}`}>
-                        {kb.name}
+                    <li key={kb.id} className='keeb-tile'>
+                        <div className='keeb-name'>{kb.name}</div>
                         <img src={kb?.img_url && kb.img_url.length > 0 ? kb.img_url[0].url : 'placeholder_img'} alt={kb.name} />
-                    </Link>
                     </li>
+                    </Link>
                 ))}
                 </ul>
             )}

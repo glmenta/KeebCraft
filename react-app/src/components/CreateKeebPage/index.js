@@ -93,6 +93,10 @@ function CreateKeebPage() {
         }
     }
 
+    const returnToKeebs = () => {
+        history.push('/keebs');
+    }
+
     return (
         <div>
             <h2>Create a new Keeb</h2>
@@ -178,6 +182,7 @@ function CreateKeebPage() {
                 />
                 {errors.description && <div className="error-message">{errors.description}</div>}
                 <button type="submit">Create Keeb</button>
+                <button type="button" onClick={returnToKeebs}>Back To Keebs</button>
             </form>
         </div>
     );

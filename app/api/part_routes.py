@@ -1,12 +1,12 @@
-from flask import Blueprint, redirect, url_for, render_template, jsonify, request
+from flask import Blueprint, redirect, url_for, render_template, jsonify, request, current_app
 from flask_login import login_required, current_user, logout_user
 from ..models.images import PartImage
 from ..forms.keeb_form import KeebForm
 from ..models.db import db
+from ..models.keeb_builds import BuildPart
 from ..models.parts import Part, PartType
 from ..forms.part_form import PartForm, EditPartForm
 import json
-import logging
 part_routes = Blueprint('parts', __name__)
 def allowed_file(filename):
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -168,8 +168,11 @@ def update_part(id):
 @part_routes.route('/<int:id>/delete', methods=['DELETE'])
 @login_required
 def delete_part(id):
+    current_app.logger.info('Attempting to delete part with id %s', id)
+
     existing_part = Part.query.filter_by(id=id, user_id=current_user.id).first()
     if existing_part:
+        BuildPart.query.filter_by(part_id=id).delete()
         PartImage.query.filter_by(part_id=id).delete()
         db.session.delete(existing_part)
         db.session.commit()
@@ -178,10 +181,12 @@ def delete_part(id):
             "message": "Deleted",
             "statusCode": 200
         }
+        current_app.logger.info('Successfully deleted part with id %s', id)
         return jsonify(res), 200
     else:
         res = {
             "message": "Part could not be found.",
             "statusCode": 404
         }
+        current_app.logger.warning('Could not find part with id %s', id)
         return jsonify(res), 404

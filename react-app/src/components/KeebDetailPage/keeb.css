@@ -2,17 +2,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    /* height: 100vh; */
     font-family: Arial, sans-serif;
   }
 
   .keeb-container {
-    background-color: #f2f2f2;
-    border-radius: 8px;
+    /* background-color: #f2f2f2; */
+    background-color: #4285f4;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 800px;
+    width: 100%;
     padding: 20px;
-    margin-top: 20px;
+    margin-top: 50px;
   }
 
   .keeb-main {
@@ -26,8 +26,9 @@
   }
 
   .keeb-main img {
-    max-width: 100%;
+    max-width: 30%;
     height: auto;
+    max-height: 50;
     margin-bottom: 10px;
   }
 

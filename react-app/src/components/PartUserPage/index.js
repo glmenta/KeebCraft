@@ -4,6 +4,7 @@ import { fetchUserParts, updatePartThunk } from "../../store/part";
 import * as PartActions from "../../store/part";
 import UpdatePartModal from "../PartUpdateModal";
 import DeletePartModal from "../PartDeleteModal";
+import './userparts.css'
 function UserPartsPage() {
     const dispatch = useDispatch();
     const userParts = useSelector((state) => state.parts.parts.Parts);
@@ -46,42 +47,47 @@ function UserPartsPage() {
         dispatch(PartActions.deletePartThunk(partId))
         .then(() => {
             setDeletedPartId(partId);
+            setDeleteModal(false)
             setRefresh(prevState => !prevState);
         })
         .catch((err) => {
-            console.error(err);
+            console.error(err.message);
         });
     };
 
+
     return (
-        <div>
+        <div className="container">
             {Object.values(userParts)
                 .filter((part) => part.user_id === userId)
                 .map((part) => (
-                    <div key={part.id}>
+                    <div key={part.id} className="part-tile">
                         <h2>{part.name}</h2>
-                        <img src={part?.part_img?.[0]?.url || 'default_url'} />
+                        <img src={part?.part_img?.[0]?.url || 'default_url'} alt={part.name} />
                         <button onClick={() => handleShow(part.id)}>Update Part</button>
-                        {updateModalPartId === part.id && (
-                            <UpdatePartModal
-                                partId={part.id}
-                                isOpen={updateModalPartId === part.id}
-                                onClose={handleClose}
-                            />
-                        )}
                         <button onClick={() => handleDeleteShow(part.id)}>Delete Part</button>
-                        {deleteModal && deleteModal === part.id && (
-                            <DeletePartModal
-                                partId={part.id}
-                                isOpen={deleteModal && deleteModal === part.id}
-                                onClose={handleDeleteClose}
-                                handleDelete={() => handleDelete(part.id)}
-                            />
-                        )}
                     </div>
-                ))}
+                ))
+            }
+            {updateModalPartId && (
+                <UpdatePartModal
+                    partId={updateModalPartId}
+                    part={Object.values(userParts).find(part => part.id === updateModalPartId)}
+                    isOpen={!!updateModalPartId}
+                    onClose={handleClose}
+                />
+            )}
+            {deleteModal && (
+                <DeletePartModal
+                    partId={deletedPartId}
+                    isOpen={deleteModal}
+                    handleDeleteClose={handleDeleteClose}
+                    handleDelete={() => handleDelete(deletedPartId)}
+                />
+            )}
         </div>
     );
+
 }
 
 export default UserPartsPage;
