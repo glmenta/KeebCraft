@@ -34,7 +34,9 @@ function KeebBuildPage() {
                 <button onClick={handleCreateKeeb}>Create Keeb</button>
                 )}
             </div>
-            <button onClick={handleCheckParts}>Check out Parts!</button>
+            <div className='check-parts-button'>
+                <button onClick={handleCheckParts}>Check out Parts!</button>
+            </div>
             {isLoaded && keebs.length > 0 && (
                 <ul>
                 {keebs.map((kb) => (

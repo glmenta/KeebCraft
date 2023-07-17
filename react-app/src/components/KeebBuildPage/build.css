@@ -12,6 +12,7 @@
     padding: 20px;
     text-align: center;
     cursor: pointer;
+    max-width: 1000px;
     transition: transform 0.2s ease-in-out;
     margin-bottom: 20px;
 }
@@ -21,7 +22,7 @@ li {
 }
 
 .keeb-tile img {
-    width: 100%;
+    width: 50%;
     height: auto;
     margin-bottom: 10px;
 }
