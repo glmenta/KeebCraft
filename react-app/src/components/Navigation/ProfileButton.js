@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/session";
+import { Link } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
@@ -48,6 +49,12 @@ function ProfileButton({ user }) {
             <li>
               <button onClick={handleLogout}>Log Out</button>
             </li>
+            <div>
+              <Link to={`/users/${user.id}/keebs`}>Keebs</Link>
+            </div>
+            <div>
+              <Link to={`/users/${user.id}/parts`}>Parts</Link>
+            </div>
           </>
         ) : (
           <>

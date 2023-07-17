@@ -13,35 +13,42 @@ function KeebBuildPage() {
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        dispatch(KeebActions.fetchAllKeebs());
-        setIsLoaded(true);
+        setIsLoaded(false)
+    Promise.all([dispatch(KeebActions.fetchAllKeebs())]).then(() =>
+        setIsLoaded(true)
+    );
     }, [dispatch])
 
     const handleCreateKeeb = () => {
         history.push("/keebs/new");
     }
 
+    const handleCheckParts = () => {
+        history.push("/parts");
+    }
+
     return (
-        <div className="build-container">
+            <div className="build-container">
             <div className='create-keeb-button'>
-            {user && (
+                {user && (
                 <button onClick={handleCreateKeeb}>Create Keeb</button>
-            )}
+                )}
             </div>
+            <button onClick={handleCheckParts}>Check out Parts!</button>
             {isLoaded && keebs.length > 0 && (
                 <ul>
-                    {keebs.map((kb) => (
-                        <li key={kb.id} className='keeb-tile'>
-                            <Link to={`/keebs/${kb.id}`}>{kb.name}</Link>
-                            <img src={kb?.img_url && kb.img_url.length > 0 ? kb.img_url[0].url : 'placeholder_img'}/>
-
-                        </li>
-                    ))}
+                {keebs.map((kb) => (
+                    <li key={kb.id} className='keeb-tile'>
+                    <Link to={`/keebs/${kb.id}`}>
+                        {kb.name}
+                        <img src={kb?.img_url && kb.img_url.length > 0 ? kb.img_url[0].url : 'placeholder_img'} alt={kb.name} />
+                    </Link>
+                    </li>
+                ))}
                 </ul>
             )}
-
-        </div>
-    )
+            </div>
+        );
 }
 
 export default KeebBuildPage

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as PartActions from "../../store/part";
 import { useHistory } from "react-router-dom";
 import { createKeebThunk } from "../../store/build";
-
+import './createkeeb.css'
 function CreateKeebPage() {
     const [keeb, setKeeb] = useState();
     const [keebImg, setKeebImg] = useState();
@@ -43,7 +43,23 @@ function CreateKeebPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setErrors({})
+        let error = {};
+
+        if (!name) error.name = 'Please input a name';
+        if (!keebcase) error.keebcase = 'Please select a case';
+        if (!keycaps) error.keycaps = 'Please select keycaps';
+        if (!switches) error.switches = 'Please select switches';
+        if (!plate) error.plate = 'Please select a plate';
+        if (!stabs) error.stabs = 'Please select stabilizers';
+        if (!description) error.description = 'Please input a description';
+        if (!imgUrl) error.imgUrl = 'Please input an image URL';
+
+        if (Object.keys(error).length > 0) {
+            setErrors(error);
+            return;
+        }
+
+        setErrors({});
         setForge(true);
 
         const payload = {
@@ -56,10 +72,12 @@ function CreateKeebPage() {
             keeb_info: description,
             img_url: imgUrl
         }
-        console.log('this is the payload', payload);
+
         const res = await dispatch(createKeebThunk(payload));
-        console.log('this is the res', res.id);
-        if (res.ok) {
+
+        if (res.errors) {
+            setErrors(res.errors);
+        } else {
             const newKeebId = res.id
             const url = `/keebs/${newKeebId}`;
             setName("");
@@ -72,8 +90,6 @@ function CreateKeebPage() {
             setImgUrl("");
             setErrors({});
             history.push(url);
-        } else {
-            setErrors(res.errors);
         }
     }
 
@@ -87,6 +103,7 @@ function CreateKeebPage() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
+                {errors.name && <div className="error-message">{errors.name}</div>}
                 <select
                     value={keebcase}
                     onChange={(e) => setKeebcase(e.target.value)}
@@ -98,6 +115,7 @@ function CreateKeebPage() {
                         </option>
                     ))}
                 </select>
+                {errors.keebcase && <div className="error-message">{errors.keebcase}</div>}
                 <select
                     value={keycaps}
                     onChange={(e) => setKeycaps(e.target.value)}
@@ -109,6 +127,7 @@ function CreateKeebPage() {
                         </option>
                     ))}
                 </select>
+                {errors.keycaps && <div className="error-message">{errors.keycaps}</div>}
                 <select
                     value={switches}
                     onChange={(e) => setSwitches(e.target.value)}
@@ -120,6 +139,7 @@ function CreateKeebPage() {
                         </option>
                     ))}
                 </select>
+                {errors.switches && <div className="error-message">{errors.switches}</div>}
                 <select
                     value={plate}
                     onChange={(e) => setPlate(e.target.value)}
@@ -131,6 +151,7 @@ function CreateKeebPage() {
                         </option>
                     ))}
                 </select>
+                {errors.plate && <div className="error-message">{errors.plate}</div>}
                 <select
                     value={stabs}
                     onChange={(e) => setStabs(e.target.value)}
@@ -142,22 +163,22 @@ function CreateKeebPage() {
                         </option>
                     ))}
                 </select>
+                {errors.stabs && <div className="error-message">{errors.stabs}</div>}
                 <input
                     type="text"
                     placeholder="Image URL"
                     value={imgUrl}
                     onChange={(e) => setImgUrl(e.target.value)}
                 />
+                {errors.imgUrl && <div className="error-message">{errors.imgUrl}</div>}
                 <textarea
                     placeholder="Description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
+                {errors.description && <div className="error-message">{errors.description}</div>}
                 <button type="submit">Create Keeb</button>
             </form>
-            {errors && Object.values(errors).map((error, idx) => (
-                <div key={idx}>{error}</div>
-            ))}
         </div>
     );
 

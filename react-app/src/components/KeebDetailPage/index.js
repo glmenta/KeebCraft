@@ -3,54 +3,61 @@ import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as KeebActions from "../../store/build";
 import * as UserActions from "../../store/session";
-
+import * as PartActions from "../../store/part";
+import './keeb.css'
 function KeebDetailPage() {
     const { keebId } = useParams();
     const dispatch = useDispatch();
 
     const allKeebs = useSelector((state) => state.keebs);
-    console.log('this is all the keebs', allKeebs)
     const allUsers = useSelector((state) => state.session.users) || [];
     const userArr = allUsers.users;
     const currKeeb = useSelector((state) => state.keebs.keebs[keebId]);
-    console.log('tests', currKeeb)
     const creatorId = currKeeb?.user_id
-    console.log('creatorId', creatorId)
-    console.log('userArr', userArr)
     const creatorUser = userArr?.find(user => user.id === creatorId);
-    console.log('creatorUser', creatorUser)
     const user = useSelector((state) => state.session.user);
-
+    const allParts = useSelector((state) => state.parts.parts);
+    console.log('allParts', allParts)
+    console.log('tests', currKeeb)
     const userId = user?.id
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
+        setIsLoaded(false);
+
         if (!keebId) {
             console.error('No keebId');
             return
         }
-        dispatch(KeebActions.fetchKeeb(keebId))
-        dispatch(UserActions.fetchUsers())
-        setIsLoaded(true);
-    }, [dispatch, keebId])
+        Promise.all([
+            dispatch(KeebActions.fetchKeeb(keebId)),
+            dispatch(UserActions.fetchUsers())
+        ]).then(() => setIsLoaded(true))
 
+    }, [dispatch, keebId])
+    const handleFeature = () => {
+        alert("Feature Coming Soon!");
+    };
     return (
         <div className="keeb-detail">
-            {currKeeb && (
+            {!isLoaded ? (
+                <div> Loading... </div>
+            ) :
+            currKeeb && (
                 <div className='keeb-container'>
                     <div className='keeb-info'>
                         <div className='keeb-details'>
                             <div className='keeb-main'>
                                 <h2>{currKeeb.name}</h2>
                                 <img
-                                    src={currKeeb.img_url}
+                                    src={currKeeb?.images[0]?.url}
                                     alt={currKeeb.name}
                                 ></img>
                                 <p>By: {creatorUser?.username}</p>
                                 <p>{currKeeb.keeb_info}</p>
                             </div>
                             <div className='fav-button'>
-                                <button>Add to Favorites!</button>
+                                <button onClick={handleFeature}>Add to Favorites!</button>
                             </div>
                             <div className='part-details'>
                                 <div>
@@ -81,7 +88,7 @@ function KeebDetailPage() {
                     </div>
                     <div className='comments-section'>
                         <div className='comments-container'>
-                            comments here
+                            Comments Section WIP!
                         </div>
                     </div>
                 </div>

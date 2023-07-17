@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import * as PartActions from "../../store/part";
 import PartDetailModal from "../PartDetailModal";
 import CreatePartModal from "../PartCreateModal";
 import './modal.css'
 function PartListPage() {
     const dispatch = useDispatch();
-
+    const history = useHistory();
     const [parts, setParts] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
     const [detailModal, setDetailModal] = useState(false);
@@ -54,6 +55,9 @@ function PartListPage() {
         setDetailModal(false);
     };
 
+    const handleCheckKeebs = () => {
+        history.push("/keebs");
+    }
     return (
         <div className="part-container">
             <div className="part-header">
@@ -61,6 +65,7 @@ function PartListPage() {
                     {createModalOpen && (
                         <CreatePartModal isOpen={createModalOpen} onClose={closeCreateModal} />
                     )}
+                <button onClick={handleCheckKeebs}>Back to Keebs</button>
             </div>
             <div className="part-list">
                 {parts.map((part) => (
