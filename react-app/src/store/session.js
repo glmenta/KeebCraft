@@ -36,30 +36,35 @@ export const authenticate = () => async (dispatch) => {
 };
 
 export const login = (email, password) => async (dispatch) => {
-	const response = await fetch("/api/auth/login", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			email,
-			password,
-		}),
-	});
+	try {
+		const response = await fetch("/api/auth/login", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				email,
+				password,
+			}),
+		});
 
-	if (response.ok) {
-		const data = await response.json();
-		dispatch(setUser(data));
-		return null;
-	} else if (response.status < 500) {
-		const data = await response.json();
-		if (data.errors) {
-			return data.errors;
+		if (response.ok) {
+			const data = await response.json();
+			dispatch(setUser(data));
+			return null;
+		} else if (response.status < 500) {
+			const data = await response.json();
+			if (data.errors) {
+				return { errors: data.errors };
+			}
+		} else {
+			return { errors: ["An error occurred. Please try again."] };
 		}
-	} else {
-		return ["An error occurred. Please try again."];
+	} catch (err) {
+		return { errors: ["An error occurred. Please check your network connection and try again."] };
 	}
 };
+
 
 export const logout = () => async (dispatch) => {
 	const response = await fetch("/api/auth/logout", {

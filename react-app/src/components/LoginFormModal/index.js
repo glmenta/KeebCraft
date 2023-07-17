@@ -11,15 +11,32 @@ function LoginFormModal() {
   const [errors, setErrors] = useState([]);
   const { closeModal } = useModal();
 
+  const MIN_USERNAME_LENGTH = 4;
+  const MIN_PASSWORD_LENGTH = 6;
+
+  const validCredential = email.length >= MIN_USERNAME_LENGTH;
+  const validPassword = password.length >= MIN_PASSWORD_LENGTH;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = await dispatch(login(email, password));
-    if (data) {
-      setErrors(data);
+    if (data && data.errors) {
+      setErrors(data.errors);
+    } else if (data === null) {
+      closeModal()
     } else {
-        closeModal()
+      setErrors(["The provided credentials are invalid"]);
     }
-  };
+};
+
+
+
+  const handleDemoLogin = async (e) => {
+    e.preventDefault();
+    setErrors([]);
+    await dispatch(login("demo@aa.io", "password"));
+    closeModal()
+  }
 
   return (
     <>
@@ -36,7 +53,6 @@ function LoginFormModal() {
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
           />
         </label>
         <label>
@@ -45,10 +61,10 @@ function LoginFormModal() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
         </label>
-        <button type="submit">Log In</button>
+        <button type="submit" disabled={!validCredential || !validPassword}>Log In</button>
+        <button onClick={handleDemoLogin}>Demo User</button>
       </form>
     </>
   );
