@@ -6,7 +6,9 @@ function UpdatePartModal({ isOpen, onClose, partId }) {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [typeId, setTypeId] = useState("");
+    const [imgUrl, setImgUrl] = useState("");
     const [partTypes, setPartTypes] = useState([]);
+    const [errors, setErrors] = useState({});
     const dispatch = useDispatch();
 
     const part = useSelector((state) => state.parts.parts.Parts.find(p => p.id === partId));
@@ -16,6 +18,7 @@ function UpdatePartModal({ isOpen, onClose, partId }) {
             setName(part.name);
             setDescription(part.description);
             setTypeId(part.type_id);
+            setImgUrl(part?.part_img[0].url || "");
         }
     }, [part]);
 
@@ -26,17 +29,38 @@ function UpdatePartModal({ isOpen, onClose, partId }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        let error = {};
+
+        if (!name) error.name = 'Please input a name';
+        if (!description) error.description = 'Please input a description';
+        if (!typeId) error.typeId = 'Please select a type';
+        if (!imgUrl) error.imgUrl = 'Please input an image URL';
+
+        if (Object.keys(error).length > 0) {
+            setErrors(error);
+            return;
+        }
 
         const updatedPart = {
             id: part.id,
             name,
             description,
             type_id: typeId,
+            part_img: imgUrl
         };
 
-        await dispatch(PartActions.updatePartThunk(updatedPart));
-        dispatch(PartActions.fetchAllParts());
-        onClose();
+        try {
+            const res = await dispatch(PartActions.updatePartThunk(updatedPart));
+
+            if (res.errors) {
+                setErrors(res.errors);
+            } else {
+                dispatch(PartActions.fetchAllParts());
+                onClose();
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     const stopPropagation = (e) => {
@@ -60,6 +84,7 @@ function UpdatePartModal({ isOpen, onClose, partId }) {
                             onChange={(e) => setName(e.target.value)}
                             required
                         />
+                        {errors.name && <div className="error-message">{errors.name}</div>}
                     </label>
                     <label>
                         Description
@@ -69,6 +94,7 @@ function UpdatePartModal({ isOpen, onClose, partId }) {
                             onChange={(e) => setDescription(e.target.value)}
                             required
                         />
+                        {errors.description && <div className="error-message">{errors.description}</div>}
                     </label>
                     <label>
                         Type
@@ -81,6 +107,17 @@ function UpdatePartModal({ isOpen, onClose, partId }) {
                                 <option key={type.id} value={type.id}>{type.type}</option>
                             ))}
                         </select>
+                        {errors.typeId && <div className="error-message">{errors.typeId}</div>}
+                    </label>
+                    <label>
+                        Image URL
+                        <input
+                            type="text"
+                            value={imgUrl}
+                            onChange={(e) => setImgUrl(e.target.value)}
+                            required
+                        />
+                        {errors.imgUrl && <div className="error-message">{errors.imgUrl}</div>}
                     </label>
                     <button type="submit">Update</button>
                 </form>

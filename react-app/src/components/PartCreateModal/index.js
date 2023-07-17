@@ -15,10 +15,6 @@ function CreatePartModal({ isOpen, onClose }) {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    // useEffect(() => {
-    //     dispatch(fetchAllPartTypes())
-    //     .then(setPartTypes);
-    // }, [dispatch]);
     useEffect(() => {
         dispatch(fetchAllPartTypes())
         .then((data) => {
@@ -64,13 +60,6 @@ function CreatePartModal({ isOpen, onClose }) {
         } catch (error) {
             console.error('Error:', error);
         }
-
-        // if (res.errors) {
-        //     setErrors(res.errors);
-        // } else {
-        //     onClose();
-        //     history.push(`/parts/${res.id}`);
-        // }
     };
 
 
@@ -119,15 +108,6 @@ function CreatePartModal({ isOpen, onClose }) {
                         ) : (
                             <p>Loading part types...</p>
                         )}
-
-                        {/* <select
-                            value={typeId}
-                            onChange={(e) => setTypeId(e.target.value)}
-                        >
-                            {partTypes.map((type) => (
-                                <option key={type.id} value={type.id}>{type.type}</option>
-                            ))}
-                        </select> */}
                     </label>
                     {errors.typeId && <div className="error-message">{errors.typeId}</div>}
                     <label>

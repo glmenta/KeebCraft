@@ -64,7 +64,6 @@
 }
 
 .profile-dropdown {
-  display: none;
   position: absolute;
   right: 0;
   top: 100%;
@@ -74,6 +73,9 @@
   background-color: white;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   padding: 12px 16px;
+}
+.profile-dropdown.hidden {
+  display: none;
 }
 
 .profile-dropdown li {
@@ -89,8 +91,8 @@
   cursor: pointer;
   color: #0066ff;
 }
-
-/* .profile-dropdown:not(.hidden) {
+/*
+.profile-dropdown:not(.hidden) {
   display: block !important;
 } */
 
@@ -99,7 +101,7 @@
   color: white;
 }
 
-button {
+.button {
   background: none;
   color: inherit;
   border: none;

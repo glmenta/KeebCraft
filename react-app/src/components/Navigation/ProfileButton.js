@@ -5,14 +5,16 @@ import { Link, useHistory } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
-// import './Navigation.css';
+import './profile.css';
+
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
   const buttonRef = useRef();
   const history = useHistory();
-  const openMenu = () => {
+  const openMenu = (e) => {
+    console.log('this is from openMenu', showMenu)
     if (showMenu) return;
     setShowMenu(true);
   };
@@ -35,6 +37,7 @@ function ProfileButton({ user }) {
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+
   // const closeMenu = () => setShowMenu(false);
   const closeMenu = () => {
     console.log('closing menu');
