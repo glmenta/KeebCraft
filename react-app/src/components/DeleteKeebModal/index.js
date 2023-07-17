@@ -7,10 +7,14 @@ const DeleteKeebModal = ({ keebId, show, handleClose }) => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         console.log('keebId', keebId);
-        dispatch(BuildActions.deleteKeebThunk(keebId))
-        handleClose();
+        try {
+            await dispatch(BuildActions.deleteKeebThunk(keebId));
+            handleClose();
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     if (!show) {

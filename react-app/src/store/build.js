@@ -37,10 +37,10 @@ export const updateKeeb = (keeb) => {
     };
 }
 
-export const deleteKeeb = (keeb) => {
+export const deleteKeeb = (keebId) => {
     return {
         type: DELETE_KEEB,
-        keeb,
+        keebId,
     };
 }
 
@@ -130,9 +130,9 @@ export const deleteKeebThunk = (keebId) => async (dispatch) => {
     });
     if (res.ok) {
         const data = await res.json();
-        dispatch(deleteKeeb(data));
+        dispatch(deleteKeeb(keebId));
         dispatch(removeUserKeeb(keebId));
-        return data;
+        return keebId
     }
 }
 
@@ -159,7 +159,7 @@ const keebReducer = (state = initialState, action) => {
             newState.keebs[action.keeb.id] = action.keeb;
             return newState;
         case DELETE_KEEB:
-            delete newState.keebs[action.keeb.id];
+            delete newState.keebs[action.keebId];
             return newState;
         case REMOVE_USER_KEEB:
             delete newState.userKeebs[action.keebId];

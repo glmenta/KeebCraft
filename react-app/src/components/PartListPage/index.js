@@ -13,6 +13,7 @@ function PartListPage() {
     const [detailModal, setDetailModal] = useState(false);
     const [selectedPartId, setSelectedPartId] = useState(null);
     const [createModalOpen, setCreateModalOpen] = useState(false);
+    const user = useSelector((state) => state.session.user);
 
     useEffect(() => {
         dispatch(PartActions.fetchAllParts())
@@ -61,8 +62,10 @@ function PartListPage() {
     return (
         <div className="part-container">
             <div className="part-header">
+                {user && (
                 <button onClick={openCreateModal}>Create Part</button>
-                    {createModalOpen && (
+                )}
+                    { createModalOpen && (
                         <CreatePartModal isOpen={createModalOpen} onClose={closeCreateModal} />
                     )}
                 <button onClick={handleCheckKeebs}>Back to Keebs</button>

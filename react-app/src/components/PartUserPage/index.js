@@ -36,7 +36,7 @@ function UserPartsPage() {
         setDeletedPartId(partId);
     }
     const handleDeleteClose = () => {
-        setDeleteModal(null)
+        setDeleteModal(false)
     }
     if (!isLoaded) {
         return null;
@@ -60,6 +60,7 @@ function UserPartsPage() {
                 .map((part) => (
                     <div key={part.id}>
                         <h2>{part.name}</h2>
+                        <img src={part?.part_img[0].url} />
                         <button onClick={() => handleShow(part.id)}>Update Part</button>
                         {updateModalPartId === part.id && (
                             <UpdatePartModal
@@ -69,10 +70,10 @@ function UserPartsPage() {
                             />
                         )}
                         <button onClick={() => handleDeleteShow(part.id)}>Delete Part</button>
-                        {deleteModal === part.id && (
+                        {deleteModal && deleteModal === part.id && (
                             <DeletePartModal
                                 partId={part.id}
-                                isOpen={deleteModal === part.id}
+                                isOpen={deleteModal && deleteModal === part.id}
                                 onClose={handleDeleteClose}
                                 handleDelete={() => handleDelete(part.id)}
                             />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as BuildActions from "../../store/build";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import DeleteKeebModal from "../DeleteKeebModal";
 
 function UserKeebsPage() {
@@ -11,9 +11,10 @@ function UserKeebsPage() {
     const userId = useSelector((state) => state.session.user.id);
 
     const [isLoaded, setIsLoaded] = useState(false);
-    const [deleteModal, setDeleteModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState({});
     const [deletedKeebId, setDeletedKeebId] = useState(null);
     const [refresh, setRefresh] = useState(false);
+    const [deleteSuccess, setDeleteSuccess] = useState(false);
 
     useEffect(() => {
         dispatch(BuildActions.getUserKeebsThunk(userId))
@@ -24,29 +25,34 @@ function UserKeebsPage() {
     }, [dispatch, userId, refresh]);
 
     useEffect(() => {
-        if (deletedKeebId) {
+        if (deleteSuccess) {
         setDeleteModal(false);
         setDeletedKeebId(null);
         setRefresh((prevRefresh) => !prevRefresh);
+        setDeleteSuccess(false)
         }
-    }, [deletedKeebId]);
+    }, [deleteSuccess]);
 
     const handleShow = (keebId) => {
-        setDeleteModal(keebId);
+        console.log('handleShow called')
+        setDeleteModal(prevModal => ({...prevModal, [keebId]: true}));
+        setDeletedKeebId(keebId)
     };
 
     const handleClose = () => {
-        setDeleteModal(null);
+        setDeleteModal(prevModal => ({...prevModal, [deletedKeebId]: false}))
     };
 
-    const handleDelete = (keebId) => {
-        dispatch(BuildActions.deleteKeebThunk(keebId))
-        .then(() => {
-            setDeletedKeebId(keebId);
-        })
-        .catch((err) => {
-            console.error(err);
-        });
+    const handleDelete = () => {
+        handleClose()
+        // dispatch(BuildActions.deleteKeebThunk(keebId))
+        // .then(() => {
+        //     setDeleteSuccess(true);
+        //     dispatch(BuildActions.getUserKeebsThunk(userId))
+        // })
+        // .catch((err) => {
+        //     console.error(err);
+        // });
     };
 
     if (!isLoaded) {
@@ -55,14 +61,22 @@ function UserKeebsPage() {
 
     return (
         <div>
-        {Object.values(userKeebs).map((keeb) => (
+        {Object.values(userKeebs)
+            .filter((keeb) => keeb.user_id === userId)
+            .map((keeb) => (
             <div key={keeb.id}>
             <h2>{keeb.name}</h2>
-            <button onClick={() => handleShow(keeb.id)}>Delete Keeb</button>
-            {deleteModal === keeb.id && (
+            <button onClick={() => handleShow(keeb.id)}>Delete Keeb!</button>
+            <div>
+                <Link to={`/keebs/${keeb.id}/edit`}>
+                    <button>Update Keeb!</button>
+                </Link>
+            </div>
+
+            {deleteModal[keeb.id] && (
                 <DeleteKeebModal
-                keebId={keeb.id}
-                show={deleteModal === keeb.id}
+                keebId={deletedKeebId}
+                show={deleteModal[keeb.id]}
                 handleClose={handleClose}
                 handleDelete={handleDelete}
                 />

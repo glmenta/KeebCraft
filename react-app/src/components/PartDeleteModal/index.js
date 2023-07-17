@@ -5,8 +5,7 @@ import { useHistory } from "react-router-dom";
 function DeletePartModal({ partId, isOpen, handleDeleteClose, handleDelete }) {
     const dispatch = useDispatch();
     const history = useHistory();
-    console.log('modal')
-    console.log('partId', partId)
+
     if (!isOpen) {
         return null;
     }

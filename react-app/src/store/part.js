@@ -49,10 +49,10 @@ export const updatePart = (part) => {
     };
 }
 
-export const deletePart = (part) => {
+export const deletePart = (partId) => {
     return {
         type: DELETE_PART,
-        part,
+        partId,
     };
 }
 
@@ -162,7 +162,7 @@ const partsReducer = (state = initialState, action) => {
             newState.parts[action.part.id] = action.part;
             return newState;
         case DELETE_PART:
-            delete newState.parts[action.part.id];
+            delete newState.parts[action.partId];
             return newState;
         default:
             return state;
