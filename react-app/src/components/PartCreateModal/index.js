@@ -22,6 +22,9 @@ function CreatePartModal({ isOpen, onClose, onPartCreated }) {
             setTypeId(data[0]?.id || "");
         });
     }, [dispatch]);
+    function isValidImageUrl(url) {
+        return url.match(/\.(jpeg|jpg|png)(\?.*)?$/i);
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -30,6 +33,7 @@ function CreatePartModal({ isOpen, onClose, onPartCreated }) {
         if (!name) error.name = 'Please input a name';
         if (!description) error.description = 'Please input a description';
         if (!imgUrl) error.imgUrl = 'Please input an image URL';
+        else if (!isValidImageUrl(imgUrl)) error.imgUrl = 'Please input a valid image URL';
         if (!typeId) error.typeId = 'Please select a type';
 
 

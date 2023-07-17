@@ -6,7 +6,8 @@ from ..models.comments import Comment
 from ..forms.keeb_form import KeebForm
 from ..models.db import db
 from ..models.parts import Part, PartType
-import json
+import os
+from urllib.parse import urlparse, urlsplit
 
 keeb_builds_routes = Blueprint('keebs', __name__)
 
@@ -100,6 +101,11 @@ def new_keeb_parts():
                 img_url = form.img_url.data
 
                 if img_url:
+                    url_path = urlsplit(img_url).path
+                    _, ext = os.path.splitext(url_path)
+                    if ext.lower() not in ['.jpg', '.jpeg', '.png']:
+                        return jsonify(errors='Invalid image format'), 400
+
                     new_image = BuildImage(
                         build_id=new_keeb.id,
                         url=img_url
