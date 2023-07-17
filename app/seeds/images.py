@@ -31,7 +31,7 @@ def seed_parts_images():
     )
     HolyPandaImg = PartImage(
         part_id=2,
-        url='https://cdn.shopify.com/s/files/1/2711/4238/products/MMD-Holy-Panda-Tactile-Switch-3pin-RGB-SMD-62g-force-mx-Pro-Ver-switch-for-mechanical.jpg?v=1681354713'
+        url='https://cdn.shopify.com/s/files/1/2711/4238/products/MMD-Holy-Panda-Tactile-Switch-3pin-RGB-SMD-62g-force-mx-Pro-Ver-switch-for-mechanical.jpg'
     )
     BoxJadeImg = PartImage(
         part_id=3,
@@ -51,19 +51,19 @@ def seed_parts_images():
     )
     StockABSKeycapsImg = PartImage(
         part_id=7,
-        url='https://i5.walmartimages.com/asr/7df0a0dc-8520-47bf-bff3-8f01919a63fa.70249b179203013d9ea74d7fbde8f81d.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF'
+        url='https://i5.walmartimages.com/asr/7df0a0dc-8520-47bf-bff3-8f01919a63fa.70249b179203013d9ea74d7fbde8f81d.jpeg'
     )
     PBTResonanceImg = PartImage(
         part_id=8,
-        url='https://us.maxgaming.com/bilder/artiklar/zoom/23171_1.jpg?m=1671545809'
+        url='https://us.maxgaming.com/bilder/artiklar/zoom/23171_1.jpg'
     )
     GMKOliveImg = PartImage(
         part_id=9,
-        url='https://cdn.shopify.com/s/files/1/2772/6534/products/GMK_Olive_Base_Kit_grande.png?v=1559352581'
+        url='https://cdn.shopify.com/s/files/1/2772/6534/products/GMK_Olive_Base_Kit_grande.png'
     )
     StockStabsImg = PartImage(
         part_id=10,
-        url='https://cdn.shopify.com/s/files/1/0238/7342/1376/products/cherrystabilizers2u.jpg?v=1673041817'
+        url='https://cdn.shopify.com/s/files/1/0238/7342/1376/products/cherrystabilizers2u.jpg'
     )
     DurockStabsImg = PartImage(
         part_id=11,
@@ -83,7 +83,7 @@ def seed_parts_images():
     )
     PolycarbonateImg = PartImage(
         part_id=15,
-        url='https://cdn.shopify.com/s/files/1/0275/3649/0561/products/kbdfans-60-polycarbonate-plate-425682.jpg?v=1634777934'
+        url='https://cdn.shopify.com/s/files/1/0275/3649/0561/products/kbdfans-60-polycarbonate-plate-425682.jpg'
     )
 
     db.session.add(LekkerImg)

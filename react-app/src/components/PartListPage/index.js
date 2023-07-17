@@ -42,8 +42,6 @@ function PartListPage() {
     const closeCreateModal = () => {
         setCreateModalOpen(false);
     };
-
-
     const openModal = (id) => {
         console.log('this is id ', id);
         setSelectedPartId(id);

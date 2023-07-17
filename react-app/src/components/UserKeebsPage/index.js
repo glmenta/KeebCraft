@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as BuildActions from "../../store/build";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory, Link, Redirect } from "react-router-dom";
 import DeleteKeebModal from "../DeleteKeebModal";
 
 function UserKeebsPage() {
@@ -45,20 +45,25 @@ function UserKeebsPage() {
 
     const handleDelete = () => {
         handleClose()
-        // dispatch(BuildActions.deleteKeebThunk(keebId))
-        // .then(() => {
-        //     setDeleteSuccess(true);
-        //     dispatch(BuildActions.getUserKeebsThunk(userId))
-        // })
-        // .catch((err) => {
-        //     console.error(err);
-        // });
     };
 
     if (!isLoaded) {
         return null;
     }
+    const keebsArray = Object.values(userKeebs).filter((keeb) => keeb.user_id === userId);
+    if (!isLoaded) {
+        return null;
+    }
 
+    if (keebsArray.length === 0) {
+        return (
+            <div className="no-keebs-container">
+                <h2>You don't have any keyboards yet.</h2>
+                <p>Check out other user keyboards for ideas!</p>
+                <button onClick={() => history.push('/keebs')}>Go to Keebs</button>
+            </div>
+        );
+    }
     return (
         <div>
         {Object.values(userKeebs)

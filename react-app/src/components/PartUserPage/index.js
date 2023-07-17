@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserParts, updatePartThunk } from "../../store/part";
+import { Redirect } from "react-router-dom";
 import * as PartActions from "../../store/part";
 import UpdatePartModal from "../PartUpdateModal";
 import DeletePartModal from "../PartDeleteModal";
@@ -54,7 +55,20 @@ function UserPartsPage() {
             console.error(err.message);
         });
     };
+    const partsArray = Object.values(userParts).filter((part) => part.user_id === userId);
+if (!isLoaded) {
+    return null;
+}
 
+if (partsArray.length === 0) {
+    return (
+        <div className="no-parts-container">
+            <h2>You don't have any parts yet.</h2>
+            <p>View components and create your own</p>
+            <button onClick={() => window.location.href='/parts'}>View parts</button>
+        </div>
+    );
+}
 
     return (
         <div className="container">
