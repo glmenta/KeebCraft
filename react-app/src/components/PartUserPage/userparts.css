@@ -49,3 +49,26 @@
     justify-content: center;
     margin-top: 20px;
 }
+
+.no-parts-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.no-parts-text {
+    margin-top: 20px;
+    font-size: 30px;
+    color: white;
+}
+
+.no-parts-p {
+    margin-top: 20px;
+    font-size: 20px;
+    color: white;
+}
+
+.no-parts-button {
+    margin-top: 20px;
+    max-width: 100px;
+}

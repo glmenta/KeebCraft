@@ -32,3 +32,26 @@
     padding: 8px 16px;
     cursor: pointer;
 }
+
+.no-keebs-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.no-keebs-container h2 {
+    margin-top: 20px;
+    font-size: 30px;
+    color: white;
+}
+
+.no-keebs-container p {
+    margin-top: 20px;
+    font-size: 20px;
+    color: white;
+}
+
+.no-keebs-container button {
+    margin-top: 20px;
+    max-width: 100px;
+}

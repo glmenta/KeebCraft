@@ -63,9 +63,9 @@ if (!isLoaded) {
 if (partsArray.length === 0) {
     return (
         <div className="no-parts-container">
-            <h2>You don't have any parts yet.</h2>
-            <p>View components and create your own</p>
-            <button onClick={() => window.location.href='/parts'}>View parts</button>
+            <h2 className='no-parts-text'>You don't have any parts yet.</h2>
+            <p className='no-parts-p'>View components and create your own</p>
+            <button className='no-parts-button' onClick={() => window.location.href='/parts'}>View parts</button>
         </div>
     );
 }
