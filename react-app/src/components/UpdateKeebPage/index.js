@@ -23,8 +23,6 @@ function UpdateKeebPage() {
     const user = useSelector((state) => state.session.user);
     const parts = useSelector((state) => state.parts.parts);
     const keeb = useSelector((state) => state.keebs.keebs[keebId]);
-    console.log('keeb', keeb);
-    console.log('user', user.id)
 
     useEffect(() => {
         if (keeb) {

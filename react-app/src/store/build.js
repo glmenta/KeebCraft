@@ -68,7 +68,6 @@ export const fetchAllKeebs = () => async (dispatch) => {
 };
 
 export const fetchKeeb = (keebId) => async (dispatch) => {
-    console.log('this is thunk')
     const res = await csrfFetch(`/api/keebs/${keebId}`);
     if (res.ok) {
         const data = await res.json();
@@ -125,7 +124,6 @@ export const updateKeebThunk = (keebId, keeb) => async (dispatch) => {
 }
 
 export const deleteKeebThunk = (keebId) => async (dispatch) => {
-    console.log("this is keebId", keebId)
     const res = await csrfFetch(`/api/keebs/${keebId}/delete`, {
         method: "DELETE",
     });

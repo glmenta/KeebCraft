@@ -84,7 +84,6 @@ export const fetchUserParts = (userId) => async (dispatch) => {
 }
 export const fetchAllPartTypes = () => async (dispatch) => {
     const res = await csrfFetch("/api/parts/types");
-    console.log('this is res', res)
     if (res.ok) {
         const data = await res.json();
         dispatch(getAllPartTypes(data));
@@ -93,7 +92,6 @@ export const fetchAllPartTypes = () => async (dispatch) => {
 }
 
 export const createPartThunk = (part) => async (dispatch) => {
-    console.log("Part data being sent: ", part);
     const res = await csrfFetch("/api/parts/new", {
         method: "POST",
         headers: {
@@ -112,7 +110,6 @@ export const createPartThunk = (part) => async (dispatch) => {
 }
 
 export const updatePartThunk = (part) => async (dispatch) => {
-    console.log('part from thunk', part)
     const res = await csrfFetch(`/api/parts/${part.id}/edit`, {
         method: "PUT",
         headers: {

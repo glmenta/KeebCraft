@@ -28,7 +28,6 @@ function PartListPage() {
 
 
     useEffect(() => {
-        console.log('detailModal state: ', detailModal);
     }, [detailModal]);
 
     if (!isLoaded) {
@@ -43,10 +42,8 @@ function PartListPage() {
         setCreateModalOpen(false);
     };
     const openModal = (id) => {
-        console.log('this is id ', id);
         setSelectedPartId(id);
         setDetailModal(true);
-        console.log("detailModal state after setting: ", detailModal);
     };
 
     const onPartCreated = (newPart) => {

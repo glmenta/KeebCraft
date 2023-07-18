@@ -34,7 +34,6 @@ function UserKeebsPage() {
     }, [deleteSuccess]);
 
     const handleShow = (keebId) => {
-        console.log('handleShow called')
         setDeleteModal(prevModal => ({...prevModal, [keebId]: true}));
         setDeletedKeebId(keebId)
     };

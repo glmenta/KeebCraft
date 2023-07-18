@@ -10,7 +10,7 @@ function UserPartsPage() {
     const dispatch = useDispatch();
     const userParts = useSelector((state) => state.parts.parts.Parts);
     const userId = useSelector((state) => state.session.user.id);
-    console.log('parts', userParts);
+
     const [isLoaded, setIsLoaded] = useState(false);
     const [updateModalPartId, setUpdateModalPartId] = useState(null);
     const [deleteModal, setDeleteModal] = useState(false);

@@ -1,4 +1,4 @@
-/* The main modal container */
+
 .delete-modal {
     position: fixed;
     z-index: 999;
@@ -6,50 +6,50 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Black with half opacity */
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}
 
-  /* The modal content container */
-  .delete-modal-contents {
+
+.delete-modal-contents {
     background-color: white;
     padding: 20px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px; /* spacing between elements */
-  }
+    gap: 10px;
+}
 
-  /* The modal content */
-  .delete-modal-title {
+
+.delete-modal-title {
     color: black;
-  }
+}
 
-  /* Buttons styles */
-  .delete-modal-contents > button {
+
+.delete-modal-contents > button {
     cursor: pointer;
     padding: 10px 20px;
     border: none;
     color: white;
-  }
+}
 
-  /* Yes button */
-  .yes-button {
-    background-color: #f44336; /* Red color */
-  }
 
-  .yes-button:hover {
-    background-color: #d32f2f; /* Darker red on hover */
-  }
+.yes-button {
+    background-color: #f44336;
+}
 
-  /* No button */
-  .no-button {
-    background-color: #4caf50; /* Green color */
-  }
+.yes-button:hover {
+    background-color: #d32f2f;
+}
 
-  .no-button:hover {
-    background-color: #388e3c; /* Darker green on hover */
-  }
+
+.no-button {
+    background-color: #4caf50;
+}
+
+.no-button:hover {
+    background-color: #388e3c;
+}
