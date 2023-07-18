@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as BuildActions from "../../store/build";
 import { useHistory, Link, Redirect } from "react-router-dom";
 import DeleteKeebModal from "../DeleteKeebModal";
-
+import './userkeebs.css'
 function UserKeebsPage() {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -65,17 +65,19 @@ function UserKeebsPage() {
         );
     }
     return (
-        <div>
+        <div className='user-keebs'>
         {Object.values(userKeebs)
             .filter((keeb) => keeb.user_id === userId)
             .map((keeb) => (
-            <div key={keeb.id}>
-            <h2>{keeb.name}</h2>
-            <img src={keeb?.img_url[0].url}/>
-            <div>
-                <Link to={`/keebs/${keeb.id}/edit`}>
-                    <button>Update Keeb!</button>
-                </Link>
+            <div className='keeb-container'>
+                <div key={keeb.id}>
+                <h2 className='keeb-name'>{keeb.name}</h2>
+                <img className='keeb-img' src={keeb?.img_url[0].url}/>
+                <div className='update-button'>
+                    <Link to={`/keebs/${keeb.id}/edit`}>
+                        <button>Update Keeb!</button>
+                    </Link>
+                </div>
             </div>
             <button onClick={() => handleShow(keeb.id)}>Delete Keeb!</button>
             {deleteModal[keeb.id] && (

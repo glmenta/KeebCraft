@@ -1,0 +1,34 @@
+.user-keebs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.user-keebs .keeb-container {
+    flex-basis: calc(33.33% - 20px);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    cursor: pointer;
+    background: #333;
+    color: white;
+}
+
+.user-keebs .keeb-name {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.user-keebs .keeb-img {
+    background: #333;
+    color: white;
+    border: none;
+    max-width: 500px;
+    max-height: 500px;
+    padding: 8px 16px;
+    cursor: pointer;
+}

@@ -92,6 +92,9 @@ function UpdateKeebPage() {
         }
     };
 
+    const returnToUserKeebs = () => {
+        history.push(`/users/${user.id}/keebs`);
+    }
     return (
         <div>
             <h2>Update Keeb</h2>
@@ -169,6 +172,7 @@ function UpdateKeebPage() {
                     onChange={(e) => setDescription(e.target.value)}
                 />
                 <button type="submit">Update Keeb</button>
+                <button onClick={returnToUserKeebs}>Cancel</button>
             </form>
             {errors && Object.values(errors).map((error, idx) => (
                 <div key={idx}>{error}</div>

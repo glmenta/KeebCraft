@@ -16,6 +16,9 @@ function UpdatePartModal({ isOpen, onClose, part }) {
         .then(setPartTypes);
     }, [dispatch]);
 
+    function isValidImageUrl(url) {
+        return url.match(/\.(jpeg|jpg|png)(\?.*)?$/i);
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
         let error = {};
@@ -24,7 +27,7 @@ function UpdatePartModal({ isOpen, onClose, part }) {
         if (!description) error.description = 'Please input a description';
         if (!typeId) error.typeId = 'Please select a type';
         if (!imgUrl) error.imgUrl = 'Please input an image URL';
-
+        else if (!isValidImageUrl(imgUrl)) error.imgUrl = 'Please input a valid image URL';
         if (Object.keys(error).length > 0) {
             setErrors(error);
             return;
