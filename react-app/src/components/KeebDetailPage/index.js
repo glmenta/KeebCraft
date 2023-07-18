@@ -67,7 +67,6 @@ function KeebDetailPage() {
                                 <div>
                                     <h3>Case</h3>
                                     <p>{currKeeb.case}</p>
-                                    <p>img here</p>
                                 </div>
                                 <div>
                                     <h3>Keycaps</h3>

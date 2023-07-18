@@ -6,7 +6,9 @@ from ..models.db import db
 from ..models.keeb_builds import BuildPart
 from ..models.parts import Part, PartType
 from ..forms.part_form import PartForm, EditPartForm
-import json
+import os
+from urllib.parse import urlparse, urlsplit
+
 part_routes = Blueprint('parts', __name__)
 def allowed_file(filename):
     ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -108,8 +110,12 @@ def new_part():
         part_img_url = form.part_img.data
 
         if part_img_url:
-            if not allowed_file(part_img_url):
-                return jsonify({"error": "Invalid image file type. Please use jpg, jpeg, png or gif"}), 400
+            url_path = urlsplit(part_img_url).path
+            _, ext = os.path.splitext(url_path)
+            if ext.lower() not in ['.jpg', '.jpeg', '.png']:
+                return jsonify(errors='Invalid image format'), 400
+            # if not allowed_file(part_img_url):
+            #     return jsonify({"error": "Invalid image file type. Please use jpg, jpeg, png or gif"}), 400
 
             new_img = PartImage(
                 part_id=part.id,
@@ -142,8 +148,12 @@ def update_part(id):
             part_img_url = form.part_img.data
 
             if part_img_url:
-                if not allowed_file(part_img_url):
-                    return jsonify({"error": "Invalid image file type. Please use jpg, jpeg, png or gif"}), 400
+                url_path = urlsplit(part_img_url).path
+                _, ext = os.path.splitext(url_path)
+                if ext.lower() not in ['.jpg', '.jpeg', '.png']:
+                    return jsonify(errors='Invalid image format'), 400
+                # if not allowed_file(part_img_url):
+                #     return jsonify({"error": "Invalid image file type. Please use jpg, jpeg, png or gif"}), 400
 
                 existing_img = PartImage.query.filter_by(part_id=id).first()
 
