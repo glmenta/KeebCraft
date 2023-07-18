@@ -1,10 +1,11 @@
 from flask import Blueprint, redirect, url_for, render_template, jsonify, request
 from flask_login import login_required, current_user, logout_user
-from ..models.keeb_builds import KeebBuild
+from ..models.keeb_builds import KeebBuild, BuildPart
 from ..models.images import BuildImage
 from ..models.comments import Comment
 from ..forms.keeb_form import KeebForm
 from ..models.db import db
+from ..models.favorites import FavoriteBuild
 from ..models.parts import Part, PartType
 import os
 from urllib.parse import urlparse, urlsplit
@@ -183,11 +184,14 @@ def update_keeb(id):
 def delete_keeb(id):
     keeb = KeebBuild.query.get(id)
     if keeb and keeb.user_id == current_user.id:
+        keeb_id = keeb.id
+        FavoriteBuild.query.filter_by(build_id=id).delete()
         BuildImage.query.filter_by(build_id=id).delete()
+        BuildPart.query.filter_by(build_id=id).delete()
         db.session.delete(keeb)
         db.session.commit()
         res = {
-            "id": keeb.id,
+            "id": keeb_id,
             "message": "Deleted",
             "statusCode": 200
         }

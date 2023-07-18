@@ -125,6 +125,7 @@ export const updateKeebThunk = (keebId, keeb) => async (dispatch) => {
 }
 
 export const deleteKeebThunk = (keebId) => async (dispatch) => {
+    console.log("this is keebId", keebId)
     const res = await csrfFetch(`/api/keebs/${keebId}/delete`, {
         method: "DELETE",
     });
