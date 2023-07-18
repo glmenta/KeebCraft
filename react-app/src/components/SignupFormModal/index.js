@@ -23,7 +23,11 @@ function SignupFormModal() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setErrors([]);
-		if (validUsername && validPassword && passwordsMatch) {
+
+		const emailRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+		const isEmailValid = emailRegex.test(email);
+
+		if (validUsername && validPassword && passwordsMatch && isEmailValid) {
 			const data = await dispatch(signUp(username, email, password));
 			if (data && data.errors) {
 				setErrors(data.errors);
@@ -34,7 +38,7 @@ function SignupFormModal() {
 			}
 		} else {
 			const newErrors = [];
-			if (!email) newErrors.push("Email is required");
+			if (!email || !isEmailValid) newErrors.push("Please enter a valid email address.");
 			if (!validUsername) newErrors.push(`Username must be at least ${MIN_USERNAME_LENGTH} characters long.`);
 			if (!validPassword) newErrors.push(`Password must be at least ${MIN_PASSWORD_LENGTH} characters long.`);
 			if (!passwordsMatch) newErrors.push("Confirm Password field must be the same as the Password field");
