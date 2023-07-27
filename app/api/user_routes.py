@@ -3,6 +3,7 @@ from flask_login import login_required
 from app.models import User
 from app.models.keeb_builds import KeebBuild
 from app.models.parts import Part
+from app.models.comments import Comment
 user_routes = Blueprint('users', __name__)
 
 
@@ -53,3 +54,17 @@ def get_user_parts(id):
     return {
         "Parts": [part.to_dict() for part in parts]
     }
+
+@user_routes.route('/<int:id>/comments', methods=['GET'])
+def get_user_comments(id):
+    user = User.query.get(id)
+    if user is None:
+        return jsonify({"error": "User not found"}), 404
+    else:
+        comments = Comment.query.filter(Comment.user_id == user.id).all()
+        if len(comments) == 0:
+            return jsonify({"error": "User has no comments"}), 200
+        else:
+            return jsonify ({
+                "Comments": [comment.to_dict() for comment in comments]
+            }), 200

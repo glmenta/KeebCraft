@@ -7,6 +7,7 @@ from ..forms.keeb_form import KeebForm
 from ..models.db import db
 from ..models.favorites import FavoriteBuild
 from ..models.parts import Part, PartType
+from ..forms.comment_form import CommentForm
 import os
 from urllib.parse import urlparse, urlsplit
 
@@ -200,5 +201,43 @@ def delete_keeb(id):
         res = {
             "message": "Keeb could not be found.",
             "statusCode": 404
+        }
+        return jsonify(res), 404
+
+@keeb_builds_routes.route('/<int:id>/comments', methods=['GET'])
+def get_comments(id):
+    keeb = KeebBuild.query.get(id)
+    if keeb:
+        comments = Comment.query.filter(Comment.build_id == id).all()
+        return jsonify(comments=[comment.to_dict() for comment in comments])
+    else:
+        res = {
+            "message": "Keeb could not be found.",
+            "statusCode": 404
+        }
+        return jsonify(res), 404
+
+@keeb_builds_routes.route('/<int:id>/comments/new', methods=['POST'])
+@login_required
+def new_comment(id):
+    keeb = KeebBuild.query.get(id)
+    if keeb:
+        data = request.get_json()
+        form = CommentForm(data=data)
+        form['csrf_token'].data = request.cookies['csrf_token']
+        if form.validate_on_submit():
+            comment = Comment(
+                user_id=current_user.id,
+                build_id=id,
+                comment=form.comment.data
+            )
+            db.session.add(comment)
+            db.session.commit()
+            return jsonify(comment.to_dict()), 201
+        else:
+            return jsonify({'errors': form.errors}), 400
+    else:
+        res = {
+            "message": "Keeb could not be found.",
         }
         return jsonify(res), 404

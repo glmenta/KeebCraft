@@ -13,6 +13,7 @@ class FavoriteBuild(db.Model):
     favorite_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('favorites.id')), nullable=False)
 
     build = db.relationship('KeebBuild', back_populates='favorite_builds')
+    favorite = db.relationship('Favorite', back_populates='favorite_builds')
 
     def to_dict(self):
         return {
@@ -33,8 +34,11 @@ class Favorite (db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
+    favorite_builds = db.relationship('FavoriteBuild', back_populates='favorite')
+
     def to_dict(self):
         return {
             'id': self.id,
-            'name': self.name
+            'name': self.name,
+            'builds': [favorite_build.to_dict() for favorite_build in self.favorite_builds]
         }
