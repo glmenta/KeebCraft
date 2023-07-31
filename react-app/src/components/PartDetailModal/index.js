@@ -3,11 +3,8 @@ import { useSelector } from "react-redux";
 import '../PartListPage/modal.css'
 
 function PartDetailModal({ isOpen, onClose, partId }) {
-    console.log('part id', partId);
     const parts = useSelector((state) => state.parts.parts.Parts);
-    console.log('parts', parts);
     const part = Array.isArray(parts) ? parts.find((p) => Number(p.id) === Number(partId)) : null;
-    console.log('part: ', part);
 
     if (!isOpen || !part) {
         return null;

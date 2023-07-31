@@ -3,6 +3,7 @@ from ..models.keeb_builds import KeebBuild
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from .. import db
+from ..forms.favorite_form import FavoriteForm
 
 favorite_routes = Blueprint('favorites', __name__)
 
@@ -45,5 +46,69 @@ def get_build_by_favorite(id, build_id):
 
 #Create Favorite
 @favorite_routes.route('/new', methods=['GET', 'POST'])
-def create_favorite():
-    pass
+@login_required
+def favorite():
+    if request.method == 'GET':
+        builds = KeebBuild.query.all()
+        return jsonify(builds=[build.to_dict() for build in builds])
+
+    if request.method == 'POST':
+        data = request.get_json()
+        form = FavoriteForm(data=data)
+        form['csrf_token'].data = request.cookies['csrf_token']
+
+        if form.validate_on_submit():
+            selected_build = form.builds.data
+
+            existing_build = KeebBuild.query.filter_by(id=selected_build).first()
+
+            if existing_build:
+                new_favorite = Favorite(
+                    name=form.name.data
+                )
+                db.session.add(new_favorite)
+                db.session.commit()
+
+                new_favorite_build = FavoriteBuild(
+                    user_id=current_user.id,
+                    build_id=existing_build.id,
+                    favorite_id=new_favorite.id
+                )
+                db.session.add(new_favorite_build)
+                db.session.commit()
+
+                return jsonify(new_favorite.to_dict()), 201
+
+            else:
+                return jsonify(errors='Invalid build selected'), 400
+
+        else:
+            return jsonify(form.errors), 400
+
+@favorite_routes.route('/<int:id>/add', methods=['POST'])
+@login_required
+def add_to_favorite(favorite_id):
+    data = request.get_json()
+    build_id = data.get('build_id')
+
+    existing_build = KeebBuild.query.filter_by(id=build_id).first()
+    if not existing_build:
+        return jsonify(errors='Invalid build selected'), 400
+
+    existing_favorite = Favorite.query.filter(Favorite.id == favorite_id).first()
+    if not existing_favorite:
+        return jsonify(errors='Invalid favorite ID'), 400
+
+    existing_favorite_build = FavoriteBuild.query.filter_by(favorite_id=favorite_id, build_id=build_id).first()
+    if existing_favorite_build:
+        return jsonify(errors='Build is already in the favorite'), 400
+
+    new_favorite_build = FavoriteBuild(
+        user_id=current_user.id,
+        build_id=build_id,
+        favorite_id=favorite_id
+    )
+    db.session.add(new_favorite_build)
+    db.session.commit()
+
+    return jsonify(new_favorite_build.to_dict()), 201
