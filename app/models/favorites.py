@@ -20,7 +20,8 @@ class FavoriteBuild(db.Model):
             'id': self.id,
             'user_id': self.user_id,
             'build_id': self.build_id,
-            'favorite_id': self.favorite_id
+            'favorite_id': self.favorite_id,
+            'build_details': self.build.to_dict()
         }
 
 class Favorite (db.Model):
@@ -30,6 +31,7 @@ class Favorite (db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     name = db.Column(db.String(50))
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
@@ -40,5 +42,6 @@ class Favorite (db.Model):
         return {
             'id': self.id,
             'name': self.name,
+            'user_id': self.user_id,
             'builds': [favorite_build.to_dict() for favorite_build in self.favorite_builds]
         }

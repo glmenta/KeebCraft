@@ -85,13 +85,15 @@ def favorite():
         else:
             return jsonify(form.errors), 400
 
-@favorite_routes.route('/<int:id>/add', methods=['POST'])
+#Add Build To Favorite
+@favorite_routes.route('/<int:favorite_id>/add', methods=['POST'])
 @login_required
 def add_to_favorite(favorite_id):
     data = request.get_json()
     build_id = data.get('build_id')
 
     existing_build = KeebBuild.query.filter_by(id=build_id).first()
+
     if not existing_build:
         return jsonify(errors='Invalid build selected'), 400
 
@@ -112,3 +114,22 @@ def add_to_favorite(favorite_id):
     db.session.commit()
 
     return jsonify(new_favorite_build.to_dict()), 201
+
+@favorite_routes.route('/<int:favorite_id>/remove/<int:build_id>', methods=['DELETE'])
+@login_required
+def remove_from_favorite(favorite_id, build_id):
+    existing_favorite = Favorite.query.filter(Favorite.id == favorite_id).first()
+    if not existing_favorite:
+        return jsonify(errors='Invalid favorite ID'), 400
+
+    if existing_favorite.user_id != current_user.id:
+        return jsonify(errors='Permission denied'), 403
+
+    existing_favorite_build = FavoriteBuild.query.filter_by(favorite_id=favorite_id, build_id=build_id).first()
+    if not existing_favorite_build:
+        return jsonify(errors='Build not found in the favorite'), 404
+
+    db.session.delete(existing_favorite_build)
+    db.session.commit()
+
+    return jsonify(success='Build removed from favorite'), 200

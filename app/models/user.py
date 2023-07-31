@@ -21,6 +21,7 @@ class User(db.Model, UserMixin):
     parts = db.relationship('Part', back_populates='user', cascade='all, delete-orphan')
     comments = db.relationship('Comment', back_populates='user', cascade='all, delete-orphan')
     user_images = db.relationship('UserImage', back_populates='user', cascade='all, delete-orphan')
+    favorites = db.relationship('Favorite', backref='user', cascade='all, delete-orphan')
 
     @property
     def password(self):
@@ -40,5 +41,6 @@ class User(db.Model, UserMixin):
             'email': self.email,
             'user_info': self.user_info,
             'user_img': [img.to_dict() for img in self.user_images],
-            'keeb_builds': [build.to_dict() for build in self.keeb_builds]
+            'keeb_builds': [build.to_dict() for build in self.keeb_builds],
+            'favorites': [favorite.to_dict() for favorite in self.favorites]
         }
