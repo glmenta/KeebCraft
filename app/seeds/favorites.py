@@ -3,12 +3,15 @@ from sqlalchemy.sql import text
 
 def seed_favorites():
     user_one_favorite_list = Favorite(
+        user_id=1,
         name = 'User One Favorites'
     )
     user_two_favorite_list = Favorite(
+        user_id=2,
         name = 'User Two Favorites'
     )
     user_three_favorite_list = Favorite(
+        user_id=3,
         name = 'User Three Favorites'
     )
 
