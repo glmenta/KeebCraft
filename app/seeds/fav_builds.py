@@ -22,7 +22,7 @@ def seed_favorite_builds():
     user_three_linear_build = FavoriteBuild(
         user_id=3,
         build_id=1,
-        favorite_id=4,
+        favorite_id=3,
     )
 
     db.session.add(user_one_linear_build)
