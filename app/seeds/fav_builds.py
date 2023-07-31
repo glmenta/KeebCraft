@@ -1,9 +1,9 @@
 from app.models.favorites import db, FavoriteBuild, environment, SCHEMA
 from sqlalchemy.sql import text
-from .favorites import seed_favorites
+# from .favorites import seed_favorites
 
 def seed_favorite_builds():
-    seed_favorites()
+    # seed_favorites()
     user_one_linear_build = FavoriteBuild(
         user_id=1,
         build_id=1,
