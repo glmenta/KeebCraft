@@ -4,6 +4,7 @@ from app.models import User
 from app.models.keeb_builds import KeebBuild
 from app.models.parts import Part
 from app.models.comments import Comment
+from app.models.favorites import Favorite, FavoriteBuild
 user_routes = Blueprint('users', __name__)
 
 
@@ -67,4 +68,18 @@ def get_user_comments(id):
         else:
             return jsonify ({
                 "Comments": [comment.to_dict() for comment in comments]
+            }), 200
+
+@user_routes.route('/<int:id>/favorites', methods=['GET'])
+def get_user_favorites(id):
+    user = User.query.get(id)
+    if user is None:
+        return jsonify({"error": "User not found"}), 404
+    else:
+        favorites = Favorite.query.filter(Favorite.user_id == user.id).all()
+        if len(favorites) == 0:
+            return jsonify({"error": "User has no favorites"}), 200
+        else:
+            return jsonify ({
+                "Favorites": [favorite.to_dict() for favorite in favorites]
             }), 200

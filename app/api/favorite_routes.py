@@ -27,6 +27,17 @@ def get_builds_by_favorite(id):
         "Favorite Builds": favorite_builds
     }
 
+#Get Favorite List by Favorite Id
+@favorite_routes.route('/<int:favorite_id>', methods=['GET'])
+def get_favorite_by_id(favorite_id):
+    favorite = Favorite.query.get(favorite_id)
+    if favorite is None:
+        return jsonify({"error": "Favorites List not found"}), 404
+
+    return {
+        "FavoriteList": favorite.to_dict()
+    }
+
 #Get Build by Favorite List
 @favorite_routes.route('/<int:id>/builds/<int:build_id>', methods=['GET'])
 def get_build_by_favorite(id, build_id):
@@ -44,7 +55,7 @@ def get_build_by_favorite(id, build_id):
         "Build": favorite_build[0].build.to_dict()
     }
 
-#Create Favorite
+#Create Favorite List
 @favorite_routes.route('/new', methods=['GET', 'POST'])
 @login_required
 def favorite():
@@ -64,6 +75,7 @@ def favorite():
 
             if existing_build:
                 new_favorite = Favorite(
+                    user_id=current_user.id,
                     name=form.name.data
                 )
                 db.session.add(new_favorite)
@@ -133,3 +145,22 @@ def remove_from_favorite(favorite_id, build_id):
     db.session.commit()
 
     return jsonify(success='Build removed from favorite'), 200
+
+@favorite_routes.route('/<int:favorite_id>/remove', methods=['DELETE'])
+@login_required
+def remove_favorite_list(favorite_id):
+    existing_favorite = Favorite.query.filter(Favorite.id == favorite_id).first()
+    if not existing_favorite:
+        return jsonify(errors='Invalid favorite ID'), 400
+
+    if existing_favorite.user_id != current_user.id:
+        return jsonify(errors='Permission denied'), 403
+
+    favorite_builds = FavoriteBuild.query.filter(FavoriteBuild.favorite_id == favorite_id).all()
+    for fb in favorite_builds:
+        db.session.delete(fb)
+
+    db.session.delete(existing_favorite)
+    db.session.commit()
+
+    return jsonify(success='Favorite list removed'), 200
