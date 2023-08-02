@@ -114,8 +114,6 @@ def new_part():
             _, ext = os.path.splitext(url_path)
             if ext.lower() not in ['.jpg', '.jpeg', '.png']:
                 return jsonify(errors='Invalid image format'), 400
-            # if not allowed_file(part_img_url):
-            #     return jsonify({"error": "Invalid image file type. Please use jpg, jpeg, png or gif"}), 400
 
             new_img = PartImage(
                 part_id=part.id,
@@ -152,8 +150,6 @@ def update_part(id):
                 _, ext = os.path.splitext(url_path)
                 if ext.lower() not in ['.jpg', '.jpeg', '.png']:
                     return jsonify(errors='Invalid image format'), 400
-                # if not allowed_file(part_img_url):
-                #     return jsonify({"error": "Invalid image file type. Please use jpg, jpeg, png or gif"}), 400
 
                 existing_img = PartImage.query.filter_by(part_id=id).first()
 

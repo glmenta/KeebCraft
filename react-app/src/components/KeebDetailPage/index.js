@@ -19,8 +19,7 @@ function KeebDetailPage() {
     const creatorUser = userArr?.find(user => user.id === creatorId);
     const user = useSelector((state) => state.session.user);
     const allParts = useSelector((state) => state.parts.parts);
-    console.log('allParts', allParts)
-    console.log('tests', currKeeb)
+    const [comments, setComments] = useState([]);
     const userId = user?.id
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -37,6 +36,13 @@ function KeebDetailPage() {
         ]).then(() => setIsLoaded(true))
 
     }, [dispatch, keebId])
+
+    useEffect(() => {
+        dispatch(CommentActions.getBuildCommentsThunk(keebId)).then(
+            (comments) => setComments(comments)
+        )
+    }, [dispatch, keebId])
+
     const handleFeature = () => {
         alert("Feature Coming Soon!");
     };
@@ -93,7 +99,29 @@ function KeebDetailPage() {
                     </div>
                     <div className='comments-section'>
                         <div className='comments-container'>
-                            Comments Section WIP!
+                            <h2>Comments</h2>
+                            <div className='comment-button'>
+                                <h2>button here</h2>
+                            </div>
+                            <div className='keeb-comments'>
+                                {currKeeb?.comments.map((comment, index) => (
+                                    <div
+                                        className='keeb-comment'
+                                        key={index}>
+                                        <div className='keeb-comment-user'>
+                                            <p>{comment.user_id.username}</p>
+                                            <img
+                                            src={comment.user_id.user_img[0].url}
+                                            className="user-comment-img"
+                                            alt='user-img-alt'
+                                        />
+                                        </div>
+                                        <div className='keeb-comment-text'>
+                                            <p>{comment.comment}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -86,3 +86,12 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
   }
+  .keeb-comment {
+    display: flex;
+    flex-direction: row;
+  }
+  .user-comment-img {
+    max-width: 100px;
+    max-height: 80px;
+    border-radius: 4px;
+  }

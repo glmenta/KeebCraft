@@ -54,10 +54,12 @@ export const getUserCommentsThunk = (userId) => async (dispatch) => {
 }
 
 export const getBuildCommentsThunk = (buildId) => async (dispatch) => {
+    console.log('this is buildId', buildId)
     const response = await csrfFetch(`/api/keebs/${buildId}/comments`);
     if (response.ok) {
         const data = await response.json();
         dispatch(getBuildComments(data));
+        return data;
     }
 }
 export const getCommentByIdThunk = (commentId) => async (dispatch) => {
