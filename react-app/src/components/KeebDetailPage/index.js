@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import * as KeebActions from "../../store/build";
 import * as UserActions from "../../store/session";
 import * as PartActions from "../../store/part";
+import * as CommentActions from "../../store/comment";
 import './keeb.css'
+
 function KeebDetailPage() {
     const { keebId } = useParams();
     const dispatch = useDispatch();

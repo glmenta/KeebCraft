@@ -3,11 +3,13 @@ import thunk from 'redux-thunk';
 import session from './session'
 import keebReducer from './build';
 import partsReducer from './part';
+import commentsReducer from './comment';
 
 const rootReducer = combineReducers({
   session,
   keebs: keebReducer,
-  parts: partsReducer
+  parts: partsReducer,
+  comments: commentsReducer
 });
 
 
