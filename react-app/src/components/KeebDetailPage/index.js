@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import OpenModalButton from "../OpenModalButton";
+import CreateCommentModal from "../CreateCommentModal";
 import * as KeebActions from "../../store/build";
 import * as UserActions from "../../store/session";
 import * as PartActions from "../../store/part";
@@ -20,6 +22,7 @@ function KeebDetailPage() {
     const user = useSelector((state) => state.session.user);
     const allParts = useSelector((state) => state.parts.parts);
     const [comments, setComments] = useState([]);
+    const [refreshKey, setRefreshKey] = useState(0);
     const userId = user?.id
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -41,7 +44,7 @@ function KeebDetailPage() {
         dispatch(CommentActions.getBuildCommentsThunk(keebId)).then(
             (comments) => setComments(comments)
         )
-    }, [dispatch, keebId])
+    }, [dispatch, keebId, refreshKey])
 
     const handleFeature = () => {
         alert("Feature Coming Soon!");
@@ -101,7 +104,19 @@ function KeebDetailPage() {
                         <div className='comments-container'>
                             <h2>Comments</h2>
                             <div className='comment-button'>
-                                <h2>button here</h2>
+                                {userId && (
+                                    <OpenModalButton
+                                    buttonText={< i class='fas fa-comment'>Add comment</i>}
+                                    modalComponent={
+                                        <CreateCommentModal
+                                            keebId={keebId}
+                                            refreshKey={refreshKey}
+                                            onSubmit={() => setRefreshKey(refreshKey + 1)}
+                                            setRefreshKey={setRefreshKey}
+                                        />
+                                    }
+                                    />
+                                )}
                             </div>
                             <div className='keeb-comments'>
                                 {currKeeb?.comments.map((comment, index) => (

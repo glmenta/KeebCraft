@@ -70,14 +70,17 @@ export const getCommentByIdThunk = (commentId) => async (dispatch) => {
     }
 }
 
-export const createCommentThunk = (comment) => async (dispatch) => {
-    const response = await csrfFetch("/api/comments", {
+export const createCommentThunk = (keebId, comment) => async (dispatch) => {
+    const response = await csrfFetch(`/api/keebs/${keebId}/comments/new`, {
         method: "POST",
         body: JSON.stringify(comment),
     })
     if (response.ok) {
         const data = await response.json();
         dispatch(createComment(data));
+        return {}
+    } else if (response.status === 400 || response.status === 404) {
+        return { errors: response.data.errors };
     }
 }
 
