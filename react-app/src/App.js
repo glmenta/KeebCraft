@@ -13,6 +13,8 @@ import UpdateKeebPage from "./components/UpdateKeebPage";
 import UserKeebsPage from "./components/UserKeebsPage";
 import UserPartsPage from "./components/PartUserPage";
 import PartListPage from "./components/PartListPage";
+import UserFavoritesPage from "./components/UserFavoritesPage";
+
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -40,6 +42,9 @@ function App() {
           </Route>
           <Route exact path="/users/:userId/parts">
             <UserPartsPage />
+          </Route>
+          <Route exact path="/users/:userId/favorites">
+            <UserFavoritesPage />
           </Route>
           <Route exact path="/keebs/:keebId/edit" component={UpdateKeebPage}>
             <UpdateKeebPage/>

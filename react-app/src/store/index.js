@@ -4,12 +4,13 @@ import session from './session'
 import keebReducer from './build';
 import partsReducer from './part';
 import commentsReducer from './comment';
-
+import favoriteReducer from './favorite';
 const rootReducer = combineReducers({
   session,
   keebs: keebReducer,
   parts: partsReducer,
-  comments: commentsReducer
+  comments: commentsReducer,
+  favorites: favoriteReducer
 });
 
 
