@@ -3,6 +3,7 @@ import { Link, useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import OpenModalButton from "../OpenModalButton";
 import CreateCommentModal from "../CreateCommentModal";
+import DeleteCommentModal from "../DeleteCommentModal";
 import * as KeebActions from "../../store/build";
 import * as UserActions from "../../store/session";
 import * as PartActions from "../../store/part";
@@ -13,7 +14,6 @@ function KeebDetailPage() {
     const { keebId } = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
-    const allKeebs = useSelector((state) => state.keebs);
     const allUsers = useSelector((state) => state.session.users) || [];
     const userArr = allUsers.users;
     const currKeeb = useSelector((state) => state.keebs.keebs[keebId]);
@@ -26,6 +26,7 @@ function KeebDetailPage() {
     const userId = user?.id
     const [isLoaded, setIsLoaded] = useState(false);
 
+    console.log('currKeebComments', currKeeb?.comments)
     useEffect(() => {
         setIsLoaded(false);
 
@@ -41,18 +42,17 @@ function KeebDetailPage() {
     }, [dispatch, keebId])
 
     useEffect(() => {
-        dispatch(CommentActions.getBuildCommentsThunk(keebId)).then(
-            (comments) => setComments(comments)
-        )
-    }, [dispatch, keebId, refreshKey])
+        dispatch(CommentActions.getBuildCommentsThunk(keebId))
+            .then(fetchedComments => {
+                setComments(fetchedComments.comments);
+            });
+    }, [dispatch, keebId, refreshKey]);
+
 
     const handleFeature = () => {
         alert("Feature Coming Soon!");
     };
 
-    const backToKeebs = () => {
-        history.push("/keebs");
-    }
     return (
         <div className="keeb-detail">
             {!isLoaded ? (
@@ -106,7 +106,7 @@ function KeebDetailPage() {
                             <div className='comment-button'>
                                 {userId && (
                                     <OpenModalButton
-                                    buttonText={< i class='fas fa-comment'>Add comment</i>}
+                                    buttonText={< i className='fas fa-comment'>Add comment</i>}
                                     modalComponent={
                                         <CreateCommentModal
                                             keebId={keebId}
@@ -119,7 +119,7 @@ function KeebDetailPage() {
                                 )}
                             </div>
                             <div className='keeb-comments'>
-                                {currKeeb?.comments.map((comment, index) => (
+                                {comments.map((comment, index) => (
                                     <div
                                         className='keeb-comment'
                                         key={index}>
@@ -134,6 +134,21 @@ function KeebDetailPage() {
                                         <div className='keeb-comment-text'>
                                             <p>{comment.comment}</p>
                                         </div>
+                                        {userId === comment.user_id.id && (
+                                        <div className='delete-comment-button'>
+                                            <OpenModalButton
+                                            buttonText={< i className='fas fa-trash'>Delete Comment</i>}
+                                            modalComponent={
+                                                <DeleteCommentModal
+                                                keebId={keebId}
+                                                commentId={comment.id}
+                                                refreshKey={refreshKey}
+                                                setRefreshKey={setRefreshKey}
+                                            />
+                                            }
+                                            />
+                                        </div>
+                                        )}
                                     </div>
                                 ))}
                             </div>

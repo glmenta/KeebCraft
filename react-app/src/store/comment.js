@@ -85,7 +85,7 @@ export const createCommentThunk = (keebId, comment) => async (dispatch) => {
 }
 
 export const deleteCommentThunk = (commentId) => async (dispatch) => {
-    const response = await csrfFetch(`/api/comments/${commentId}`, {
+    const response = await csrfFetch(`/api/comments/${commentId}/delete`, {
         method: "DELETE",
     })
     if (response.ok) {

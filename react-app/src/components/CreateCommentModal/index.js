@@ -4,12 +4,11 @@ import { useModal } from '../../context/Modal';
 import * as CommentActions from "../../store/comment";
 
 
-function CreateCommentModal({ keebId, onSubmit }) {
+function CreateCommentModal({ keebId, onSubmit, refreshKey, setRefreshKey }) {
     const dispatch = useDispatch();
 
     const [comment, setComment] = useState("");
     const [errors, setErrors] = useState([]);
-    const [refreshKey, setRefreshKey] = useState(0);
     const { closeModal } = useModal();
 
     const submitComment = async (e) => {
@@ -19,8 +18,6 @@ function CreateCommentModal({ keebId, onSubmit }) {
         if (data && !data.errors) {
             onSubmit && onSubmit();
             closeModal();
-            dispatch(CommentActions.getBuildCommentsThunk(keebId));
-            setRefreshKey(prevKey => prevKey + 1);
         } else if (data.errors) {
             setErrors(data.errors)
         }
