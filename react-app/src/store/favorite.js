@@ -88,28 +88,43 @@ export const getBuildFromFavoriteThunk = (favoriteId, buildId) => async (dispatc
 }
 
 export const createFavoriteThunk = (favorite) => async (dispatch) => {
+    const { name, userId, selectedBuild } = favorite
     const response = await csrfFetch("/api/favorites/new", {
         method: "POST",
-        body: JSON.stringify(favorite),
+        body: JSON.stringify({
+            name,
+            user_id: userId,
+            builds: selectedBuild
+        }),
+        headers: {
+            "Content-Type": "application/json",
+        }
     });
     if (response.ok) {
         const data = await response.json();
         dispatch(createFavorite(data));
         return data;
+    } else {
+        const errorData = await response.json();
+        console.error('errorData', errorData);
+        throw new Error('Failed to create favorite');
     }
 }
 
-export const addBuildToFavoriteThunk = (build, favoriteId) => async (dispatch) => {
-    const response = await csrfFetch(`/api/favorites/${favoriteId}/builds/new`, {
+export const addBuildToFavoriteThunk = (buildId, favoriteId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/favorites/${favoriteId}/add`, {
         method: "POST",
-        body: JSON.stringify(build),
+        body: JSON.stringify({build_id: buildId}),
     });
     if (response.ok) {
         const data = await response.json();
         dispatch(addBuildToFavorite(data));
         return data;
+    } else {
+        throw new Error('Failed to add build to favorite');
     }
-}
+};
+
 
 export const removeBuildFromFavoriteThunk = (buildId, favoriteId) => async (dispatch) => {
     const response = await csrfFetch(`/api/favorites/${favoriteId}/builds/${buildId}`, {
