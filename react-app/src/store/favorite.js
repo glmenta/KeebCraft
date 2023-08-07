@@ -69,8 +69,8 @@ export const getUserFavoritesThunk = (userId) => async (dispatch) => {
     }
 }
 
-export const getAllBuildsFromFavoriteThunk = (favoriteId, buildId) => async (dispatch) => {
-    const response = await csrfFetch(`/api/favorites/${favoriteId}/builds/${buildId}`);
+export const getAllBuildsFromFavoriteThunk = (favoriteId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/favorites/${favoriteId}/builds`);
     if (response.ok) {
         const data = await response.json();
         dispatch(getAllBuildsFromFavorite(data));
@@ -118,7 +118,8 @@ export const addBuildToFavoriteThunk = (buildId, favoriteId) => async (dispatch)
     });
     if (response.ok) {
         const data = await response.json();
-        dispatch(addBuildToFavorite(data));
+        // dispatch(addBuildToFavorite(data));
+        dispatch(addBuildToFavorite(data.buildId, data.favoriteId));
         return data;
     } else {
         throw new Error('Failed to add build to favorite');
@@ -127,7 +128,7 @@ export const addBuildToFavoriteThunk = (buildId, favoriteId) => async (dispatch)
 
 
 export const removeBuildFromFavoriteThunk = (buildId, favoriteId) => async (dispatch) => {
-    const response = await csrfFetch(`/api/favorites/${favoriteId}/builds/${buildId}`, {
+    const response = await csrfFetch(`/api/favorites/${favoriteId}/remove/${buildId}`, {
         method: "DELETE",
     });
     if (response.ok) {
@@ -150,7 +151,7 @@ export const deleteFavoriteThunk = (favoriteId) => async (dispatch) => {
 
 const initialState = {
     favorites: {},
-    userFavorites: {},
+    userFavorites: { builds: {}},
 }
 
 const favoriteReducer = (state = initialState, action) => {
@@ -162,16 +163,30 @@ const favoriteReducer = (state = initialState, action) => {
         case GET_USER_FAVORITES:
             newState.userFavorites = action.payload;
             return newState;
+        case GET_ALL_BUILDS_FROM_FAVORITE:
+                if (!newState.userFavorites[action.favoriteId]) {
+                    newState.userFavorites[action.favoriteId] = {};
+                }
+                newState.userFavorites[action.favoriteId].builds = action.payload;
+                return newState;
         case CREATE_FAVORITE:
             newState.favorites[action.payload.id] = action.payload;
             return newState;
-        // case ADD_BUILD_TO_FAVORITE:
-        //     return newState;
-        // case REMOVE_BUILD_FROM_FAVORITE:
-        //     return newState;
-        case DELETE_FAVORITE:
-            delete newState.favorites[action.payload];
-            return newState;
+            case ADD_BUILD_TO_FAVORITE:
+                if (newState.favorites[action.favoriteId]) {
+                    const existingBuilds = newState.favorites[action.favoriteId].builds.map(build => build.id);
+                    if (!existingBuilds.includes(action.buildId)) {
+                        newState.favorites[action.favoriteId].builds.push({ id: action.buildId });
+                    }
+                }
+                return newState;
+
+            case REMOVE_BUILD_FROM_FAVORITE:
+                if (newState.favorites[action.favoriteId]) {
+                    newState.favorites[action.favoriteId].builds = newState.favorites[action.favoriteId].builds.filter(build => build.id !== action.buildId);
+                }
+                return newState;
+
         default:
             return state;
     }

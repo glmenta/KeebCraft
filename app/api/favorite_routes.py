@@ -24,7 +24,7 @@ def get_builds_by_favorite(id):
     favorite_builds = [{"favorite_build": fb.to_dict(), "build": fb.build.to_dict()} for fb in favorite.favorite_builds]
 
     return {
-        "Favorite Builds": favorite_builds
+        "favorite_builds": favorite_builds
     }
 
 #Get Favorite List by Favorite Id
@@ -37,6 +37,12 @@ def get_favorite_by_id(favorite_id):
     return {
         "FavoriteList": favorite.to_dict()
     }
+
+@favorite_routes.route('<int:favorite_id>/user/<int:user_id>/builds', methods=['GET'])
+@login_required
+def get_favorite_builds_for_list(user_id, favorite_id):
+    favorite_builds = FavoriteBuild.query.filter_by(user_id=user_id, favorite_id=favorite_id).all()
+    return jsonify(list(set([fb.build_id for fb in favorite_builds])))
 
 #Get Build by Favorite List
 @favorite_routes.route('/<int:id>/builds/<int:build_id>', methods=['GET'])
@@ -137,7 +143,7 @@ def remove_from_favorite(favorite_id, build_id):
     if existing_favorite.user_id != current_user.id:
         return jsonify(errors='Permission denied'), 403
 
-    existing_favorite_build = FavoriteBuild.query.filter_by(favorite_id=favorite_id, build_id=build_id).first()
+    existing_favorite_build = FavoriteBuild.query.filter_by(favorite_id=favorite_id, id=build_id).first()
     if not existing_favorite_build:
         return jsonify(errors='Build not found in the favorite'), 404
 
