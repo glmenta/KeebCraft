@@ -10,10 +10,10 @@ const AddBuildToFavModal = ({ userId, favoriteId, closeModal }) => {
     const allKeebs = useSelector(state => Object.values(state.keebs.keebs));
     const userFavoriteLists = useSelector(state => Object.values(state.favorites.userFavorites));
     const favList = userFavoriteLists.flat().find(favorite => favorite.id === favoriteId);
-    const favListBuildIds = favList.builds.map(build => build.build_id);
+    const favListBuildIds = favList?.builds?.map(build => build.build_id) || [];
     console.log('userFavoriteLists', userFavoriteLists)
     console.log('favList', favList)
-    const keebsNotInFavoriteList = allKeebs.filter(keeb => !favListBuildIds.includes(keeb.id));
+    const keebsNotInFavoriteList = allKeebs.filter(keeb => !favListBuildIds?.includes(keeb.id));
 
     console.log('allKeebs', allKeebs)
     const handleSubmit = async () => {
@@ -29,7 +29,7 @@ const AddBuildToFavModal = ({ userId, favoriteId, closeModal }) => {
     useEffect(() => {
         dispatch(BuildActions.fetchAllKeebs());
         dispatch(FavoriteActions.getAllBuildsFromFavoriteThunk(favoriteId));
-    }, [dispatch])
+    }, [])
 
     return (
         <div>

@@ -1,9 +1,19 @@
 .profile {
     display: flex;
     flex-direction: column;
-
+    position: relative;
 }
 
+.profile-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 10;
+    background-color: #333;
+}
+.hidden {
+    display: none;
+}
 .profile li {
     list-style-type: none;
     color: aliceblue;
@@ -22,6 +32,11 @@
 }
 
 .part-link {
+    text-decoration: none;
+    color: aliceblue;
+}
+
+.fav-link {
     text-decoration: none;
     color: aliceblue;
 }

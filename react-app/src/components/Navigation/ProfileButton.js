@@ -56,11 +56,14 @@ function ProfileButton({ user }) {
             <li>
               <button onClick={handleLogout}>Log Out</button>
             </li>
-            <div className='add-keeb-link'>
+            <div className='user-keeb-link'>
               <Link className='keeb-link' to={`/users/${user.id}/keebs`}>Keebs</Link>
             </div>
-            <div className='add-part-link'>
+            <div className='user-part-link'>
               <Link className='part-link' to={`/users/${user.id}/parts`}>Parts</Link>
+            </div>
+            <div className='user-fav-link'>
+              <Link className='fav-link' to={`/users/${user.id}/favorites`}>Favorites</Link>
             </div>
           </>
         ) : (

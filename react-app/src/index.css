@@ -2,4 +2,14 @@
 body {
     background-color: #2e3138;
     width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    background-color: #6c727a;
+    border-radius: 0px;
+    box-shadow: #2e3138;
+    border: solid 3px black;
+    color: white;
 }

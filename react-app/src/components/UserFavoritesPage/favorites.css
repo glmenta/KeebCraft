@@ -1,7 +1,47 @@
 
+.user-favorites-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
+.favorite-list-box {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.favorite-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+}
+.create-fav-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.create-fav-button button {
+    max-width: 200px;
+
+}
 .fav-build-img {
     display: flex;
+    width: 100px;
+    height: 100px;
     max-width: 100px;
     max-height: 100px;
+}
+
+.fav-buttons {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+}
+.fav-build-button {
+    width: 100px;
+    margin: 5px;
 }

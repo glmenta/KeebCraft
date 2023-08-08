@@ -29,26 +29,30 @@ function KeebBuildPage() {
 
     return (
             <div className="build-container">
-            <div className='create-keeb-button'>
-                {user && (
-                <button onClick={handleCreateKeeb}>Create Keeb</button>
+                <div className='build-buttons'>
+                    <div className='create-keeb-button'>
+                        {user && (
+                        <button onClick={handleCreateKeeb}>Create Keeb</button>
+                        )}
+                    </div>
+                    <div className='check-parts-button'>
+                        <button onClick={handleCheckParts}>Check out Parts!</button>
+                    </div>
+                </div>
+            <div className='keeb-list'>
+                {isLoaded && keebs.length > 0 && (
+                    <ul className='keeb-list-tile'>
+                    {keebs.map((kb) => (
+                        <Link to={`/keebs/${kb.id}`}>
+                        <li key={kb.id} className='keeb-tile'>
+                            <div className='keeb-name'>{kb.name}</div>
+                            <img src={kb?.img_url && kb.img_url.length > 0 ? kb.img_url[0].url : 'placeholder_img'} alt={kb.name} />
+                        </li>
+                        </Link>
+                    ))}
+                    </ul>
                 )}
             </div>
-            <div className='check-parts-button'>
-                <button onClick={handleCheckParts}>Check out Parts!</button>
-            </div>
-            {isLoaded && keebs.length > 0 && (
-                <ul>
-                {keebs.map((kb) => (
-                    <Link to={`/keebs/${kb.id}`}>
-                    <li key={kb.id} className='keeb-tile'>
-                        <div className='keeb-name'>{kb.name}</div>
-                        <img src={kb?.img_url && kb.img_url.length > 0 ? kb.img_url[0].url : 'placeholder_img'} alt={kb.name} />
-                    </li>
-                    </Link>
-                ))}
-                </ul>
-            )}
             </div>
         );
 }

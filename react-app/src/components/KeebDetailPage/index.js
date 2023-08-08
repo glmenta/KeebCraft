@@ -20,13 +20,17 @@ function KeebDetailPage() {
     const creatorId = currKeeb?.user_id
     const creatorUser = userArr?.find(user => user.id === creatorId);
     const user = useSelector((state) => state.session.user);
-    const allParts = useSelector((state) => state.parts.parts);
+    const allParts = useSelector((state) => state.parts.parts.Parts);
     const [comments, setComments] = useState([]);
     const [refreshKey, setRefreshKey] = useState(0);
     const userId = user?.id
     const [isLoaded, setIsLoaded] = useState(false);
-
+    console.log('allParts', allParts)
     console.log('currKeebComments', currKeeb?.comments)
+
+    useEffect(() => {
+        dispatch(PartActions.fetchAllParts())
+    }, [dispatch])
     useEffect(() => {
         setIsLoaded(false);
 
@@ -50,7 +54,7 @@ function KeebDetailPage() {
 
 
     const handleFeature = () => {
-        alert("Feature Coming Soon!");
+        history.push(`/users/${user.id}/favorites`);
     };
 
     return (
@@ -78,22 +82,43 @@ function KeebDetailPage() {
                                 <div>
                                     <h3>Case</h3>
                                     <p>{currKeeb.case}</p>
+                                    <div className='part-detail-img'>
+                                        {allParts.find(part => part.name === currKeeb.case)?.part_img[0] &&
+                                        <img src={allParts.find(part => part.name === currKeeb.case).part_img[0].url} alt="Case image"/>}
+                                    </div>
+
                                 </div>
                                 <div>
                                     <h3>Keycaps</h3>
                                     <p>{currKeeb.keycaps}</p>
+                                    <div className='part-detail-img'>
+                                        {allParts.find(part => part.name === currKeeb.keycaps)?.part_img[0] &&
+                                        <img src={allParts.find(part => part.name === currKeeb.keycaps).part_img[0].url} alt="Keycaps image"/>}
+                                    </div>
                                 </div>
                                 <div>
                                     <h3>Switches</h3>
                                     <p>{currKeeb.switches}</p>
+                                    <div className='part-detail-img'>
+                                        {allParts.find(part => part.name === currKeeb.switches)?.part_img[0] &&
+                                        <img src={allParts.find(part => part.name === currKeeb.switches).part_img[0].url} alt="Switches image"/>}
+                                    </div>
                                 </div>
                                 <div>
                                     <h3>Stabilizers</h3>
                                     <p>{currKeeb.stabilizers}</p>
+                                    <div className='part-detail-img'>
+                                        {allParts.find(part => part.name === currKeeb.stabilizers)?.part_img[0] &&
+                                        <img src={allParts.find(part => part.name === currKeeb.stabilizers).part_img[0].url} alt="Stabilizers image"/>}
+                                    </div>
                                 </div>
                                 <div>
                                     <h3>Plate</h3>
                                     <p>{currKeeb.plate}</p>
+                                    <div className='part-detail-img'>
+                                        {allParts.find(part => part.name === currKeeb.plate)?.part_img[0] &&
+                                        <img src={allParts.find(part => part.name === currKeeb.plate).part_img[0].url} alt="Plate image"/>}
+                                    </div>
                                 </div>
                             </div>
                             <div>

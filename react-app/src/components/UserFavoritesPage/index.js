@@ -3,6 +3,7 @@ import { useHistory, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import OpenModalButton from "../OpenModalButton";
 import * as FavoriteActions from "../../store/favorite";
+import FavoriteListModal from "../FavoriteListModal";
 import CreateFavoriteModal from "../CreateFavoriteModal";
 import AddBuildToFavModal from "../AddKeebToFavModal";
 import DeleteBuildFromFavModal from "../RemoveKeebFromFavModal";
@@ -58,6 +59,13 @@ const UserFavoritesPage = () => {
     return (
         <div className='user-favorites-container'>
             {showCreateModal && <CreateFavoriteModal closeModal={toggleCreateModal} />}
+                {currentOpenModalFavoriteId &&
+                <AddBuildToFavModal
+                    favoriteId={currentOpenModalFavoriteId}
+                    userId={userId}
+                    closeModal={() => setCurrentOpenModalFavoriteId(null)}
+                />
+            }
             <div className='user-favorites'>
                 <h2>My Favorites</h2>
                 {favorites.length === 0 ? (
@@ -80,34 +88,34 @@ const UserFavoritesPage = () => {
                                         <Link to={`/keebs/${build?.build_details?.id}`}>
                                             <img src={build?.build_details?.img_url[0]?.url} alt='build-thumbnail' className='fav-build-img'/>
                                         </Link>
-                                        <div className='remove-from-fav'>
-
-                                        </div>
                                     </div>
                                 ))}
-                                <button onClick={() => toggleAddBuildModal(favorite.id)}>Add Build to this Favorite</button>
-                                {currentOpenModalFavoriteId === favorite.id &&
+                                <div className='fav-buttons'>
+                                <button className='fav-build-button' onClick={() => toggleAddBuildModal(favorite.id)}>Add Build</button>
+                                    {/* {currentOpenModalFavoriteId === favorite.id &&
                                         <AddBuildToFavModal
-                                        favoriteId={favorite.id}
-                                        userId={userId}
-                                        closeModal={() => toggleAddBuildModal(favorite.id)}
-                                />}
-                                <button onClick={() => toggleDeleteBuildModal(favorite.id)}>Delete Build from this Favorite</button>
-                                {currentDeleteModalFavoriteId === favorite.id &&
-                                    <DeleteBuildFromFavModal
+                                            favoriteId={favorite.id}
+                                            userId={userId}
+                                            closeModal={() => toggleAddBuildModal(favorite.id)}
+                                        />
+                                    } */}
+                                    <button className='fav-build-button' onClick={() => toggleDeleteBuildModal(favorite.id)}>Remove Build</button>
+                                    {currentDeleteModalFavoriteId === favorite.id &&
+                                        <DeleteBuildFromFavModal
+                                            favorite={favorite}
+                                            closeModal={() => toggleDeleteBuildModal(favorite.id)}
+                                            afterDelete={() => dispatch(FavoriteActions.getUserFavoritesThunk(userId))}
+                                        />
+                                    }
+                                    <button className='fav-build-button' onClick={() => toggleDeleteFavoriteModal(favorite.id)}>Delete Favorite</button>
+                                    {currentDeleteFavoriteModalId === favorite.id &&
+                                        <DeleteFavoriteModal
                                         favorite={favorite}
-                                        closeModal={() => toggleDeleteBuildModal(favorite.id)}
+                                        closeModal={() => toggleDeleteFavoriteModal(favorite.id)}
                                         afterDelete={() => dispatch(FavoriteActions.getUserFavoritesThunk(userId))}
                                     />
-                                }
-                                <button onClick={() => toggleDeleteFavoriteModal(favorite.id)}>Delete Favorite</button>
-                                {currentDeleteFavoriteModalId === favorite.id &&
-                                    <DeleteFavoriteModal
-                                    favorite={favorite}
-                                    closeModal={() => toggleDeleteFavoriteModal(favorite.id)}
-                                    afterDelete={() => dispatch(FavoriteActions.getUserFavoritesThunk(userId))}
-                                />
-                                }
+                                    }
+                                    </div>
                                 </div>
                         ))}
                     </div>

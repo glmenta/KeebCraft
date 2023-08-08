@@ -172,21 +172,19 @@ const favoriteReducer = (state = initialState, action) => {
         case CREATE_FAVORITE:
             newState.favorites[action.payload.id] = action.payload;
             return newState;
-            case ADD_BUILD_TO_FAVORITE:
-                if (newState.favorites[action.favoriteId]) {
-                    const existingBuilds = newState.favorites[action.favoriteId].builds.map(build => build.id);
-                    if (!existingBuilds.includes(action.buildId)) {
-                        newState.favorites[action.favoriteId].builds.push({ id: action.buildId });
-                    }
+        case ADD_BUILD_TO_FAVORITE:
+            if (newState.favorites[action.favoriteId]) {
+                const existingBuilds = newState.favorites[action.favoriteId].builds.map(build => build.id);
+                if (!existingBuilds.includes(action.buildId)) {
+                    newState.favorites[action.favoriteId].builds.push({ id: action.buildId });
                 }
-                return newState;
-
-            case REMOVE_BUILD_FROM_FAVORITE:
-                if (newState.favorites[action.favoriteId]) {
-                    newState.favorites[action.favoriteId].builds = newState.favorites[action.favoriteId].builds.filter(build => build.id !== action.buildId);
-                }
-                return newState;
-
+            }
+            return newState;
+        case REMOVE_BUILD_FROM_FAVORITE:
+            if (newState.favorites[action.favoriteId]) {
+                newState.favorites[action.favoriteId].builds = newState.favorites[action.favoriteId].builds.filter(build => build.id !== action.buildId);
+            }
+            return newState;
         default:
             return state;
     }
