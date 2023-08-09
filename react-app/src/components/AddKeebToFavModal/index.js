@@ -6,17 +6,14 @@ import * as BuildActions from "../../store/build";
 
 const AddBuildToFavModal = ({ userId, favoriteId, closeModal }) => {
     const dispatch = useDispatch();
-    const [selectedBuildId, setSelectedBuildId] = useState();
+    const [selectedBuildId, setSelectedBuildId] = useState(null);
     const allKeebs = useSelector(state => Object.values(state.keebs.keebs));
     const userFavoriteLists = useSelector(state => Object.values(state.favorites.userFavorites));
     const favList = userFavoriteLists.flat().find(favorite => favorite.id === favoriteId);
     const favListBuildIds = favList?.builds?.map(build => build.build_id) || [];
-    console.log('userFavoriteLists', userFavoriteLists)
-    console.log('favList', favList)
     const keebsNotInFavoriteList = allKeebs.filter(keeb => !favListBuildIds?.includes(keeb.id));
 
-    console.log('allKeebs', allKeebs)
-    const handleSubmit = async () => {
+    const handleSubmit = async ({closeModal}) => {
         try {
             await dispatch(FavoriteActions.addBuildToFavoriteThunk(selectedBuildId, favoriteId));
             dispatch(FavoriteActions.getUserFavoritesThunk(userId));
@@ -35,13 +32,14 @@ const AddBuildToFavModal = ({ userId, favoriteId, closeModal }) => {
         <div>
             <div>
                 <h3>Add a Build</h3>
-                <select onChange={(e) => setSelectedBuildId(e.target.value)}>
+                <select onChange={(e) => setSelectedBuildId(parseInt(e.target.value, 10))}>
                     <option value="">Select a Build</option>
                     {keebsNotInFavoriteList && keebsNotInFavoriteList.map(keeb => (
                         <option key={keeb.id} value={keeb.id}>{keeb.name}</option>
                     ))}
                 </select>
                 <button onClick={handleSubmit}>Add to Favorite</button>
+                <button onClick={closeModal}>Cancel</button>
             </div>
         </div>
     )

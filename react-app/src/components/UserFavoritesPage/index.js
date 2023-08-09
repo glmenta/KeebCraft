@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import OpenModalButton from "../OpenModalButton";
 import * as FavoriteActions from "../../store/favorite";
 import FavoriteListModal from "../FavoriteListModal";
 import CreateFavoriteModal from "../CreateFavoriteModal";
@@ -16,13 +14,14 @@ const UserFavoritesPage = () => {
     const userId = user?.id;
 
     const [showCreateModal, setShowCreateModal] = useState(false);
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [currentOpenModalFavoriteId, setCurrentOpenModalFavoriteId] = useState(null);
     const [currentDeleteModalFavoriteId, setCurrentDeleteModalFavoriteId] = useState(null);
     const [currentDeleteFavoriteModalId, setCurrentDeleteFavoriteModalId] = useState(null);
+    // this is to render favorite list modal
+    const [selectedFavorite, setSelectedFavorite] = useState(null);
     const userFavorites = useSelector((state) => Object.values(state.favorites.userFavorites));
     const favorites = userFavorites.flat()
-
+    console.log('userFavorites', userFavorites);
     const toggleCreateModal = () => {
         setShowCreateModal((prev) => !prev);
     };
@@ -81,24 +80,16 @@ const UserFavoritesPage = () => {
                     <div className='favorite-list-box'>
                         {favorites.map((favorite, index) => (
                             <div key={index} className='favorite-item'>
-                                <h3>{favorite?.name}</h3>
-                                {Array.isArray(favorite.builds) && favorite.builds.map((build, buildIndex) => (
-                                    <div key={buildIndex} className='build-item'>
-                                        <p>{build.build_details.name}</p>
-                                        <Link to={`/keebs/${build?.build_details?.id}`}>
-                                            <img src={build?.build_details?.img_url[0]?.url} alt='build-thumbnail' className='fav-build-img'/>
-                                        </Link>
-                                    </div>
-                                ))}
+                                <h3 onClick={() => setSelectedFavorite(favorite)}>{favorite?.name}</h3>
+                                {selectedFavorite === favorite && (
+                                        <FavoriteListModal
+                                            favorite={favorite}
+                                            closeModal={() => setSelectedFavorite(null)}
+                                        />
+                                    )}
+
                                 <div className='fav-buttons'>
                                 <button className='fav-build-button' onClick={() => toggleAddBuildModal(favorite.id)}>Add Build</button>
-                                    {/* {currentOpenModalFavoriteId === favorite.id &&
-                                        <AddBuildToFavModal
-                                            favoriteId={favorite.id}
-                                            userId={userId}
-                                            closeModal={() => toggleAddBuildModal(favorite.id)}
-                                        />
-                                    } */}
                                     <button className='fav-build-button' onClick={() => toggleDeleteBuildModal(favorite.id)}>Remove Build</button>
                                     {currentDeleteModalFavoriteId === favorite.id &&
                                         <DeleteBuildFromFavModal

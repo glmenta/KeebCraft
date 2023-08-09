@@ -19,9 +19,10 @@ const getUserFavorites = (favorites) => ({
     payload: favorites,
 })
 
-const getAllBuildsFromFavorite = (builds) => ({
+const getAllBuildsFromFavorite = (builds, favoriteId) => ({
     type: GET_ALL_BUILDS_FROM_FAVORITE,
     payload: builds,
+    favoriteId
 })
 
 const getBuildFromFavorite = (build) => ({
@@ -151,7 +152,7 @@ export const deleteFavoriteThunk = (favoriteId) => async (dispatch) => {
 
 const initialState = {
     favorites: {},
-    userFavorites: { builds: {}},
+    userFavorites: {},
 }
 
 const favoriteReducer = (state = initialState, action) => {

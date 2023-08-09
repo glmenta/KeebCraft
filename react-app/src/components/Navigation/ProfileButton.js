@@ -50,22 +50,24 @@ function ProfileButton({ user }) {
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
-          <>
+          <div className='profile-contents'>
             <li>{user.username}</li>
             <li>{user.email}</li>
             <li>
               <button onClick={handleLogout}>Log Out</button>
             </li>
-            <div className='user-keeb-link'>
-              <Link className='keeb-link' to={`/users/${user.id}/keebs`}>Keebs</Link>
+            <div className='user-links'>
+              <div className='user-keeb-link'>
+                <Link className='keeb-link' to={`/users/${user.id}/keebs`}>Keebs</Link>
+              </div>
+              <div className='user-part-link'>
+                <Link className='part-link' to={`/users/${user.id}/parts`}>Parts</Link>
+              </div>
+              <div className='user-fav-link'>
+                <Link className='fav-link' to={`/users/${user.id}/favorites`}>Favorites</Link>
+              </div>
             </div>
-            <div className='user-part-link'>
-              <Link className='part-link' to={`/users/${user.id}/parts`}>Parts</Link>
-            </div>
-            <div className='user-fav-link'>
-              <Link className='fav-link' to={`/users/${user.id}/favorites`}>Favorites</Link>
-            </div>
-          </>
+          </div>
         ) : (
           <>
             <OpenModalButton

@@ -40,11 +40,25 @@ function CreateKeebPage() {
     useEffect(() => {
         dispatch(PartActions.fetchAllParts());
     }, [dispatch]);
+    function isValidImageUrl(url) {
+        const pattern = new RegExp('\\.(jpg|jpeg|png|bmp|gif)$', 'i');
+        return !!pattern.test(url);
+        // const pattern = new RegExp('^(https?:\\/\\/)?'+
+        // '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+
+        // '((\\d{1,3}\\.){3}\\d{1,3}))'+
+        // '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
+        // '\\.(jpg|jpeg|png|bmp|gif)(\\?[;&a-z\\d%_.~+=-]*)?$','i');
+        // return !!pattern.test(url);
+    }
+    function isOnlyWhitespace(str) {
+        return !str.trim().length;
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         let error = {};
 
+        if (isOnlyWhitespace(name) || !name) error.name = 'Please input a valid name';
         if (!name) error.name = 'Please input a name';
         if (!keebcase) error.keebcase = 'Please select a case';
         if (!keycaps) error.keycaps = 'Please select keycaps';
@@ -52,6 +66,7 @@ function CreateKeebPage() {
         if (!plate) error.plate = 'Please select a plate';
         if (!stabs) error.stabs = 'Please select stabilizers';
         if (!description) error.description = 'Please input a description';
+        if (!isValidImageUrl(imgUrl)) error.imgUrl = 'Please input a valid image URL';
         if (!imgUrl) error.imgUrl = 'Please input an image URL';
 
         if (Object.keys(error).length > 0) {
