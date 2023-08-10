@@ -14,7 +14,8 @@ function CreateFavoriteModal({ closeModal }) {
 
     const user = useSelector((state) => state.session.user);
     const builds = useSelector((state) => Object.values(state.keebs.keebs));
-    console.log(builds);
+    const selectBuild = builds.find(build => build.id === parseInt(selectedBuild));
+    console.log('selectBuild', selectBuild);
     useEffect(() => {
         dispatch(BuildActions.fetchAllKeebs());
     }, [dispatch])
@@ -69,6 +70,9 @@ function CreateFavoriteModal({ closeModal }) {
         <div className='create-favorite-modal'>
             <form className='create-favorite-form' onSubmit={handleSubmit}>
                 <h2>Create a Favorite</h2>
+                <div className="error-messages">
+                {errors.name && <p>{errors.name}</p>}
+                </div>
                 <div>
                     <input
                         className='create-favorite-input'
@@ -79,6 +83,11 @@ function CreateFavoriteModal({ closeModal }) {
                     />
                 </div>
                 <div>
+                <p>Lets start it off with a keeb!</p>
+                <div className="error-messages">
+                    {errors.selectedBuild && <p>{errors.selectedBuild}</p>}
+                </div>
+
                     <select
                         className='create-favorite-select'
                         value={selectedBuild}
@@ -88,6 +97,7 @@ function CreateFavoriteModal({ closeModal }) {
                             <option key={idx} value={build.id}>{build.name}</option>
                         ))}
                     </select>
+                    {selectBuild && <img src={selectBuild.img_url[0].url} alt={selectBuild.name} className='selected-build-img'/>}
                 <div>
                     <button className='submit-button'>Submit</button>
                     <button className='cancel-button' onClick={closeModal}>Cancel</button>

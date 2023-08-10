@@ -26,6 +26,7 @@ const DeleteBuildFromFavModal = ({ favorite, closeModal, afterDelete }) => {
                         <button className='delete-build-button' onClick={() => handleDelete(build.id)}>Delete</button>
                     </div>
                 ))}
+                <button onClick={closeModal}>Close</button>
             </div>
         </div>
     )
