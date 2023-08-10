@@ -19,23 +19,23 @@ const UserFavoritesPage = () => {
     const [currentDeleteFavoriteModalId, setCurrentDeleteFavoriteModalId] = useState(null);
     // this is to render favorite list modal
     const [selectedFavorite, setSelectedFavorite] = useState(null);
-    const userFavorites = useSelector((state) => Object.values(state.favorites.userFavorites));
-    const favorites = userFavorites.flat()
-    console.log('userFavorites', userFavorites);
+    const [isLoaded, setIsLoaded] = useState(false);
+    const favorites = useSelector((state) => state.favorites.userFavorites.Favorites);
+
     const toggleCreateModal = () => {
         setShowCreateModal((prev) => !prev);
     };
 
     useEffect(() => {
         if (user) {
-            dispatch(FavoriteActions.getUserFavoritesThunk(userId));
+            dispatch(FavoriteActions.getUserFavoritesThunk(userId)).then(() => {
+                setIsLoaded(true);
+            })
         }
-    }, [dispatch, userId, user])
+    }, [dispatch])
 
     const toggleAddBuildModal = (favoriteId) => {
-        if (currentOpenModalFavoriteId === favoriteId) {
-            setCurrentOpenModalFavoriteId(null);
-        } else {
+        if (currentOpenModalFavoriteId !== favoriteId) {
             setCurrentOpenModalFavoriteId(favoriteId);
         }
     };
@@ -65,6 +65,7 @@ const UserFavoritesPage = () => {
                     closeModal={() => setCurrentOpenModalFavoriteId(null)}
                 />
             }
+            {isLoaded && (
             <div className='user-favorites'>
                 <h2>My Favorites</h2>
                 {favorites.length === 0 ? (
@@ -113,6 +114,7 @@ const UserFavoritesPage = () => {
                 </div>
                 )}
             </div>
+            )}
         </div>
     )
 }

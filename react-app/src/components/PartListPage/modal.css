@@ -9,6 +9,7 @@
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     grid-gap: 20px;
     padding: 20px;
+    width: 1500px;
 }
 
 .part-tile {
@@ -19,6 +20,8 @@
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
     background: #333;
+    margin: 100px;
+    padding: 50px;
 }
 .part-tile h3 {
     font-size: 20px;
