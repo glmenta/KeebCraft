@@ -52,7 +52,7 @@ function LoginFormModal() {
           ))}
         </ul>
         {showDisabledMessage && (
-          <div className="disabled-message">Please provide an email and a password to log in~</div>
+          <div className="disabled-message">Please provide an email and a password~</div>
         )}
         <label>
           Email

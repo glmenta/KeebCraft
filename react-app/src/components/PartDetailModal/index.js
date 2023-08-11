@@ -1,15 +1,12 @@
-import React, { useEffect}  from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import '../PartListPage/modal.css'
 import './part-detail.css'
 import * as UserActions from "../../store/session";
-function PartDetailModal({ isOpen, onClose, partId }) {
-    const dispatch = useDispatch();
+function PartDetailModal({ isOpen, onClose, partId, partUserIds }) {
     const parts = useSelector((state) => state.parts.parts.Parts);
     const part = Array.isArray(parts) ? parts.find((p) => Number(p.id) === Number(partId)) : null;
-    const partUserId = part?.user_id
-    const users = useSelector((state) => state.session.users);
-    const partUser = users?.users?.find(user => user?.id === partUserId)
+    const partUser = useSelector((state) => state.session.users?.users?.find(user => partUserIds?.includes(user.id)));
 
     if (!isOpen || !part) {
         return null;

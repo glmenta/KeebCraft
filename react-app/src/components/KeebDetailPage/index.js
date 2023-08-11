@@ -147,7 +147,7 @@ function KeebDetailPage() {
                                 )}
                             </div>
                             <div className='keeb-comments'>
-                                {comments.slice().reverse().map((comment, index) => (
+                                {comments?.slice().reverse().map((comment, index) => (
                                     <div
                                         className='keeb-comment'
                                         key={index}>

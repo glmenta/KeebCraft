@@ -40,18 +40,6 @@
     border-radius: 8px;
 }
 
-/* .delete-build-button {
-    display: block;
-    margin: 10px auto;
-    padding: 10px 20px;
-    border: none;
-    background-color: #e74c3c;
-    color: #ffffff;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.modal-close {
+    width: 100px;
 }
-
-.delete-build-button:hover {
-    background-color: #c0392b;
-} */

@@ -14,20 +14,22 @@ const DeleteBuildFromFavModal = ({ favorite, closeModal, afterDelete }) => {
             console.error(err);
         }
     }
-
+    const handleContentClick = (e) => {
+        e.stopPropagation();
+    }
     return (
-        <div className='modal-container'>
-            <div className='modal-content'>
+        <div className='modal-container' onClick={closeModal}>
+            <div className='modal-content' onClick={handleContentClick}>
                 <h3 className='delete-build-text'>Delete a Build</h3>
                 {favorite.builds && favorite.builds.map(build => (
                     <div key={build.id}>
                         <p>{build.build_details.name}</p>
                         <img src={build.build_details.img_url[0].url} alt='build-thumbnail' className='fav-build-img'/>
                         <button className='delete-build-button' onClick={() => handleDelete(build.id)}>Delete</button>
-                        <button onClick={closeModal}>Close</button>
+
                     </div>
                 ))}
-
+                <button className='modal-close'onClick={closeModal}>Close</button>
             </div>
         </div>
     )

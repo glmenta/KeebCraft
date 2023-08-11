@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as PartActions from "../../store/part";
+import * as UserActions from "../../store/session";
 import PartDetailModal from "../PartDetailModal";
 import CreatePartModal from "../PartCreateModal";
 import './modal.css'
@@ -16,6 +17,8 @@ function PartListPage() {
     const [filterTypeId, setFilterTypeId] = useState("");
     const displayedParts = filterTypeId ? parts.filter(part => part.type_id.toString() === filterTypeId) : parts;
     const user = useSelector((state) => state.session.user);
+    const users = useSelector((state) => state.session.users);
+    const partUserIds = users?.users?.map(user => user.id)
 
     useEffect(() => {
         dispatch(PartActions.fetchAllParts())
@@ -28,7 +31,9 @@ function PartListPage() {
         });
     }, [dispatch, createModalOpen]);
 
-
+    useEffect(() => {
+        dispatch(UserActions.fetchUsers());
+    }, [dispatch])
     useEffect(() => {
     }, [detailModal]);
 
@@ -90,7 +95,7 @@ function PartListPage() {
                     )}
                 </div>
             ))}
-                {detailModal && <PartDetailModal isOpen={detailModal} onClose={closeModal} partId={selectedPartId} />}
+                {detailModal && <PartDetailModal isOpen={detailModal} onClose={closeModal} partId={selectedPartId} partUserIds={partUserIds}/>}
             </div>
         </div>
     );

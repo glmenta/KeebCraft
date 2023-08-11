@@ -16,6 +16,8 @@
     right: 0;
     z-index: 10;
     background-color: #333;
+    border: solid 2px white;
+    border-radius: 5px;
 }
 
 .profile-content {
@@ -62,4 +64,14 @@
 .fav-link {
     text-decoration: none;
     color: aliceblue;
+}
+
+.profile-login-signup {
+    display: flex;
+    flex-direction: row;
+}
+
+.profile-login-signup button {
+    margin: 10px;
+    width: 80px;
 }

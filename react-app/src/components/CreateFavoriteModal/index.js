@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useModal } from '../../context/Modal';
 import * as FavoriteActions from '../../store/favorite';
 import * as BuildActions from '../../store/build';
+import './createfavmodal.css'
 function CreateFavoriteModal({ closeModal }) {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -29,7 +30,7 @@ function CreateFavoriteModal({ closeModal }) {
         }
 
         if (!selectedBuild) {
-            newErrors.selectedBuild = 'Please select a keeb';
+            newErrors.selectedBuild = 'Please select a keeb to start with';
         }
 
         if (Object.keys(newErrors).length > 0) {
@@ -73,7 +74,7 @@ function CreateFavoriteModal({ closeModal }) {
                 <div className="error-messages">
                 {errors.name && <p>{errors.name}</p>}
                 </div>
-                <div>
+                <div className='create-name-input'>
                     <input
                         className='create-favorite-input'
                         type='text'
@@ -87,7 +88,6 @@ function CreateFavoriteModal({ closeModal }) {
                 <div className="error-messages">
                     {errors.selectedBuild && <p>{errors.selectedBuild}</p>}
                 </div>
-
                     <select
                         className='create-favorite-select'
                         value={selectedBuild}
@@ -98,7 +98,7 @@ function CreateFavoriteModal({ closeModal }) {
                         ))}
                     </select>
                     {selectBuild && <img src={selectBuild.img_url[0].url} alt={selectBuild.name} className='selected-build-img'/>}
-                <div>
+                <div className='fav-modal-buttons'>
                     <button className='submit-button'>Submit</button>
                     <button className='cancel-button' onClick={closeModal}>Cancel</button>
                 </div>
