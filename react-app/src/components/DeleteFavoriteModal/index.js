@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import * as FavoriteActions from "../../store/favorite";
-
+import './deletefav.css'
 const DeleteFavoriteModal = ({ favorite, closeModal, afterDelete }) => {
     const dispatch = useDispatch();
 
@@ -17,10 +17,12 @@ const DeleteFavoriteModal = ({ favorite, closeModal, afterDelete }) => {
     }
     return (
         <div className='delete-favorite-container'>
-            <div>
-                <h3>Delete A Favorite List</h3>
+            <div className='delete-favorite-contents'>
+                <h3 className='delete-favorite-title'>Are you sure you want to delete {favorite?.name}?</h3>
+                <div className='delete-favorite-button-container'>
                 <button onClick={() => handleDelete(favorite.id)}>Delete</button>
                 <button onClick={closeModal}>Cancel</button>
+                </div>
             </div>
         </div>
     )

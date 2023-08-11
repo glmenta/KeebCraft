@@ -8,6 +8,7 @@ import * as KeebActions from "../../store/build";
 import * as UserActions from "../../store/session";
 import * as PartActions from "../../store/part";
 import * as CommentActions from "../../store/comment";
+import placeholderImg from './user-placeholder.jpg'
 import './keeb.css'
 
 function KeebDetailPage() {
@@ -76,7 +77,9 @@ function KeebDetailPage() {
                                 <p>{currKeeb.keeb_info}</p>
                             </div>
                             <div className='fav-button'>
+                                {userId && (
                                 <button onClick={handleFeature}>Add to Favorites!</button>
+                                )}
                             </div>
                             <div className='part-details'>
                                 <div>
@@ -150,11 +153,11 @@ function KeebDetailPage() {
                                         key={index}>
                                         <div className='keeb-comment-user'>
                                             <img
-                                                src={comment.user_id.user_img[0].url}
+                                                src={comment?.user_id?.user_img?.[0]?.url || placeholderImg }
                                                 className="user-comment-img"
                                                 alt='user-img-alt'
                                             />
-                                            <p className='keeb-comment-username'>{comment.user_id.username}</p>
+                                            <p className='keeb-comment-username'>{comment?.user_id?.username}</p>
                                         </div>
                                         <div className='keeb-comment-text'>
                                             <p>{comment.comment}</p>

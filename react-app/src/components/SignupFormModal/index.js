@@ -50,47 +50,63 @@ function SignupFormModal() {
 		<>
 			<h1>Sign Up</h1>
 			<form onSubmit={handleSubmit}>
-				<ul>
-					{errors.map((error, idx) => (
-						<li key={idx}>{error}</li>
-					))}
-				</ul>
+				{/* Email */}
+				<div className="form-field">
+				{errors.map((error, idx) => (
+					<div key={idx} className="error-message">
+					{error}
+					</div>
+				))}
 				<label>
 					Email
 					<input
-						type="text"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
+					type="text"
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
 					/>
 				</label>
+				</div>
+
+				{/* Username */}
+				<div className="form-field">
 				<label>
 					Username
 					<input
-						type="text"
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
+					type="text"
+					value={username}
+					onChange={(e) => setUsername(e.target.value)}
 					/>
 				</label>
+				</div>
+
+				{/* Password */}
+				<div className="form-field">
 				<label>
 					Password
 					<input
-						type="password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+					type="password"
+					value={password}
+					onChange={(e) => setPassword(e.target.value)}
 					/>
 				</label>
+				</div>
+
+				{/* Confirm Password */}
+				<div className="form-field">
 				<label>
 					Confirm Password
 					<input
-						type="password"
-						value={confirmPassword}
-						onChange={(e) => setConfirmPassword(e.target.value)}
+					type="password"
+					value={confirmPassword}
+					onChange={(e) => setConfirmPassword(e.target.value)}
 					/>
 				</label>
+				</div>
+
 				<button type="submit">Sign Up</button>
 			</form>
-		</>
-	);
+			</>
+		);
 }
 
 export default SignupFormModal;

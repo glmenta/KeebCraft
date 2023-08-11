@@ -24,9 +24,10 @@ const DeleteBuildFromFavModal = ({ favorite, closeModal, afterDelete }) => {
                         <p>{build.build_details.name}</p>
                         <img src={build.build_details.img_url[0].url} alt='build-thumbnail' className='fav-build-img'/>
                         <button className='delete-build-button' onClick={() => handleDelete(build.id)}>Delete</button>
+                        <button onClick={closeModal}>Close</button>
                     </div>
                 ))}
-                <button onClick={closeModal}>Close</button>
+
             </div>
         </div>
     )

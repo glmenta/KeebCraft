@@ -47,3 +47,8 @@ input[type="submit"]:hover {
     color: #b00020;
     margin-bottom: 10px;
 }
+
+.part-image {
+    max-width: 200px;
+    max-height: 100px;
+}

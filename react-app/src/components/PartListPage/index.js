@@ -13,6 +13,8 @@ function PartListPage() {
     const [detailModal, setDetailModal] = useState(false);
     const [selectedPartId, setSelectedPartId] = useState(null);
     const [createModalOpen, setCreateModalOpen] = useState(false);
+    const [filterTypeId, setFilterTypeId] = useState("");
+    const displayedParts = filterTypeId ? parts.filter(part => part.type_id.toString() === filterTypeId) : parts;
     const user = useSelector((state) => state.session.user);
 
     useEffect(() => {
@@ -61,6 +63,16 @@ function PartListPage() {
     return (
         <div className="part-container">
             <div className="part-header">
+                <div className='part-filter'>
+                    <p>Filter By:</p>
+                    <select value={filterTypeId} onChange={(e) => setFilterTypeId(e.target.value)}>
+                        <option value="">All Parts</option>
+                        <option value="1">Switches</option>
+                        <option value="2">Cases</option>
+                        <option value="3">Keycaps</option>
+                        <option value="4">Plate</option>
+                    </select>
+                </div>
                 {user && (
                 <button className='create-part-button' onClick={openCreateModal}>Create Part</button>
                 )}
@@ -70,15 +82,14 @@ function PartListPage() {
                 <button className='back-keebs-button' onClick={handleCheckKeebs}>Back to Keebs</button>
             </div>
             <div className="part-list">
-                {parts.map((part) => (
-                    <div key={part.id} className="part-tile" onClick={() => openModal(part.id)}>
+            {displayedParts.map((part) => (
+                <div key={part.id} className="part-tile" onClick={() => openModal(part.id)}>
                     <h3>{part.name}</h3>
                     {part.part_img && part.part_img.length > 0 && (
                         <img src={part.part_img[0].url} alt={part.name} />
                     )}
-                    </div>
-                ))}
-
+                </div>
+            ))}
                 {detailModal && <PartDetailModal isOpen={detailModal} onClose={closeModal} partId={selectedPartId} />}
             </div>
         </div>

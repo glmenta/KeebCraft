@@ -1,0 +1,19 @@
+#modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 500px;
+    margin: 30px;
+    padding: 30px;
+    border-radius: 5px;
+}
+#modal-content h1 {
+    text-align: center;
+}
+#modal-content form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 300px;
+    box-shadow: none;
+}

@@ -9,6 +9,7 @@ function LoginFormModal() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
+  const [showDisabledMessage, setShowDisabledMessage] = useState(false);
   const { closeModal } = useModal();
 
   const MIN_USERNAME_LENGTH = 4;
@@ -19,6 +20,10 @@ function LoginFormModal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validCredential || !validPassword) {
+      setShowDisabledMessage(true);
+      return;
+    }
     const data = await dispatch(login(email, password));
     if (data && data.errors) {
       setErrors(data.errors);
@@ -32,6 +37,7 @@ function LoginFormModal() {
   const handleDemoLogin = async (e) => {
     e.preventDefault();
     setErrors([]);
+    setShowDisabledMessage(false);
     await dispatch(login("demo@aa.io", "password"));
     closeModal()
   }
@@ -45,6 +51,9 @@ function LoginFormModal() {
             <li key={idx}>{error}</li>
           ))}
         </ul>
+        {showDisabledMessage && (
+          <div className="disabled-message">Please provide an email and a password to log in~</div>
+        )}
         <label>
           Email
           <input
@@ -61,7 +70,7 @@ function LoginFormModal() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <button type="submit" disabled={!validCredential || !validPassword}>Log In</button>
+        <button type="submit">Log In</button>
         <button onClick={handleDemoLogin}>Demo User</button>
       </form>
     </>

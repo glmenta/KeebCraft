@@ -5,9 +5,6 @@ import { useHistory } from "react-router-dom";
 import { createKeebThunk } from "../../store/build";
 import './createkeeb.css'
 function CreateKeebPage() {
-    const [keeb, setKeeb] = useState();
-    const [keebImg, setKeebImg] = useState();
-
     const [name, setName] = useState("");
     const [keebcase, setKeebcase] = useState("");
     const [keycaps, setKeycaps] = useState("");
@@ -18,6 +15,7 @@ function CreateKeebPage() {
     const [imgUrl, setImgUrl] = useState("");
     const [forge, setForge] = useState(false);
     const [errors, setErrors] = useState({});
+    console.log('Current Img URL:', imgUrl);
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -35,20 +33,21 @@ function CreateKeebPage() {
         stabList = partsArray.filter(part => part.type_id === 4);
         plateList = partsArray.filter(part => part.type_id === 5);
         console.log('switchList', switchList);
+        console.log('stabList', stabList);
     }
 
     useEffect(() => {
         dispatch(PartActions.fetchAllParts());
     }, [dispatch]);
     function isValidImageUrl(url) {
-        const pattern = new RegExp('\\.(jpg|jpeg|png|bmp|gif)$', 'i');
+        // const pattern = new RegExp('\\.(jpg|jpeg|png|bmp|gif)$', 'i');
+        // return pattern.test(url) || url.includes('reddit.com/media?url=');
+        const pattern = new RegExp('^(https?:\\/\\/)?'+
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+
+        '((\\d{1,3}\\.){3}\\d{1,3}))'+
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
+        '\\.(jpg|jpeg|png|bmp|gif)(\\?[;&a-z\\d%_.~+=-]*)?$','i');
         return !!pattern.test(url);
-        // const pattern = new RegExp('^(https?:\\/\\/)?'+
-        // '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+
-        // '((\\d{1,3}\\.){3}\\d{1,3}))'+
-        // '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
-        // '\\.(jpg|jpeg|png|bmp|gif)(\\?[;&a-z\\d%_.~+=-]*)?$','i');
-        // return !!pattern.test(url);
     }
     function isOnlyWhitespace(str) {
         return !str.trim().length;
@@ -76,6 +75,7 @@ function CreateKeebPage() {
 
         setErrors({});
         setForge(true);
+        console.log('Img URL at Submission:', imgUrl);
 
         const payload = {
             name,
@@ -113,16 +113,17 @@ function CreateKeebPage() {
     }
 
     return (
-        <div>
-            <h2>Create a new Keeb</h2>
+        <div className='create-keeb-container'>
+            <h2 className='create-keeb-header'>Create a new Keeb</h2>
             <form onSubmit={handleSubmit}>
+            {errors.name && <div className="error-message">{errors.name}</div>}
                 <input
                     type="text"
                     placeholder="Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
-                {errors.name && <div className="error-message">{errors.name}</div>}
+                {errors.keebcase && <div className="error-message">{errors.keebcase}</div>}
                 <select
                     value={keebcase}
                     onChange={(e) => setKeebcase(e.target.value)}
@@ -134,7 +135,10 @@ function CreateKeebPage() {
                         </option>
                     ))}
                 </select>
-                {errors.keebcase && <div className="error-message">{errors.keebcase}</div>}
+                {keebcase && caseList && (
+                    <img src={caseList.find(c => c.name === keebcase)?.part_img[0].url} alt="Selected case" className="part-image" />
+                )}
+                {errors.keycaps && <div className="error-message">{errors.keycaps}</div>}
                 <select
                     value={keycaps}
                     onChange={(e) => setKeycaps(e.target.value)}
@@ -146,7 +150,12 @@ function CreateKeebPage() {
                         </option>
                     ))}
                 </select>
-                {errors.keycaps && <div className="error-message">{errors.keycaps}</div>}
+                {
+                    keycaps && keycapList && (
+                        <img src={keycapList.find(keycap => keycap.name === keycaps)?.part_img[0].url} alt="Selected keycaps" className="part-image" />
+                    )
+                }
+                {errors.switches && <div className="error-message">{errors.switches}</div>}
                 <select
                     value={switches}
                     onChange={(e) => setSwitches(e.target.value)}
@@ -158,7 +167,12 @@ function CreateKeebPage() {
                         </option>
                     ))}
                 </select>
-                {errors.switches && <div className="error-message">{errors.switches}</div>}
+                {
+                    switches && switchList && (
+                        <img src={switchList.find(keebSwitch => keebSwitch.name === switches)?.part_img[0].url} alt="Selected switches" className="part-image" />
+                    )
+                }
+                {errors.plate && <div className="error-message">{errors.plate}</div>}
                 <select
                     value={plate}
                     onChange={(e) => setPlate(e.target.value)}
@@ -170,7 +184,12 @@ function CreateKeebPage() {
                         </option>
                     ))}
                 </select>
-                {errors.plate && <div className="error-message">{errors.plate}</div>}
+                {/* {
+                    plate && plateList && (
+                        <img src={plateList.find(plate => plate.name === plate)?.part_img[0].url} alt="Selected plate" className="part-image" />
+                    )
+                } */}
+                {errors.stabs && <div className="error-message">{errors.stabs}</div>}
                 <select
                     value={stabs}
                     onChange={(e) => setStabs(e.target.value)}
@@ -182,20 +201,24 @@ function CreateKeebPage() {
                         </option>
                     ))}
                 </select>
-                {errors.stabs && <div className="error-message">{errors.stabs}</div>}
+                {
+                    stabs && stabList && (
+                        <img src={stabList.find(stab => stab.name === stabs)?.part_img[0].url} alt="Selected stabilizers" className="part-image" />
+                    )
+                }
+                {errors.imgUrl && <div className="error-message">{errors.imgUrl}</div>}
                 <input
                     type="text"
                     placeholder="Image URL"
                     value={imgUrl}
                     onChange={(e) => setImgUrl(e.target.value)}
                 />
-                {errors.imgUrl && <div className="error-message">{errors.imgUrl}</div>}
+                {errors.description && <div className="error-message">{errors.description}</div>}
                 <textarea
                     placeholder="Description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
-                {errors.description && <div className="error-message">{errors.description}</div>}
                 <button type="submit">Create Keeb</button>
                 <button type="button" onClick={returnToKeebs}>Back To Keebs</button>
             </form>

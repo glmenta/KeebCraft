@@ -4,6 +4,17 @@
     padding: 20px;
 }
 
+.part-filter {
+    display: flex;
+    flex-direction: column;
+}
+
+.part-filter p {
+    color: white;
+}
+.part-filter select {
+    width: 150px;
+}
 .part-header {
     align-items: center;
 }
