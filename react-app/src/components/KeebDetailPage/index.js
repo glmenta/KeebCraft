@@ -67,7 +67,7 @@ function KeebDetailPage() {
                     <div className='keeb-info'>
                         <div className='keeb-details'>
                             <div className='keeb-main'>
-                                <h2>{currKeeb.name}</h2>
+                                <h2 className='keeb-name'>{currKeeb.name}</h2>
                                 <img
                                     src={currKeeb?.images[0]?.url}
                                     alt={currKeeb.name}
@@ -144,17 +144,17 @@ function KeebDetailPage() {
                                 )}
                             </div>
                             <div className='keeb-comments'>
-                                {comments.map((comment, index) => (
+                                {comments.slice().reverse().map((comment, index) => (
                                     <div
                                         className='keeb-comment'
                                         key={index}>
                                         <div className='keeb-comment-user'>
-                                            <p>{comment.user_id.username}</p>
                                             <img
-                                            src={comment.user_id.user_img[0].url}
-                                            className="user-comment-img"
-                                            alt='user-img-alt'
-                                        />
+                                                src={comment.user_id.user_img[0].url}
+                                                className="user-comment-img"
+                                                alt='user-img-alt'
+                                            />
+                                            <p className='keeb-comment-username'>{comment.user_id.username}</p>
                                         </div>
                                         <div className='keeb-comment-text'>
                                             <p>{comment.comment}</p>

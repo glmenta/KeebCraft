@@ -4,6 +4,9 @@
     padding: 20px;
 }
 
+.part-header {
+    align-items: center;
+}
 .part-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

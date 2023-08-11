@@ -6,6 +6,7 @@
     font-family: Arial, sans-serif;
   }
 
+
   .keeb-container {
     background-color: #2e3138;
     /* background-color: #4285f4; */
@@ -30,12 +31,17 @@
     height: auto;
     max-height: 50;
     margin-bottom: 10px;
+    border-radius: 20px;
   }
 
   .keeb-main p {
-    margin: 0;
+    margin: 10px;
+    color: white;
   }
-
+  .keeb-name {
+    color: white;
+    margin: 20px;
+  }
   .fav-button {
     display: flex;
     justify-content: center;
@@ -87,14 +93,17 @@
   }
   .delete-comment-button {
     width: 150px;
+    margin-left: 30px;
     align-items: center;
   }
+
   .delete-comment-button a{
     margin: 10px;
+    font-size: 20px;
     align-items: center;
   }
   .comments-container {
-    background-color: #fff;
+    background-color: #d3d3d3;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -102,11 +111,22 @@
   .keeb-comment {
     display: flex;
     flex-direction: row;
+    margin-top: 20px;
+  }
+  .keeb-comment-user {
+    margin-right: 30px;
+  }
+  .keeb-comment-username {
+    margin-right: 10px;
+    font-weight: bold;
   }
   .user-comment-img {
     max-width: 100px;
+    width: 70px;
+    height: 60px;
     max-height: 80px;
-    border-radius: 4px;
+    border-radius: 1000px;
+    border: solid 2px black;
   }
 
   .part-detail-img {
@@ -115,5 +135,4 @@
   .part-detail-img img{
     max-width: 100px;
     max-height: 100px;
-    border-radius: 0px;
   }

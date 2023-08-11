@@ -77,53 +77,55 @@ function CreatePartModal({ isOpen, onClose, onPartCreated }) {
     return (
         <div className="part-modal" onClick={onClose}>
             <div className="modal-content" onClick={stopPropagation}>
-                <h2>New Part</h2>
-                <form onSubmit={handleSubmit}>
-                    <label>
-                        Name
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                        {errors.name && <div className="error-message">{errors.name}</div>}
-                    </label>
-                    <label>
-                        Description
-                        <input
-                            type="text"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        />
-                        {errors.description && <div className="error-message">{errors.description}</div>}
-                    </label>
-                    <label>
-                        Type
-                        {partTypes.length ? (
-                            <select
-                                value={typeId}
-                                onChange={(e) => setTypeId(e.target.value)}
-                            >
-                                {partTypes.map((type) => (
-                                    <option key={type.id} value={type.id}>{type.type}</option>
-                                ))}
-                            </select>
-                        ) : (
-                            <p>Loading part types...</p>
-                        )}
-                    </label>
-                    {errors.typeId && <div className="error-message">{errors.typeId}</div>}
-                    <label>
-                        Image URL
-                        <input
-                            type="text"
-                            value={imgUrl}
-                            onChange={(e) => setImgUrl(e.target.value)}
-                        />
-                        {errors.imgUrl && <div className="error-message">{errors.imgUrl}</div>}
-                    </label>
-                    <button type="submit">Create</button>
-                </form>
+                <div className='modal-header'>
+                    <h2 className='new-part-header'>New Part</h2>
+                    <form className='create-part-form' onSubmit={handleSubmit}>
+                        <label>
+                            Name
+                            <input
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                            {errors.name && <div className="error-message">{errors.name}</div>}
+                        </label>
+                        <label>
+                            Description
+                            <input
+                                type="text"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                            {errors.description && <div className="error-message">{errors.description}</div>}
+                        </label>
+                        <label>
+                            Type
+                            {partTypes.length ? (
+                                <select
+                                    value={typeId}
+                                    onChange={(e) => setTypeId(e.target.value)}
+                                >
+                                    {partTypes.map((type) => (
+                                        <option key={type.id} value={type.id}>{type.type}</option>
+                                    ))}
+                                </select>
+                            ) : (
+                                <p>Loading part types...</p>
+                            )}
+                        </label>
+                        {errors.typeId && <div className="error-message">{errors.typeId}</div>}
+                        <label>
+                            Image URL
+                            <input
+                                type="text"
+                                value={imgUrl}
+                                onChange={(e) => setImgUrl(e.target.value)}
+                            />
+                            {errors.imgUrl && <div className="error-message">{errors.imgUrl}</div>}
+                        </label>
+                        <button type="submit">Create</button>
+                    </form>
+                </div>
             </div>
         </div>
     );

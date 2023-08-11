@@ -66,55 +66,57 @@ function UpdatePartModal({ isOpen, onClose, part }) {
     return (
         <div className="part-modal" onClick={onClose}>
             <div className='modal-bg' >
-            <div className="modal-content" onClick={stopPropagation}>
-                <h2>Update Part</h2>
-                <form className='modal-form'onSubmit={handleSubmit}>
-                    <label>
-                        Name
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                        />
-                        {errors.name && <div className="error-message">{errors.name}</div>}
-                    </label>
-                    <label>
-                        Description
-                        <input
-                            type="text"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            required
-                        />
-                        {errors.description && <div className="error-message">{errors.description}</div>}
-                    </label>
-                    <label>
-                        Type
-                        <select
-                            value={typeId}
-                            onChange={(e) => setTypeId(e.target.value)}
-                            required
-                        >
-                            {partTypes.map((type) => (
-                                <option key={type.id} value={type.id}>{type.type}</option>
-                            ))}
-                        </select>
-                        {errors.typeId && <div className="error-message">{errors.typeId}</div>}
-                    </label>
-                    <label>
-                        Image URL
-                        <input
-                            type="text"
-                            value={imgUrl}
-                            onChange={(e) => setImgUrl(e.target.value)}
-                            required
-                        />
-                        {errors.imgUrl && <div className="error-message">{errors.imgUrl}</div>}
-                    </label>
-                    <button type="submit">Update</button>
-                </form>
-            </div>
+                <div className="modal-content" onClick={stopPropagation}>
+                    <div className='modal-content-form'>
+                        <h2>Update Part</h2>
+                        <form className='modal-form'onSubmit={handleSubmit}>
+                            <label>
+                                Name
+                                <input
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                    required
+                                />
+                                {errors.name && <div className="error-message">{errors.name}</div>}
+                            </label>
+                            <label>
+                                Description
+                                <input
+                                    type="text"
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                    required
+                                />
+                                {errors.description && <div className="error-message">{errors.description}</div>}
+                            </label>
+                            <label>
+                                Type
+                                <select
+                                    value={typeId}
+                                    onChange={(e) => setTypeId(e.target.value)}
+                                    required
+                                >
+                                    {partTypes.map((type) => (
+                                        <option key={type.id} value={type.id}>{type.type}</option>
+                                    ))}
+                                </select>
+                                {errors.typeId && <div className="error-message">{errors.typeId}</div>}
+                            </label>
+                            <label>
+                                Image URL
+                                <input
+                                    type="text"
+                                    value={imgUrl}
+                                    onChange={(e) => setImgUrl(e.target.value)}
+                                    required
+                                />
+                                {errors.imgUrl && <div className="error-message">{errors.imgUrl}</div>}
+                            </label>
+                            <button type="submit">Update</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     );
