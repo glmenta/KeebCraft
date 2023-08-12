@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as BuildActions from "../../store/build";
 import * as PartActions from "../../store/part";
 import { useHistory, useParams } from "react-router-dom";
-
+import './updatekeeb.css'
 function UpdateKeebPage() {
     const { keebId } = useParams();
 
@@ -124,13 +124,14 @@ function UpdateKeebPage() {
     }
     return (
         <div className='update-keeb-container'>
-            <h2>Update Keeb</h2>
+            <h2 className='update-keeb-header'>Update Keeb</h2>
             <form onSubmit={handleSubmit}>
             {errors.name && <div className="error-message">{errors.name}</div>}
                 <input
                     type="text"
                     placeholder="Name"
                     value={name}
+                    className='update-keeb-name'
                     onChange={(e) => setName(e.target.value)}
                 />
                 {errors.keebcase && <div className="error-message">{errors.keebcase}</div>}
@@ -216,6 +217,7 @@ function UpdateKeebPage() {
                     type="text"
                     placeholder="Image URL"
                     value={imgUrl}
+                    className='update-keeb-img'
                     onChange={(e) => {
                         setImgUrl(e.target.value);
                         setIsValidImgUrl(true);
@@ -225,6 +227,7 @@ function UpdateKeebPage() {
                 <textarea
                     placeholder="Description"
                     value={description}
+                    className='update-keeb-description'
                     onChange={(e) => setDescription(e.target.value)}
                 />
                 <button type="submit">Update Keeb</button>

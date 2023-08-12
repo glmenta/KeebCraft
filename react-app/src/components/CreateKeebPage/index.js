@@ -115,12 +115,13 @@ function CreateKeebPage() {
 
     return (
         <div className='create-keeb-container'>
-            <h2 className='create-keeb-header'>Create a new Keeb</h2>
+            <h2 className='create-keeb-header'>Create a new Keeb!</h2>
             <form onSubmit={handleSubmit}>
             {errors.name && <div className="error-message">{errors.name}</div>}
                 <input
                     type="text"
                     placeholder="Name"
+                    className='create-keeb-name'
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
@@ -212,12 +213,14 @@ function CreateKeebPage() {
                     type="text"
                     placeholder="Image URL"
                     value={imgUrl}
+                    className='create-keeb-img'
                     onChange={(e) => setImgUrl(e.target.value)}
                 />
                 {errors.description && <div className="error-message">{errors.description}</div>}
                 <textarea
                     placeholder="Description"
                     value={description}
+                    className='create-keeb-description'
                     onChange={(e) => setDescription(e.target.value)}
                 />
                 <button type="submit">Create Keeb</button>

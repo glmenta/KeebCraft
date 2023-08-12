@@ -17,6 +17,9 @@
     align-items: center;
     justify-content: center;
     margin: 20px;
+    border: solid 2px white;
+    border-radius: 5px;
+    background-color: #333
 }
 .create-fav-button {
     display: flex;
@@ -44,4 +47,8 @@
 .fav-build-button {
     width: 100px;
     margin: 5px;
+}
+
+.fav-item-h3 {
+    color: white;
 }

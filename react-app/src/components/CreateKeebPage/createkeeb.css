@@ -10,6 +10,7 @@ body {
 
 h2 {
     text-align: center;
+    color: white;
 }
 
 form {
@@ -51,4 +52,20 @@ input[type="submit"]:hover {
 .part-image {
     max-width: 200px;
     max-height: 100px;
+}
+
+.create-keeb-header h2 {
+    text-align: center;
+}
+
+.create-keeb-name {
+    width: 96%;
+}
+
+.create-keeb-img {
+    width: 96%;
+}
+
+.create-keeb-description {
+    width: 96%;
 }

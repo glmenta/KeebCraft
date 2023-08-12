@@ -80,13 +80,15 @@ function PartListPage() {
 
                     </select>
                 </div>
-                {user && (
-                <button className='create-part-button' onClick={openCreateModal}>Create Part</button>
-                )}
-                    { createModalOpen && (
-                        <CreatePartModal isOpen={createModalOpen} onClose={closeCreateModal} onPartCreated={onPartCreated}/>
+                <div className='part-list-buttons'>
+                    {user && (
+                    <button className='create-part-button' onClick={openCreateModal}>Create Part</button>
                     )}
-                <button className='back-keebs-button' onClick={handleCheckKeebs}>Back to Keebs</button>
+                        { createModalOpen && (
+                            <CreatePartModal isOpen={createModalOpen} onClose={closeCreateModal} onPartCreated={onPartCreated}/>
+                        )}
+                    <button className='back-keebs-button' onClick={handleCheckKeebs}>Back to Keebs</button>
+                </div>
             </div>
             <div className="part-list">
             {displayedParts.map((part) => (

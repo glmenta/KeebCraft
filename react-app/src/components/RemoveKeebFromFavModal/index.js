@@ -21,14 +21,17 @@ const DeleteBuildFromFavModal = ({ favorite, closeModal, afterDelete }) => {
         <div className='modal-container' onClick={closeModal}>
             <div className='modal-content' onClick={handleContentClick}>
                 <h3 className='delete-build-text'>Delete a Build</h3>
-                {favorite.builds && favorite.builds.map(build => (
-                    <div key={build.id}>
-                        <p>{build.build_details.name}</p>
-                        <img src={build.build_details.img_url[0].url} alt='build-thumbnail' className='fav-build-img'/>
-                        <button className='delete-build-button' onClick={() => handleDelete(build.id)}>Delete</button>
-
-                    </div>
-                ))}
+                {favorite.builds && favorite.builds.length ?
+                    favorite.builds.map(build => (
+                        <div key={build.id}>
+                            <p>{build.build_details.name}</p>
+                            <img src={build.build_details.img_url[0].url} alt='build-thumbnail' className='fav-build-img'/>
+                            <button className='delete-build-button' onClick={() => handleDelete(build.id)}>Delete</button>
+                        </div>
+                    ))
+                :
+                    <p>No builds! Let's Add One!</p>
+                }
                 <button className='modal-close'onClick={closeModal}>Close</button>
             </div>
         </div>
