@@ -14,7 +14,7 @@ import UserKeebsPage from "./components/UserKeebsPage";
 import UserPartsPage from "./components/PartUserPage";
 import PartListPage from "./components/PartListPage";
 import UserFavoritesPage from "./components/UserFavoritesPage";
-
+import Footer from "./components/Footer/footer";
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -27,44 +27,47 @@ function App() {
     <>
       {location.pathname !== "/" && <Navigation isLoaded={isLoaded} />}
       {isLoaded && (
-        <Switch>
-          <Route path="/login">
-            <LoginFormPage />
-          </Route>
-          <Route path="/signup">
-            <SignupFormPage />
-          </Route>
-          <Route exact path="/keebs/new">
-            <CreateKeebPage/>
-          </Route>
-          <Route exact path="/users/:userId/keebs">
-            <UserKeebsPage />
-          </Route>
-          <Route exact path="/users/:userId/parts">
-            <UserPartsPage />
-          </Route>
-          <Route exact path="/users/:userId/favorites">
-            <UserFavoritesPage />
-          </Route>
-          <Route exact path="/keebs/:keebId/edit" component={UpdateKeebPage}>
-            <UpdateKeebPage/>
-          </Route>
-          <Route path="/keebs/:keebId">
-            <KeebDetailPage />
-          </Route>
-          <Route path="/keebs">
-            <KeebBuildPage />
-          </Route>
-          <Route path='/parts'>
-            <PartListPage/>
-          </Route>
-          <Route path="/" exact>
-            <LandingPage />
-          </Route>
-        </Switch>
+        <>
+          <Switch>
+            <Route path="/login">
+              <LoginFormPage />
+            </Route>
+            <Route path="/signup">
+              <SignupFormPage />
+            </Route>
+            <Route exact path="/keebs/new">
+              <CreateKeebPage/>
+            </Route>
+            <Route exact path="/users/:userId/keebs">
+              <UserKeebsPage />
+            </Route>
+            <Route exact path="/users/:userId/parts">
+              <UserPartsPage />
+            </Route>
+            <Route exact path="/users/:userId/favorites">
+              <UserFavoritesPage />
+            </Route>
+            <Route exact path="/keebs/:keebId/edit" component={UpdateKeebPage}>
+              <UpdateKeebPage/>
+            </Route>
+            <Route path="/keebs/:keebId">
+              <KeebDetailPage />
+            </Route>
+            <Route path="/keebs">
+              <KeebBuildPage />
+            </Route>
+            <Route path='/parts'>
+              <PartListPage/>
+            </Route>
+            <Route path="/" exact>
+              <LandingPage />
+            </Route>
+          </Switch>
+          <Footer />
+        </>
       )}
     </>
-  );
+);
 }
 
 export default App;
