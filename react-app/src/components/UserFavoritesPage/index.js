@@ -68,7 +68,7 @@ const UserFavoritesPage = () => {
             {isLoaded && (
             <div className='user-favorites'>
                 <h2>My Favorites</h2>
-                {favorites.length === 0 ? (
+                {(!favorites || favorites.length === 0)? (
                     <div className='no-favorites-msg'>
                         <p>You don't have any favorites yet.</p>
                         <button onClick={toggleCreateModal}>Add a Favorite</button>

@@ -34,6 +34,7 @@ function CreateKeebPage() {
         plateList = partsArray.filter(part => part.type_id === 5);
         console.log('switchList', switchList);
         console.log('stabList', stabList);
+        console.log('plateList', plateList);
     }
 
     useEffect(() => {

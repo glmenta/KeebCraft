@@ -20,19 +20,33 @@ function LoginFormModal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors([]);
     if (!validCredential || !validPassword) {
-      setShowDisabledMessage(true);
-      return;
+        setShowDisabledMessage(true);
+        return;
     }
     const data = await dispatch(login(email, password));
     if (data && data.errors) {
-      setErrors(data.errors);
+        const frontendErrors = data.errors.map(error => {
+            if (error === "password : Password was incorrect.") {
+                return "The provided credentials are invalid";
+            }
+            if (error === "email : Email provided not found.") {
+              return "Email is not registered. Please register first.";
+          }
+          if (error === "password : No such user exists.") {
+            return "Invalid password, please try again.";
+        }
+            return error;
+        });
+        setErrors(frontendErrors);
     } else if (data === null) {
-      closeModal()
+        closeModal();
     } else {
-      setErrors(["The provided credentials are invalid"]);
+        setErrors(["The provided credentials are invalid"]);
     }
 };
+
 
   const handleDemoLogin = async (e) => {
     e.preventDefault();
@@ -47,11 +61,19 @@ function LoginFormModal() {
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <ul>
-          {errors.map((error, idx) => (
+          {/* {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
-          ))}
+          ))} */}
+        {errors.map((error, idx) => {
+              const isInvalidCredentialError = error === "The provided credentials are invalid";
+              return (
+                  <li key={idx} className={isInvalidCredentialError ? "invalid-credentials-message" : ""}>
+                      {error}
+                  </li>
+              );
+          })}
         </ul>
-        {showDisabledMessage && (
+        {showDisabledMessage && errors.length === 0 && (
           <div className="disabled-message">Please provide an email and a password~</div>
         )}
         <label>

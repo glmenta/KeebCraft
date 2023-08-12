@@ -25,8 +25,8 @@ const DeleteKeebModal = ({ keebId, show, handleClose }) => {
         <div className="delete-modal">
             <div className='delete-modal-contents'>
                 <h3 className='delete-modal-title'>Are you sure you want to delete this keeb?</h3>
-                <button className='yes-button'onClick={handleDelete}>Yes</button>
-                <button className='no-button' onClick={handleClose}>No</button>
+                <button className='delete-button'onClick={handleDelete}>Yes</button>
+                <button className='cancel-button' onClick={handleClose}>No</button>
             </div>
         </div>
     )

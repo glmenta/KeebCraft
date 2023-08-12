@@ -12,8 +12,13 @@ const FavoriteListModal = ({ favorite,closeModal }) => {
     return (
         <div className='favorite-list-modal'>
             <div className='fav-list-contents'>
-                {displayedBuilds.map((build, buildIndex) => (
-                    <div className='primary-build-details'key={buildIndex}>
+            {displayedBuilds.length === 0 ? (
+                <div className="no-builds-message">
+                    There are no builds added yet.
+                </div>
+            ) : (
+                displayedBuilds.map((build, buildIndex) => (
+                    <div className='primary-build-details' key={buildIndex}>
                         <p className='fav-build-name'>{build.build_details.name}</p>
                         <div className='images-container'>
                             {build?.build_details?.img_url.map((image, imgIndex) => (
@@ -27,7 +32,8 @@ const FavoriteListModal = ({ favorite,closeModal }) => {
                             ))}
                         </div>
                     </div>
-                ))}
+                ))
+            )}
                 {favorite.builds.length > 4 && (
                     <div className="more-builds-indicator">
                         {favorite.builds.length - 4} more builds hidden...

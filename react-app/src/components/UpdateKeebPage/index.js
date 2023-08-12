@@ -16,14 +16,14 @@ function UpdateKeebPage() {
     const [description, setDescription] = useState("");
     const [imgUrl, setImgUrl] = useState("");
     const [errors, setErrors] = useState({});
-
+    const [isValidImgUrl, setIsValidImgUrl] = useState(true);
     const dispatch = useDispatch();
     const history = useHistory();
 
     const user = useSelector((state) => state.session.user);
     const parts = useSelector((state) => state.parts.parts);
     const keeb = useSelector((state) => state.keebs.keebs[keebId]);
-
+    console.log('this is keeb', keeb?.images?.[0]?.url)
     useEffect(() => {
         if (keeb) {
             setName(keeb.name || "");
@@ -33,7 +33,7 @@ function UpdateKeebPage() {
             setPlate(keeb.plate || "");
             setStabs(keeb.stabilizers || "");
             setDescription(keeb.keeb_info || "");
-            setImgUrl(keeb.img_url || "");
+            setImgUrl(keeb?.images?.[0]?.url || "");
         }
     }, [keeb]);
 
@@ -59,9 +59,38 @@ function UpdateKeebPage() {
             .then(() => dispatch(BuildActions.fetchKeeb(keebId)));
     }, [dispatch, keebId]);
 
+    function isValidImageUrl(url) {
+        const pattern = new RegExp('^(https?:\\/\\/)?'+
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+
+        '((\\d{1,3}\\.){3}\\d{1,3}))'+
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
+        '\\.(jpg|jpeg|png|bmp|gif)(\\?[;&a-z\\d%_.~+=-]*)?$','i');
+        return !!pattern.test(url);
+    }
+    function isOnlyWhitespace(str) {
+        return !str.trim().length;
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        let error= {}
+
+        if (isOnlyWhitespace(name) || !name) error.name = 'Please input a valid name';
+        if (!name) error.name = 'Please input a name';
+        if (!keebcase) error.keebcase = 'Please select a case';
+        if (!keycaps) error.keycaps = 'Please select keycaps';
+        if (!switches) error.switches = 'Please select switches';
+        if (!plate) error.plate = 'Please select a plate';
+        if (!stabs) error.stabs = 'Please select stabilizers';
+        if (!description) error.description = 'Please input a description';
+        if (!isValidImageUrl(imgUrl)) error.imgUrl = 'Please input a valid image URL';
+        if (!imgUrl) error.imgUrl = 'Please input an image URL';
+
+        if (Object.keys(error).length > 0) {
+            setErrors(error);
+            return;
+        }
+
         const payload = {
             name,
             "case": keebcase,
@@ -94,15 +123,17 @@ function UpdateKeebPage() {
         history.push(`/users/${user.id}/keebs`);
     }
     return (
-        <div>
+        <div className='update-keeb-container'>
             <h2>Update Keeb</h2>
             <form onSubmit={handleSubmit}>
+            {errors.name && <div className="error-message">{errors.name}</div>}
                 <input
                     type="text"
                     placeholder="Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
+                {errors.keebcase && <div className="error-message">{errors.keebcase}</div>}
                 <select
                     value={keebcase}
                     onChange={(e) => setKeebcase(e.target.value)}
@@ -114,6 +145,10 @@ function UpdateKeebPage() {
                         </option>
                     ))}
                 </select>
+                {keebcase && caseList && (
+                    <img src={caseList.find(c => c.name === keebcase)?.part_img[0].url} alt="Selected case" className="part-image" />
+                )}
+                {errors.keycaps && <div className="error-message">{errors.keycaps}</div>}
                 <select
                     value={keycaps}
                     onChange={(e) => setKeycaps(e.target.value)}
@@ -125,6 +160,12 @@ function UpdateKeebPage() {
                         </option>
                     ))}
                 </select>
+                {
+                    keycaps && keycapList && (
+                        <img src={keycapList.find(keycap => keycap.name === keycaps)?.part_img[0].url} alt="Selected keycaps" className="part-image" />
+                    )
+                }
+                {errors.switches && <div className="error-message">{errors.switches}</div>}
                 <select
                     value={switches}
                     onChange={(e) => setSwitches(e.target.value)}
@@ -136,6 +177,12 @@ function UpdateKeebPage() {
                         </option>
                     ))}
                 </select>
+                {
+                    switches && switchList && (
+                        <img src={switchList.find(keebSwitch => keebSwitch.name === switches)?.part_img[0].url} alt="Selected switches" className="part-image" />
+                    )
+                }
+                {errors.plate && <div className="error-message">{errors.plate}</div>}
                 <select
                     value={plate}
                     onChange={(e) => setPlate(e.target.value)}
@@ -147,6 +194,7 @@ function UpdateKeebPage() {
                         </option>
                     ))}
                 </select>
+                {errors.stabs && <div className="error-message">{errors.stabs}</div>}
                 <select
                     value={stabs}
                     onChange={(e) => setStabs(e.target.value)}
@@ -158,12 +206,22 @@ function UpdateKeebPage() {
                         </option>
                     ))}
                 </select>
+                {
+                    stabs && stabList && (
+                        <img src={stabList.find(stab => stab.name === stabs)?.part_img[0].url} alt="Selected stabilizers" className="part-image" />
+                    )
+                }
+                {errors.imgUrl && <div className="error-message">{errors.imgUrl}</div>}
                 <input
                     type="text"
                     placeholder="Image URL"
                     value={imgUrl}
-                    onChange={(e) => setImgUrl(e.target.value)}
+                    onChange={(e) => {
+                        setImgUrl(e.target.value);
+                        setIsValidImgUrl(true);
+                    }}
                 />
+                {errors.description && <div className="error-message">{errors.description}</div>}
                 <textarea
                     placeholder="Description"
                     value={description}

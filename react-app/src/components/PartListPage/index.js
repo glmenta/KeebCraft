@@ -75,7 +75,9 @@ function PartListPage() {
                         <option value="1">Switches</option>
                         <option value="2">Cases</option>
                         <option value="3">Keycaps</option>
-                        <option value="4">Plate</option>
+                        <option value="4">Stabs</option>
+                        <option value="5">Plates</option>
+
                     </select>
                 </div>
                 {user && (
