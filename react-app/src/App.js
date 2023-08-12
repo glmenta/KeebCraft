@@ -15,6 +15,7 @@ import UserPartsPage from "./components/PartUserPage";
 import PartListPage from "./components/PartListPage";
 import UserFavoritesPage from "./components/UserFavoritesPage";
 import Footer from "./components/Footer/footer";
+
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
@@ -24,10 +25,10 @@ function App() {
   }, [dispatch]);
 
   return (
-    <>
+    <div className='app'>
       {location.pathname !== "/" && <Navigation isLoaded={isLoaded} />}
       {isLoaded && (
-        <>
+        <div className='main-app-content'>
           <Switch>
             <Route path="/login">
               <LoginFormPage />
@@ -63,10 +64,10 @@ function App() {
               <LandingPage />
             </Route>
           </Switch>
-          <Footer />
-        </>
+          {/* <Footer /> */}
+        </div>
       )}
-    </>
+    </div>
 );
 }
 
