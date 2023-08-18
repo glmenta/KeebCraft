@@ -32,3 +32,18 @@ to the rest of the mechanical keyboard community.
    ```bash
    git clone git@github.com:glmenta/KeebCraft.git
    ```
+   2. Navigate to the root directory of the app and install dependencies:
+   ```bash
+   cd Keebcraft
+   pip install -r requirements.txt
+   ```
+   3. Activate the virtual environment and start the backend server
+   ```bash
+   pipenv shell
+   flask run
+   ```
+   5. Open another terminal and navigate to the react app to start the frontend app
+   ```bash
+   cd react-app
+   npm start
+   ```
