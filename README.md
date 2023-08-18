@@ -54,9 +54,9 @@ to the rest of the mechanical keyboard community.
    cd react-app
    npm start
    ```
-### Navigating Through the Site
+## Navigating Through the Site
 
-## Creating a keyboard
+### Creating a keyboard
    - Create a name and pick from select components using the dropdown menu.
    - Upload an image using the image url
    - Provide a brief description
