@@ -13,5 +13,5 @@ to the rest of the mechanical keyboard community.
 
 ### Technologies Utilized:
 <div>
-  <img src='https://user-images.githubusercontent.com/25181517/183897015-94a058a6-b86e-4e42-a37f-bf92061753e5.png' width='300' height= '200'>
+  <img src='https://user-images.githubusercontent.com/25181517/183897015-94a058a6-b86e-4e42-a37f-bf92061753e5.png' width='20' height= '20'>
 </div>
