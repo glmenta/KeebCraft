@@ -55,4 +55,4 @@ to the rest of the mechanical keyboard community.
    npm start
    ```
 ### Navigating Through the Site
--[keebs](https://keebsforall.com/cdn/shop/products/FB60-Olive-1_9a7476bf-eb73-4335-9da3-c8be441ac5f3.png?v=1689791499&width=2560)
+- [keebs](https://keebsforall.com/cdn/shop/products/FB60-Olive-1_9a7476bf-eb73-4335-9da3-c8be441ac5f3.png?v=1689791499&width=2560)
