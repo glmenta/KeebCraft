@@ -31,4 +31,4 @@ to the rest of the mechanical keyboard community.
    1. Clone the app repository on your local machine:
    ```bash
    git clone git@github.com:glmenta/KeebCraft.git
-    ```
+   ```
