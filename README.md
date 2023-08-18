@@ -61,5 +61,8 @@ to the rest of the mechanical keyboard community.
    - Upload an image using the image url
    - Provide a brief description
    - Upload!
-   ![created-keeb](https://github.com/glmenta/KeebCraft/assets/111015201/5925e428-488d-4149-b963-2c44e17c8e40)
+
+<div>
+   <img src="https://github.com/glmenta/KeebCraft/assets/111015201/5925e428-488d-4149-b963-2c44e17c8e40" alt="created-keeb" width="300" height="200">
+</div>
 
