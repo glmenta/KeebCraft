@@ -11,4 +11,7 @@ Keebcraft is a fullstack application that utilizes user-created components store
 As a passionate mechanical keyboard enthusiast, I sought to create an app that allows users to visualize and combine different arrays of components that they could share
 to the rest of the mechanical keyboard community.
 
-![gif](https://jumpshare.com/v/Lr6NoPsbSVNmK9fTSaso)
+### Technologies Utilized:
+<div>
+  <img src='https://user-images.githubusercontent.com/25181517/183897015-94a058a6-b86e-4e42-a37f-bf92061753e5.png'>
+</div>
