@@ -12,16 +12,17 @@ As a passionate mechanical keyboard enthusiast, I sought to create an app that a
 to the rest of the mechanical keyboard community.
 
 ### Technologies Utilized:
+| Technology      | Description                       |
+|:---------------:|:---------------------------------:|
+| HTML            | HyperText Markup Language         |
+| CSS             | Cascading Style Sheets            |
+| Python          | Programming Language              |
+| Flask           | Python backend framework          |
+| React           | User Interface                    |
+| Redux           | Managing application state        |
+| PostgreSQL      | Relational Database Management    |
+| SQLAlchemy      | ORM                               |
+| Git             | Version Control System            |
+| Render          | Deployment                        |
 
-## Frontend:
-<div>
-  <img src='https://user-images.githubusercontent.com/25181517/183897015-94a058a6-b86e-4e42-a37f-bf92061753e5.png' width='50' height= '50'>
-  <img src='https://user-images.githubusercontent.com/25181517/183897015-94a058a6-b86e-4e42-a37f-bf92061753e5.png' width='50' height= '50'>
-</div>
-
-## Backend:
-<div>
-  <img src='https://user-images.githubusercontent.com/25181517/117208740-bfb78400-adf5-11eb-97bb-09072b6bedfc.png' width='50' height= '50'>
-  <img src='https://user-images.githubusercontent.com/25181517/183423775-2276e25d-d43d-4e58-890b-edbc88e915f7.png' width='50' height= '50'>
-</div>
 
