@@ -56,7 +56,10 @@ to the rest of the mechanical keyboard community.
    ```
 ### Navigating Through the Site
 
-Create a new Keeb!
-
+## Creating a keyboard
+   - Create a name and pick from select components using the dropdown menu.
+   - Upload an image using the image url
+   - Provide a brief description
+   - Upload!
    ![created-keeb](https://github.com/glmenta/KeebCraft/assets/111015201/5925e428-488d-4149-b963-2c44e17c8e40)
 
