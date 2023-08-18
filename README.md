@@ -59,4 +59,3 @@ to the rest of the mechanical keyboard community.
 Create a new Keeb!
 ![created-keeb](https://github.com/glmenta/KeebCraft/assets/111015201/5925e428-488d-4149-b963-2c44e17c8e40)
 
-)
