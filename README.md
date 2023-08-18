@@ -29,6 +29,6 @@ to the rest of the mechanical keyboard community.
    In order to run this app locally, there are a couple of steps to take:
    
    1. Clone the app repository on your local machine:
-      ```bash
-         git clone git@github.com:glmenta/KeebCraft.git
-      ```
+   ```bash
+   git clone git@github.com:glmenta/KeebCraft.git
+    ```
