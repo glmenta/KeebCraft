@@ -85,3 +85,14 @@ to the rest of the mechanical keyboard community.
 <div>
    <img src="https://github.com/glmenta/KeebCraft/assets/111015201/cb159d43-6449-4606-a385-116a6f61362a" alt="updated-keeb" width="500" height="300"
 </div>
+
+### Create a part
+   - Press the "Check Out Parts!" button to navigate to the parts page
+   - Press the Create Part to open a popup you can fill out with information to create a new part
+   - Provide details, an image url and a part type
+   - Press the "Create" button to create your part!
+
+<div>
+   <img src="https://github.com/glmenta/KeebCraft/assets/111015201/d0277ec9-97ea-4c8d-b1ec-8e9857592f62" width="500" height="300"
+</div>
+
