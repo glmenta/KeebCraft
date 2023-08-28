@@ -76,3 +76,12 @@ to the rest of the mechanical keyboard community.
 <div>
    <img src="https://github.com/glmenta/KeebCraft/assets/111015201/b0cf130d-0be4-48cc-8ee6-f762fc5890d3" alt="updated-keeb" width="300" height="500"
 </div>
+
+### Delete a keyboard
+   - From the top-right profile button, press keebs to navigate to user keebs page
+   - Press the delete keeb to delete a specific user keeb
+   - A popup message will show asking if you want to delete the keeb and press yes to delete the keeb!
+
+<div>
+   <img src="https://github.com/glmenta/KeebCraft/assets/111015201/cb159d43-6449-4606-a385-116a6f61362a" alt="updated-keeb" width="300" height="500"
+</div>
