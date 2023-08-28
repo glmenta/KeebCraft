@@ -74,6 +74,5 @@ to the rest of the mechanical keyboard community.
    - Update!
 
 <div>
-   <img src="![update-keeb-img](https://github.com/glmenta/KeebCraft/assets/111015201/b0cf130d-0be4-48cc-8ee6-f762fc5890d3)
-" alt="updated-keeb" width="300" height="500"
+   <img src="https://github.com/glmenta/KeebCraft/assets/111015201/b0cf130d-0be4-48cc-8ee6-f762fc5890d3" alt="updated-keeb" width="300" height="500"
 </div>
