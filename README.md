@@ -93,6 +93,24 @@ to the rest of the mechanical keyboard community.
    - Press the "Create" button to create your part!
 
 <div>
-   <img src="https://github.com/glmenta/KeebCraft/assets/111015201/d0277ec9-97ea-4c8d-b1ec-8e9857592f62" width="500" height="300"
+   <img src="https://github.com/glmenta/KeebCraft/assets/111015201/d0277ec9-97ea-4c8d-b1ec-8e9857592f62" width="400" height="400"
 </div>
 
+### Update a part
+   - From the top-right profile button, press parts to navigate to user parts page
+   - Press the "Update Part" button for a specific part
+   - Provide a new image, new description, new name or new type if necessary
+   - Update!
+
+<div>
+   <img src="https://github.com/glmenta/KeebCraft/assets/111015201/fc448a7c-7f3b-4a94-b211-08bd2fe34da1" width="400" height="400"
+</div>
+
+### Delete a part
+   - From the top-right profile button, press parts to navigate to user parts page
+   - Press the delete part to delete a specific user part
+   - A popup message will show asking if you want to delete the part and press yes to delete the part!
+
+<div>
+   <img src="https://github.com/glmenta/KeebCraft/assets/111015201/cb159d43-6449-4606-a385-116a6f61362a" alt="updated-keeb" width="500" height="300"
+</div>
