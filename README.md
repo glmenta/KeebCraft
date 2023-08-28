@@ -66,4 +66,14 @@ to the rest of the mechanical keyboard community.
    <img src="https://github.com/glmenta/KeebCraft/assets/111015201/5925e428-488d-4149-b963-2c44e17c8e40" alt="created-keeb" width="300" height="500">
 </div>
 
+### Update a keyboard
+   - From the top-right profile button, press keebs to navigate to user keebs page
+   - Press the update keeb to update a specific user keeb
+   - Using the dropdown menu, modify any pre-existing components
+   - Provide a new image or new description if necessary
+   - Update!
 
+<div>
+   <img src="![image](https://github.com/glmenta/KeebCraft/assets/111015201/7c15b5a9-d1f0-46c6-b0b3-72c9c41e2d88)
+" alt="updated-keeb" width="300" height="500"
+</div>
