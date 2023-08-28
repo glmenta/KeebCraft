@@ -83,5 +83,5 @@ to the rest of the mechanical keyboard community.
    - A popup message will show asking if you want to delete the keeb and press yes to delete the keeb!
 
 <div>
-   <img src="https://github.com/glmenta/KeebCraft/assets/111015201/cb159d43-6449-4606-a385-116a6f61362a" alt="updated-keeb" width="300" height="500"
+   <img src="https://github.com/glmenta/KeebCraft/assets/111015201/cb159d43-6449-4606-a385-116a6f61362a" alt="updated-keeb" width="500" height="300"
 </div>
