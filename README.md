@@ -114,3 +114,37 @@ to the rest of the mechanical keyboard community.
 <div>
    <img src="https://github.com/glmenta/KeebCraft/assets/111015201/cb159d43-6449-4606-a385-116a6f61362a" alt="updated-keeb" width="500" height="300"
 </div>
+
+### Create a Favorites List
+   - From the top-right profile button, press favorites to navigate to user favorites page
+   - Press the "Create a Favorites List" button 
+   - Provide a name and select a keeb to start off your favorites list
+   - Create your Favorite!
+
+<div>
+   <img src="https://github.com/glmenta/KeebCraft/assets/111015201/614c4bb1-f44b-424d-b173-f4e9cbd6e296" width="400" height="400"
+</div>
+
+### Add a keeb to Favorites
+   - From the user favorites page, press the "Add Build" button for a specific Favorite List
+   - Select a keeb from the dropdown
+   - Add the keeb to your Favorites List!
+
+<div>
+   <img src="https://github.com/glmenta/KeebCraft/assets/111015201/04cb283e-342f-42b9-9ccd-8ea1144f0dec" width="400" height="400"
+</div>
+
+### Remove a Keeb to Favorites
+   - From the user favorites page, press the "Remove Build" button for a specific Favorite List
+   - Select a keeb you want to remove and press the delete button
+   - Delete that keeb from your Favorites List!
+
+### Delete a Favorites List
+   - From the user favorites page, press the "Delete Favorite" button for a specific Favorite List
+   - A popup will show asking if yhou want to delete the list
+   - Press Yes to delete the Favorites List
+
+<div>
+   <img src="https://github.com/glmenta/KeebCraft/assets/111015201/ce848700-a27e-460b-87d2-c391ed4863dc" width="400" height="400"
+</div>
+
