@@ -1,11 +1,12 @@
 import { csrfFetch } from "./csrf";
 
-const GET_ALL_COMMENTS = "session/GET_ALL_COMMENTS";
-const GET_USER_COMMENTS = "session/GET_USER_COMMENTS";
-const GET_BUILD_COMMENTS = "session/GET_BUILD_COMMENTS";
-const GET_COMMENT_BY_ID = "session/GET_COMMENT_BY_ID";
-const CREATE_COMMENT = "session/CREATE_COMMENT";
-const DELETE_COMMENT = "session/DELETE_COMMENT";
+const GET_ALL_COMMENTS = "comment/GET_ALL_COMMENTS";
+const GET_USER_COMMENTS = "comment/GET_USER_COMMENTS";
+const GET_BUILD_COMMENTS = "comment/GET_BUILD_COMMENTS";
+const GET_COMMENT_BY_ID = "comment/GET_COMMENT_BY_ID";
+const CREATE_COMMENT = "comment/CREATE_COMMENT";
+const UPDATE_COMMENT = "comment/UPDATE_COMMENT";
+const DELETE_COMMENT = "comment/DELETE_COMMENT";
 
 const getAllComments = (comments) => ({
     type: GET_ALL_COMMENTS,
@@ -32,6 +33,11 @@ const createComment = (comment) => ({
     payload: comment,
 })
 
+const updateComment = (comment) => ({
+    type: UPDATE_COMMENT,
+    payload: comment,
+})
+
 const deleteComment = (commentId) => ({
     type: DELETE_COMMENT,
     payload: commentId,
@@ -54,7 +60,6 @@ export const getUserCommentsThunk = (userId) => async (dispatch) => {
 }
 
 export const getBuildCommentsThunk = (buildId) => async (dispatch) => {
-    console.log('this is buildId', buildId)
     const response = await csrfFetch(`/api/keebs/${buildId}/comments`);
     if (response.ok) {
         const data = await response.json();
@@ -83,7 +88,20 @@ export const createCommentThunk = (keebId, comment) => async (dispatch) => {
         return { errors: response.data.errors };
     }
 }
-
+export const updateCommentThunk = (commentId, comment) => async (dispatch) => {
+    const response = await csrfFetch(`/api/comments/${commentId}/edit`, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(comment),
+    })
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(updateComment(data));
+        return data;
+    }
+}
 export const deleteCommentThunk = (commentId) => async (dispatch) => {
     const response = await csrfFetch(`/api/comments/${commentId}/delete`, {
         method: "DELETE",
@@ -117,6 +135,15 @@ const commentsReducer = (state = initialState, action) => {
             return newState;
         case CREATE_COMMENT:
             newState.comments[action.payload.id] = action.payload;
+            return newState;
+        case UPDATE_COMMENT:
+            newState.comments[action.payload.id] = action.payload;
+            newState.buildComments.comments = newState.buildComments.comments.map(comment => {
+                if (comment.id === action.payload.id) {
+                    return action.payload;
+                }
+                return comment;
+            });
             return newState;
         case DELETE_COMMENT:
             delete newState.comments[action.payload];

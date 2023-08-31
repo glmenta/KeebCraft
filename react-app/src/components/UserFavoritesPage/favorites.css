@@ -44,6 +44,10 @@
     flex-direction: row;
     margin: 10px;
 }
+
+.fav-open-button{
+    width: 200px;
+}
 .fav-build-button {
     width: 100px;
     margin: 5px;

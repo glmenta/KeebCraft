@@ -15,7 +15,6 @@ function CreateKeebPage() {
     const [imgUrl, setImgUrl] = useState("");
     const [forge, setForge] = useState(false);
     const [errors, setErrors] = useState({});
-    console.log('Current Img URL:', imgUrl);
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -26,15 +25,11 @@ function CreateKeebPage() {
     let switchList, caseList, keycapList, stabList, plateList;
     if (parts && parts.Parts) {
         const partsArray = parts.Parts;
-        console.log('partsArray', partsArray);
         switchList = partsArray.filter(part => part.type_id === 1);
         caseList = partsArray.filter(part => part.type_id === 2);
         keycapList = partsArray.filter(part => part.type_id === 3);
         stabList = partsArray.filter(part => part.type_id === 4);
         plateList = partsArray.filter(part => part.type_id === 5);
-        console.log('switchList', switchList);
-        console.log('stabList', stabList);
-        console.log('plateList', plateList);
     }
 
     useEffect(() => {
@@ -76,7 +71,6 @@ function CreateKeebPage() {
 
         setErrors({});
         setForge(true);
-        console.log('Img URL at Submission:', imgUrl);
 
         const payload = {
             name,

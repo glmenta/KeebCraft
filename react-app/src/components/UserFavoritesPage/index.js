@@ -81,7 +81,8 @@ const UserFavoritesPage = () => {
                     <div className='favorite-list-box'>
                         {favorites.map((favorite, index) => (
                             <div key={index} className='favorite-item'>
-                                <h3 className='fav-item-h3'onClick={() => setSelectedFavorite(favorite)}>{favorite?.name}</h3>
+                                <h3 className='fav-item-h3'>{favorite?.name}</h3>
+                                <button className='fav-open-button'onClick={() => setSelectedFavorite(favorite)}>View Favorite List</button>
                                 {selectedFavorite === favorite && (
                                         <FavoriteListModal
                                             favorite={favorite}

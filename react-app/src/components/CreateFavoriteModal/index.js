@@ -16,7 +16,6 @@ function CreateFavoriteModal({ closeModal }) {
     const user = useSelector((state) => state.session.user);
     const builds = useSelector((state) => Object.values(state.keebs.keebs));
     const selectBuild = builds.find(build => build.id === parseInt(selectedBuild));
-    console.log('selectBuild', selectBuild);
     useEffect(() => {
         dispatch(BuildActions.fetchAllKeebs());
     }, [dispatch])

@@ -71,7 +71,6 @@ export const fetchKeeb = (keebId) => async (dispatch) => {
     const res = await csrfFetch(`/api/keebs/${keebId}`);
     if (res.ok) {
         const data = await res.json();
-        console.log('this is data from thunk', data)
         dispatch(getKeeb(data));
         return data;
     }

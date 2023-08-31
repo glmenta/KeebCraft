@@ -8,7 +8,7 @@ function KeebBuildPage() {
     const history = useHistory();
 
     const keebs= useSelector((state) => Object.values(state.keebs.keebs));
-    console.log('keebs', keebs)
+
     const user = useSelector((state) => state.session.user);
     const [isLoaded, setIsLoaded] = useState(false);
 

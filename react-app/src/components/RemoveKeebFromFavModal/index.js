@@ -4,7 +4,6 @@ import * as FavoriteActions from "../../store/favorite";
 import './removekeeb.css'
 const DeleteBuildFromFavModal = ({ favorite, closeModal, afterDelete }) => {
     const dispatch = useDispatch();
-    console.log('favorite', favorite)
     const handleDelete = async (buildId) => {
         try {
             await dispatch(FavoriteActions.removeBuildFromFavoriteThunk(buildId, favorite.id));

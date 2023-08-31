@@ -11,7 +11,6 @@ function CreatePartModal({ isOpen, onClose, onPartCreated }) {
     const [errors, setErrors] = useState({});
     const [imgUrl, setImgUrl] = useState("");
     const [typeId, setTypeId] = useState(partTypes[0]?.id || "");
-    console.log('partTypes', partTypes);
     const dispatch = useDispatch();
     const history = useHistory();
 

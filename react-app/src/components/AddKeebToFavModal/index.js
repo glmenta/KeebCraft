@@ -17,7 +17,6 @@ const AddBuildToFavModal = ({ userId, favoriteId, closeModal }) => {
     const keebsNotInFavoriteList = allKeebs.filter(keeb => !favListBuildIds?.includes(keeb.id));
     const selectedBuild = keebsNotInFavoriteList.find(keeb => keeb.id === selectedBuildId);
     const [error, setError] = useState('');
-    console.log(selectedBuild)
     const handleSubmit = async () => {
         setError('');
 

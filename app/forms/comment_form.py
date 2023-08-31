@@ -8,5 +8,5 @@ class CommentForm(FlaskForm):
 
 class EditCommentForm(FlaskForm):
     comment = StringField('Comment')
-    build_id = HiddenField('build_id')
+    # build_id = HiddenField('build_id')
     submit = SubmitField('Submit')

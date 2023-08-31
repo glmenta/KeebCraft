@@ -14,7 +14,6 @@ function ProfileButton({ user }) {
   const buttonRef = useRef();
   const history = useHistory();
   const openMenu = (e) => {
-    console.log('this is from openMenu', showMenu)
     if (showMenu) return;
     setShowMenu(true);
   };

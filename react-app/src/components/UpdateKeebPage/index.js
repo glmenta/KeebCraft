@@ -23,7 +23,7 @@ function UpdateKeebPage() {
     const user = useSelector((state) => state.session.user);
     const parts = useSelector((state) => state.parts.parts);
     const keeb = useSelector((state) => state.keebs.keebs[keebId]);
-    console.log('this is keeb', keeb?.images?.[0]?.url)
+
     useEffect(() => {
         if (keeb) {
             setName(keeb.name || "");
@@ -45,13 +45,11 @@ function UpdateKeebPage() {
     let switchList, caseList, keycapList, stabList, plateList;
     if (parts && parts.Parts) {
         const partsArray = parts.Parts;
-        console.log('partsArray', partsArray);
         switchList = partsArray.filter(part => part.type_id === 1);
         caseList = partsArray.filter(part => part.type_id === 2);
         keycapList = partsArray.filter(part => part.type_id === 3);
         stabList = partsArray.filter(part => part.type_id === 4);
         plateList = partsArray.filter(part => part.type_id === 5);
-        console.log('switchList', switchList);
     }
 
     useEffect(() => {

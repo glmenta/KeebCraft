@@ -3,6 +3,7 @@ import { Link, useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import OpenModalButton from "../OpenModalButton";
 import CreateCommentModal from "../CreateCommentModal";
+import UpdateCommentModal from "../UpdateCommentModal";
 import DeleteCommentModal from "../DeleteCommentModal";
 import * as KeebActions from "../../store/build";
 import * as UserActions from "../../store/session";
@@ -26,9 +27,8 @@ function KeebDetailPage() {
     const [refreshKey, setRefreshKey] = useState(0);
     const userId = user?.id
     const [isLoaded, setIsLoaded] = useState(false);
-    console.log('allParts', allParts)
-    console.log('currKeebComments', currKeeb?.comments)
-
+    const [isUpdateCommentModalOpen, setIsUpdateCommentModalOpen] = useState(false);
+    const [selectedComment, setSelectedComment] = useState(null);
     useEffect(() => {
         dispatch(PartActions.fetchAllParts())
     }, [dispatch])
@@ -53,7 +53,9 @@ function KeebDetailPage() {
             });
     }, [dispatch, keebId, refreshKey]);
 
-
+    const closeUpdateCommentModal = () => {
+        setIsUpdateCommentModalOpen(false);
+    };
     const handleFeature = () => {
         history.push(`/users/${user.id}/favorites`);
     };
@@ -177,8 +179,27 @@ function KeebDetailPage() {
                                             />
                                         </div>
                                         )}
+                                        {userId === comment.user_id.id && (
+                                            <div className='update-comment-button'>
+                                                <button onClick={() => {
+                                                    setSelectedComment(comment);
+                                                    setIsUpdateCommentModalOpen(true);
+                                                }}>
+                                                    Edit Comment
+                                                </button>
+                                            </div>
+                                        )}
+
                                     </div>
                                 ))}
+                                {isUpdateCommentModalOpen && (
+                                    <UpdateCommentModal
+                                        commentId={selectedComment.id}
+                                        initialComment={selectedComment.comment}
+                                        refreshComments={() => setRefreshKey(refreshKey + 1)}
+                                        onClose={() => setIsUpdateCommentModalOpen(false)}
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>

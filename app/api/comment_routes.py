@@ -2,7 +2,8 @@ from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
 from ..models.comments import Comment
 from .. import db
-
+import json
+from ..forms.comment_form import EditCommentForm, CommentForm
 comment_routes = Blueprint('comments', __name__)
 
 #Get All Comments
@@ -19,6 +20,30 @@ def get_comment_by_id(id):
     if comment is None:
         return jsonify({'error': 'Comment not found'}), 404
     return comment.to_dict()
+
+#update Comment
+@comment_routes.route('/<int:id>/edit', methods=['PUT'])
+@login_required
+def update_comment(id):
+    comment = Comment.query.get(id)
+    print('this is comment from backend',comment)
+    if comment is None:
+        return jsonify({'error': 'Comment not found'}), 404
+    if comment.user_id != current_user.id:
+        return jsonify({'error': 'You are not allowed to update this comment'}), 401
+    data_string =request.data
+    data = json.loads(data_string)
+    print('raw data', request.data)
+    print('this is comment from frontend',data)
+    if data is None:
+        return jsonify({'error': 'Invalid JSON data'}), 400
+    comment_text = data.get('comment')
+    if comment_text is None:
+        return jsonify({'error': 'Comment field missing in JSON data'}), 400
+    comment.comment = comment_text
+    db.session.commit()
+    return jsonify(comment.to_dict()), 200
+
 
 #Delete Comment
 @comment_routes.route('/<int:id>/delete', methods=['DELETE'])
