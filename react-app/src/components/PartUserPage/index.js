@@ -44,7 +44,6 @@ function UserPartsPage() {
         return null;
     }
     const handleDelete = (partId) => {
-        console.log('part id from handledelete', partId)
         dispatch(PartActions.deletePartThunk(partId))
         .then(() => {
             setDeletedPartId(partId);
