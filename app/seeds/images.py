@@ -35,7 +35,7 @@ def seed_parts_images():
     )
     BoxJadeImg = PartImage(
         part_id=3,
-        url='https://cdn.shopify.com/s/files/1/0607/1563/0808/products/Kailh-box-jade-mechanical-keyboard-switch_grande.png?v=1658468791'
+        url='https://i.etsystatic.com/10062739/r/il/edf59d/3402018372/il_570xN.3402018372_dyrr.jpg'
     )
     FreeBird60Img = PartImage(
         part_id=4,

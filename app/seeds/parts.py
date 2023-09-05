@@ -15,7 +15,7 @@ def seed_parts():
         type_id=1
     )
     BoxJadeSwitch = Part(
-        name='Kailh Box Jade Switches',
+        name='Kailh Box Jade',
         description='Clicky switches',
         user_id=1,
         type_id=1

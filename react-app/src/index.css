@@ -12,4 +12,5 @@ button {
     box-shadow: #2e3138;
     border: solid 3px black;
     color: white;
+    cursor: pointer;
 }

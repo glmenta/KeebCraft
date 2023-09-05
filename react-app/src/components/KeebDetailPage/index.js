@@ -29,6 +29,7 @@ function KeebDetailPage() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isUpdateCommentModalOpen, setIsUpdateCommentModalOpen] = useState(false);
     const [selectedComment, setSelectedComment] = useState(null);
+
     useEffect(() => {
         dispatch(PartActions.fetchAllParts())
     }, [dispatch])
@@ -88,8 +89,8 @@ function KeebDetailPage() {
                                     <h3>Case</h3>
                                     <p>{currKeeb.case}</p>
                                     <div className='part-detail-img'>
-                                        {allParts.find(part => part.name === currKeeb.case)?.part_img[0] &&
-                                        <img src={allParts.find(part => part.name === currKeeb.case).part_img[0].url} alt="Case image"/>}
+                                        {allParts?.find(part => part?.name === currKeeb?.case)?.part_img[0] &&
+                                        <img src={allParts?.find(part => part?.name === currKeeb?.case).part_img[0]?.url} alt="Case image"/>}
                                     </div>
 
                                 </div>
@@ -97,32 +98,32 @@ function KeebDetailPage() {
                                     <h3>Keycaps</h3>
                                     <p>{currKeeb.keycaps}</p>
                                     <div className='part-detail-img'>
-                                        {allParts.find(part => part.name === currKeeb.keycaps)?.part_img[0] &&
-                                        <img src={allParts.find(part => part.name === currKeeb.keycaps).part_img[0].url} alt="Keycaps image"/>}
+                                        {allParts?.find(part => part?.name === currKeeb?.keycaps)?.part_img[0] &&
+                                        <img src={allParts?.find(part => part?.name === currKeeb?.keycaps).part_img[0]?.url} alt="Keycaps image"/>}
                                     </div>
                                 </div>
                                 <div>
                                     <h3>Switches</h3>
                                     <p>{currKeeb.switches}</p>
                                     <div className='part-detail-img'>
-                                        {allParts.find(part => part.name === currKeeb.switches)?.part_img[0] &&
-                                        <img src={allParts.find(part => part.name === currKeeb.switches).part_img[0].url} alt="Switches image"/>}
+                                        {allParts?.find(part => part.name === currKeeb?.switches)?.part_img[0] &&
+                                        <img src={allParts?.find(part => part.name === currKeeb?.switches).part_img[0].url} alt="Switches image"/>}
                                     </div>
                                 </div>
                                 <div>
                                     <h3>Stabilizers</h3>
                                     <p>{currKeeb.stabilizers}</p>
                                     <div className='part-detail-img'>
-                                        {allParts.find(part => part.name === currKeeb.stabilizers)?.part_img[0] &&
-                                        <img src={allParts.find(part => part.name === currKeeb.stabilizers).part_img[0].url} alt="Stabilizers image"/>}
+                                        {allParts?.find(part => part.name === currKeeb?.stabilizers)?.part_img[0] &&
+                                        <img src={allParts?.find(part => part.name === currKeeb?.stabilizers).part_img[0].url} alt="Stabilizers image"/>}
                                     </div>
                                 </div>
                                 <div>
                                     <h3>Plate</h3>
                                     <p>{currKeeb.plate}</p>
                                     <div className='part-detail-img'>
-                                        {allParts.find(part => part.name === currKeeb.plate)?.part_img[0] &&
-                                        <img src={allParts.find(part => part.name === currKeeb.plate).part_img[0].url} alt="Plate image"/>}
+                                        {allParts?.find(part => part.name === currKeeb?.plate)?.part_img[0] &&
+                                        <img src={allParts?.find(part => part.name === currKeeb?.plate).part_img[0].url} alt="Plate image"/>}
                                     </div>
                                 </div>
                             </div>
