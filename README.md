@@ -3,6 +3,9 @@
 ### Live Link below:
 - https://keebcraft-capstone.onrender.com
 
+<div>
+   <img src="https://github.com/glmenta/KeebCraft/assets/111015201/13f0d21b-0a56-4955-b92b-23d506408bbd" width="800" height="400"
+</div>
 
 ### What is KeebCraft?
 Keebcraft is a fullstack application that utilizes user-created components stored in the database to create custom mechanical keyboards that are then showcased to other users. 
