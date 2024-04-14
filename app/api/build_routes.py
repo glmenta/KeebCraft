@@ -11,12 +11,24 @@ from ..forms.comment_form import CommentForm
 import os
 from urllib.parse import urlparse, urlsplit
 
+from .aws import (if_allowed_image, file_unique_name, upload_S3, create_presigned_url)
+
 keeb_builds_routes = Blueprint('keebs', __name__)
 
 #view all keebs
 @keeb_builds_routes.route('/', methods=['GET'])
 def get_all_keebs():
+    # keebs = KeebBuild.query.all()
+    # return {
+    #     "Keebs": [keeb.to_dict() for keeb in keebs]
+    # }
     keebs = KeebBuild.query.all()
+    for keeb in keebs:
+        if keeb.build_images:
+            parsed_img_url = keeb.build_images[0].image_url.rsplit('/', 1)[-1]
+            presigned_img_url = create_presigned_url(parsed_img_url)
+            keeb.build_images[0].image_url = presigned_img_url
+
     return {
         "Keebs": [keeb.to_dict() for keeb in keebs]
     }

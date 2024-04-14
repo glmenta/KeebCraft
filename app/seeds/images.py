@@ -113,15 +113,18 @@ def undo_parts_images():
 def seed_build_images():
     linearImg = BuildImage(
         build_id=1,
-        url='https://preview.redd.it/w53zdf7yq4t91.jpg?auto=webp&s=412c627744c559d6ede4848e8e51993ad74a83f8'
+        # url='https://preview.redd.it/w53zdf7yq4t91.jpg?auto=webp&s=412c627744c559d6ede4848e8e51993ad74a83f8'
+        url='https://keebcraft-bucket.s3.us-east-2.amazonaws.com/linear-build.jpg'
     )
     tactileImg = BuildImage(
         build_id=2,
-        url='https://i.rtings.com/assets/products/NNCSyYNT/keychron-c1/design-medium.jpg'
+        # url='https://i.rtings.com/assets/products/NNCSyYNT/keychron-c1/design-medium.jpg'
+        url='https://keebcraft-bucket.s3.us-east-2.amazonaws.com/tactile-build.jpg'
     )
     clickyImg = BuildImage(
         build_id=3,
-        url='https://i.imgur.com/SFeJ3xE.jpg'
+        # url='https://i.imgur.com/SFeJ3xE.jpg'
+        url='https://keebcraft-bucket.s3.us-east-2.amazonaws.com/clicky-build.jpg'
     )
     db.session.add(linearImg)
     db.session.add(tactileImg)
