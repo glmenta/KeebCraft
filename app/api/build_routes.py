@@ -25,9 +25,11 @@ def get_all_keebs():
     keebs = KeebBuild.query.all()
     for keeb in keebs:
         if keeb.build_images:
-            parsed_img_url = keeb.build_images[0].image_url.rsplit('/', 1)[-1]
+            print('this is the url',keeb.build_images[0].url)
+            parsed_img_url = keeb.build_images[0].url.rsplit('/', 1)[-1]
             presigned_img_url = create_presigned_url(parsed_img_url)
-            keeb.build_images[0].image_url = presigned_img_url
+            print('this is the presigned url',presigned_img_url)
+            keeb.build_images[0].url = presigned_img_url
 
     return {
         "Keebs": [keeb.to_dict() for keeb in keebs]

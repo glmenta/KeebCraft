@@ -1,5 +1,6 @@
 import boto3
 import botocore
+from botocore.client import Config
 import os
 import uuid
 
@@ -14,10 +15,14 @@ ALLOWED_EXTENSIONS_IMAGES = {'jpg', 'png', 'jpeg'}
 
 s3 = boto3.client(
     "s3",
-    aws_access_key_id=os.environ.get("S3_KEY"),
-    aws_secret_access_key=os.environ.get("S3_SECRET")
+    aws_access_key_id=os.environ.get("S3_KEEB_KEY"),
+    aws_secret_access_key=os.environ.get("S3_KEEB_SECRET"),
+    config=Config(signature_version='s3v4'),
+    region_name='us-east-2'
 )
-
+fs2_var = os.environ.get("FS2_TEST")
+testing_key = os.environ.get("S3_KEY")
+print('this is the fs2_var',fs2_var, testing_key)
 def if_allowed_image(filename):
     return "." in filename and \
         filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS_IMAGES
@@ -48,11 +53,14 @@ def upload_S3(file, acl="private"):
 
 def create_presigned_url(object_name, bucket_name=BUCKET_NAME, expiration=3600):
     try:
-        response = s3.generate_presigned_url('get_object',
-                                             Params={
-                                                 'Bucket': bucket_name,
-                                                 'Key': object_name},
-                                             ExpiresIn=expiration)
+        response = s3.generate_presigned_url(
+            'get_object',
+            Params={
+                'Bucket': bucket_name,
+                'Key': object_name,
+                },
+            ExpiresIn=expiration
+            )
     except ClientError as e:
         logging.error(e)
         return None

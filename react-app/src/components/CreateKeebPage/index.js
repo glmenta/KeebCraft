@@ -68,7 +68,7 @@ function CreateKeebPage() {
             setErrors(error);
             return;
         }
-
+        // enforce checks for size of files being uploaded
         setErrors({});
         setForge(true);
 

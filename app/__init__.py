@@ -14,7 +14,11 @@ from .api.favorite_routes import favorite_routes
 from .seeds import seed_commands
 from .config import Config
 
+# from flask_s3 import FlaskS3
+
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
+# app.config['FLASK_S3_BUCKET_NAME'] = 'keebcraft-bucket'
+# s3 = FlaskS3(app)
 
 # Setup login manager
 login = LoginManager(app)
@@ -40,7 +44,8 @@ db.init_app(app)
 Migrate(app, db)
 
 # Application Security
-CORS(app)
+# CORS(app)
+CORS(app, allow_headers=['Content-Type'], allow_methods=['GET', 'POST', 'PUT', 'DELETE'])
 
 
 # Since we are deploying with Docker and Flask,

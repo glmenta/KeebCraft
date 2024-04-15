@@ -14,9 +14,11 @@ function KeebBuildPage() {
 
     useEffect(() => {
         setIsLoaded(false)
-    Promise.all([dispatch(KeebActions.fetchAllKeebs())]).then(() =>
-        setIsLoaded(true)
-    );
+        dispatch(KeebActions.fetchAllKeebs())
+        .then(() => setIsLoaded(true))
+    // Promise.all([dispatch(KeebActions.fetchAllKeebs())]).then(() =>
+    //     setIsLoaded(true)
+    // );
     }, [dispatch])
 
     const handleCreateKeeb = () => {

@@ -1,5 +1,14 @@
 from app.models.images import db, UserImage, PartImage, BuildImage, environment, SCHEMA
 from sqlalchemy.sql import text
+# from flask import Flask
+# from flask_s3 import FlaskS3
+
+# s3 = FlaskS3()
+
+# def start_app():
+#     app = Flask(__name__)
+#     s3.init_app(app)
+#     return app
 
 def seed_user_images():
     user1 = UserImage(
