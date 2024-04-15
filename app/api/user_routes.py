@@ -82,10 +82,11 @@ def get_user_favorites(id):
     else:
         favorites = Favorite.query.filter(Favorite.user_id == user.id).all()
         for favorite in favorites:
-            print('this is favorite', favorite.favorite_builds[0].build.build_images[0].url)
-            parsed_img_url = favorite.favorite_builds[0].build.build_images[0].url.rsplit('/', 1)[-1]
-            presigned_img_url = create_presigned_url(parsed_img_url)
-            favorite.favorite_builds[0].build.build_images[0].url = presigned_img_url
+            for favorite_build in favorite.favorite_builds:
+                for build_image in favorite_build.build.build_images:
+                    parsed_img_url = build_image.url.rsplit('/', 1)[-1]
+                    presigned_img_url = create_presigned_url(parsed_img_url)
+                    build_image.url = presigned_img_url
 
         if len(favorites) == 0:
             return jsonify({"error": "User has no favorites"}), 200
