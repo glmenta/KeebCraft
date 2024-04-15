@@ -15,18 +15,22 @@ import UserPartsPage from "./components/PartUserPage";
 import PartListPage from "./components/PartListPage";
 import UserFavoritesPage from "./components/UserFavoritesPage";
 import Footer from "./components/Footer/footer";
-
+import * as BuildActions from "./store/build";
 function App() {
   const dispatch = useDispatch();
   const location = useLocation();
   const [isLoaded, setIsLoaded] = useState(false);
+
   useEffect(() => {
     dispatch(authenticate()).then(() => setIsLoaded(true));
+    // dispatch(BuildActions.fetchAllKeebs());
+    // dispatch(true)
   }, [dispatch]);
 
   return (
     <div className='app'>
-      {location.pathname !== "/" && <Navigation isLoaded={isLoaded} />}
+      {/* location.pathname !== "/" &&  */}
+      {<Navigation isLoaded={isLoaded} />}
       {isLoaded && (
         <div className='main-app-content'>
           <Switch>

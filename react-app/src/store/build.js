@@ -62,6 +62,7 @@ export const fetchAllKeebs = () => async (dispatch) => {
     const res = await csrfFetch("/api/keebs");
     if (res.ok) {
         const data = await res.json();
+        console.log('data', data)
         dispatch(getAllKeebs(data.Keebs));
         return data;
     }
