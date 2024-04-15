@@ -8,7 +8,7 @@ const FavoriteListModal = ({ favorite,closeModal }) => {
     const navigateToBuild = (buildId) => {
         history.push(`/keebs/${buildId}`);
     }
-
+    console.log('favorite', favorite)
     return (
         <div className='favorite-list-modal'>
             <div className='fav-list-contents'>

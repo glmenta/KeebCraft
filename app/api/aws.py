@@ -20,9 +20,7 @@ s3 = boto3.client(
     config=Config(signature_version='s3v4'),
     region_name='us-east-2'
 )
-fs2_var = os.environ.get("FS2_TEST")
-testing_key = os.environ.get("S3_KEY")
-print('this is the fs2_var',fs2_var, testing_key)
+
 def if_allowed_image(filename):
     return "." in filename and \
         filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS_IMAGES
