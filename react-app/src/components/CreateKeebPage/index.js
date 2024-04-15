@@ -37,15 +37,6 @@ function CreateKeebPage() {
         dispatch(PartActions.fetchAllParts());
     }, [dispatch]);
 
-    // function isValidImageUrl(url) {
-    //     const pattern = new RegExp('^(https?:\\/\\/)?'+
-    //     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+
-    //     '((\\d{1,3}\\.){3}\\d{1,3}))'+
-    //     '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
-    //     '\\.(jpg|jpeg|png|bmp|gif)(\\?[;&a-z\\d%_.~+=-]*)?$','i');
-    //     return !!pattern.test(url);
-    // }
-
     function isOnlyWhitespace(str) {
         return !str.trim().length;
     }
@@ -250,3 +241,14 @@ function CreateKeebPage() {
 }
 
 export default CreateKeebPage
+
+
+
+    // function isValidImageUrl(url) {
+    //     const pattern = new RegExp('^(https?:\\/\\/)?'+
+    //     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+
+    //     '((\\d{1,3}\\.){3}\\d{1,3}))'+
+    //     '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
+    //     '\\.(jpg|jpeg|png|bmp|gif)(\\?[;&a-z\\d%_.~+=-]*)?$','i');
+    //     return !!pattern.test(url);
+    // }
