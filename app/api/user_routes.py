@@ -6,7 +6,7 @@ from app.models.parts import Part
 from app.models.comments import Comment
 from app.models.favorites import Favorite, FavoriteBuild
 user_routes = Blueprint('users', __name__)
-
+from .aws import (if_allowed_image, file_unique_name, upload_S3, create_presigned_url)
 
 @user_routes.route('/')
 # @login_required
@@ -37,6 +37,10 @@ def get_user_keebs(id):
 
     keeb_builds = KeebBuild.query.filter(KeebBuild.user_id == user.id).all()
 
+    for keeb in keeb_builds:
+        parsed_img_url = keeb.build_images[0].url.rsplit('/', 1)[-1]
+        presigned_img_url = create_presigned_url(parsed_img_url)
+        keeb.build_images[0].url = presigned_img_url
 
     return {
         "Keebs": [keeb.to_dict() for keeb in keeb_builds]
@@ -77,6 +81,12 @@ def get_user_favorites(id):
         return jsonify({"error": "User not found"}), 404
     else:
         favorites = Favorite.query.filter(Favorite.user_id == user.id).all()
+        for favorite in favorites:
+            print('this is favorite', favorite.favorite_builds[0].build.build_images[0].url)
+            parsed_img_url = favorite.favorite_builds[0].build.build_images[0].url.rsplit('/', 1)[-1]
+            presigned_img_url = create_presigned_url(parsed_img_url)
+            favorite.favorite_builds[0].build.build_images[0].url = presigned_img_url
+
         if len(favorites) == 0:
             return jsonify({"error": "User has no favorites"}), 200
         else:

@@ -29,7 +29,7 @@ function KeebDetailPage() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isUpdateCommentModalOpen, setIsUpdateCommentModalOpen] = useState(false);
     const [selectedComment, setSelectedComment] = useState(null);
-
+    console.log('curr keeb', currKeeb);
     useEffect(() => {
         dispatch(PartActions.fetchAllParts())
     }, [dispatch])
@@ -73,7 +73,7 @@ function KeebDetailPage() {
                             <div className='keeb-main'>
                                 <h2 className='keeb-name'>{currKeeb.name}</h2>
                                 <img
-                                    src={currKeeb?.images[0]?.url}
+                                    src={currKeeb?.images}
                                     alt={currKeeb.name}
                                 ></img>
                                 <p>By: {creatorUser?.username}</p>

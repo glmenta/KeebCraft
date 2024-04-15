@@ -72,6 +72,7 @@ export const fetchKeeb = (keebId) => async (dispatch) => {
     const res = await csrfFetch(`/api/keebs/${keebId}`);
     if (res.ok) {
         const data = await res.json();
+        console.log('data', data)
         dispatch(getKeeb(data));
         return data;
     }
@@ -81,6 +82,7 @@ export const getUserKeebsThunk = (userId) => async (dispatch) => {
     const res = await csrfFetch(`/api/users/${userId}/keebs`);
     if (res.ok) {
         const data = await res.json();
+        console.log('data', data)
         dispatch(getUserKeebs(data.Keebs));
         return data;
     }

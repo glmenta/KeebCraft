@@ -18,17 +18,11 @@ keeb_builds_routes = Blueprint('keebs', __name__)
 #view all keebs
 @keeb_builds_routes.route('/', methods=['GET'])
 def get_all_keebs():
-    # keebs = KeebBuild.query.all()
-    # return {
-    #     "Keebs": [keeb.to_dict() for keeb in keebs]
-    # }
     keebs = KeebBuild.query.all()
     for keeb in keebs:
         if keeb.build_images:
-            print('this is the url',keeb.build_images[0].url)
             parsed_img_url = keeb.build_images[0].url.rsplit('/', 1)[-1]
             presigned_img_url = create_presigned_url(parsed_img_url)
-            print('this is the presigned url',presigned_img_url)
             keeb.build_images[0].url = presigned_img_url
 
     return {
@@ -45,7 +39,6 @@ def get_current_keebs():
     }
 
 #view keeb by id
-#this route still does not work
 @keeb_builds_routes.route('/<int:id>', methods=['GET'])
 def get_keeb(id):
     keeb = KeebBuild.query.get(id)
@@ -53,6 +46,9 @@ def get_keeb(id):
         image = BuildImage.query.filter(BuildImage.build_id == id).all()
         comment = Comment.query.filter(Comment.build_id == id).all()
 
+        parsed_img_url = image[0].url.rsplit('/', 1)[-1]
+        presigned_img_url = create_presigned_url(parsed_img_url)
+        print('this is presigned_img_url',presigned_img_url)
         res = {
             "id": keeb.id,
             "user_id": keeb.user_id,
@@ -63,7 +59,8 @@ def get_keeb(id):
             "plate": keeb.plate,
             "stabilizers": keeb.stabilizers,
             "keeb_info": keeb.keeb_info,
-            "images": [image.to_dict() for image in image],
+            # "images": [image.to_dict() for image in image],
+            "images": presigned_img_url,
             "comments": [comment.to_dict() for comment in comment]
         }
         return jsonify(res), 200
