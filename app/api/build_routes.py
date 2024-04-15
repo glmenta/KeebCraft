@@ -34,6 +34,11 @@ def get_all_keebs():
 @keeb_builds_routes.route('/current', methods=['GET'])
 def get_current_keebs():
     keebs = KeebBuild.query.filter(KeebBuild.user_id == current_user.id).all()
+    for keeb in keebs:
+        if keeb.build_images:
+            parsed_img_url = keeb.build_images[0].url.rsplit('/', 1)[-1]
+            presigned_img_url = create_presigned_url(parsed_img_url)
+            keeb.build_images[0].url = presigned_img_url
     return {
         "Keebs": [keeb.to_dict() for keeb in keebs]
     }
@@ -48,7 +53,7 @@ def get_keeb(id):
 
         parsed_img_url = image[0].url.rsplit('/', 1)[-1]
         presigned_img_url = create_presigned_url(parsed_img_url)
-        print('this is presigned_img_url',presigned_img_url)
+
         res = {
             "id": keeb.id,
             "user_id": keeb.user_id,
@@ -131,6 +136,31 @@ def new_keeb_parts():
                 return jsonify(errors='Invalid parts selected'), 400
         else:
             return jsonify(form.errors), 400
+@keeb_builds_routes.route('/upload-image', methods=['POST'])
+@login_required
+def upload_keeb_image():
+    if "image" not in request.files:
+        return jsonify(errors="No image provided"), 400
+
+    image = request.files["image"]
+
+    if not image or image.filename == "":
+        return jsonify(errors="No image provided"), 400
+
+    if not if_allowed_image(image.filename):
+        return jsonify(errors="Invalid image format"), 400
+
+    image.filename = file_unique_name(image.filename)
+    img_upload = upload_S3(image)
+
+    if "url" not in img_upload:
+        return jsonify(errors="Image upload failed"), 400
+
+    img_url = img_upload["url"]
+
+    return {
+        "img_url": img_url
+    }, 201
 
 @keeb_builds_routes.route('/<int:id>/edit', methods=['GET','PUT'])
 @login_required
