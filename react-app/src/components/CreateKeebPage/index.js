@@ -13,7 +13,8 @@ function CreateKeebPage() {
     const [stabs, setStabs] = useState("");
     const [description, setDescription] = useState("");
     const [imgUrl, setImgUrl] = useState("");
-    const [forge, setForge] = useState(false);
+    const [imageFile, setImageFile] = useState(null);
+    const [uploading, setUploading] = useState(false);
     const [errors, setErrors] = useState({});
 
     const dispatch = useDispatch();
@@ -35,16 +36,16 @@ function CreateKeebPage() {
     useEffect(() => {
         dispatch(PartActions.fetchAllParts());
     }, [dispatch]);
-    function isValidImageUrl(url) {
-        // const pattern = new RegExp('\\.(jpg|jpeg|png|bmp|gif)$', 'i');
-        // return pattern.test(url) || url.includes('reddit.com/media?url=');
-        const pattern = new RegExp('^(https?:\\/\\/)?'+
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+
-        '((\\d{1,3}\\.){3}\\d{1,3}))'+
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
-        '\\.(jpg|jpeg|png|bmp|gif)(\\?[;&a-z\\d%_.~+=-]*)?$','i');
-        return !!pattern.test(url);
-    }
+
+    // function isValidImageUrl(url) {
+    //     const pattern = new RegExp('^(https?:\\/\\/)?'+
+    //     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+
+    //     '((\\d{1,3}\\.){3}\\d{1,3}))'+
+    //     '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
+    //     '\\.(jpg|jpeg|png|bmp|gif)(\\?[;&a-z\\d%_.~+=-]*)?$','i');
+    //     return !!pattern.test(url);
+    // }
+
     function isOnlyWhitespace(str) {
         return !str.trim().length;
     }
@@ -54,15 +55,15 @@ function CreateKeebPage() {
         let error = {};
 
         if (isOnlyWhitespace(name) || !name) error.name = 'Please input a valid name';
-        if (!name) error.name = 'Please input a name';
         if (!keebcase) error.keebcase = 'Please select a case';
         if (!keycaps) error.keycaps = 'Please select keycaps';
         if (!switches) error.switches = 'Please select switches';
         if (!plate) error.plate = 'Please select a plate';
         if (!stabs) error.stabs = 'Please select stabilizers';
         if (!description) error.description = 'Please input a description';
-        if (!isValidImageUrl(imgUrl)) error.imgUrl = 'Please input a valid image URL';
-        if (!imgUrl) error.imgUrl = 'Please input an image URL';
+        // if (!isValidImageUrl(imgUrl)) error.imgUrl = 'Please input a valid image URL';
+        // if (!imgUrl) error.imgUrl = 'Please input an image URL';
+        if (!imageFile) error.imgUrl = 'Please upload an image';
 
         if (Object.keys(error).length > 0) {
             setErrors(error);
@@ -70,36 +71,59 @@ function CreateKeebPage() {
         }
         // enforce checks for size of files being uploaded
         setErrors({});
-        setForge(true);
+        setUploading(true);
 
-        const payload = {
-            name,
-            case: keebcase,
-            keycaps,
-            switches,
-            plate,
-            stabilizers: stabs,
-            keeb_info: description,
-            img_url: imgUrl
+        const formData = new FormData();
+        formData.append("image", imageFile);
+
+        const response = await fetch("/api/keebs/upload-image", {
+            method: "POST",
+            body: formData
+        })
+
+        if (!response.ok) {
+            console.log('error uploading image', response)
+            const errorText = await response.text();
+            setErrors({imgUrl: 'Failed to upload image: ' + errorText});
+            setUploading(false);
+            return
         }
 
-        const res = await dispatch(createKeebThunk(payload));
+        const uploadData = await response.json();
+        console.log('uploadData', uploadData)
 
-        if (res.errors) {
-            setErrors(res.errors);
+        if (uploadData && uploadData.img_url) {
+            const payload = {
+                name,
+                case: keebcase,
+                keycaps,
+                switches,
+                plate,
+                stabilizers: stabs,
+                keeb_info: description,
+                img_url: uploadData.img_url,
+            }
+            const res = await dispatch(createKeebThunk(payload));
+            if (res.errors) {
+                setErrors(res.errors);
+            } else {
+                const newKeebId = res.id
+                const url = `/keebs/${newKeebId}`;
+                setName("");
+                setKeebcase("");
+                setKeycaps("");
+                setSwitches("");
+                setPlate("");
+                setStabs("");
+                setDescription("");
+                setImgUrl("");
+                setErrors({});
+                history.push(url);
+            }
         } else {
-            const newKeebId = res.id
-            const url = `/keebs/${newKeebId}`;
-            setName("");
-            setKeebcase("");
-            setKeycaps("");
-            setSwitches("");
-            setPlate("");
-            setStabs("");
-            setDescription("");
-            setImgUrl("");
-            setErrors({});
-            history.push(url);
+            setErrors({imgUrl: 'Failed to upload image'});
+            setUploading(false);
+            return
         }
     }
 
@@ -203,12 +227,11 @@ function CreateKeebPage() {
                     )
                 }
                 {errors.imgUrl && <div className="error-message">{errors.imgUrl}</div>}
+                <label>Image URL</label>
                 <input
-                    type="text"
-                    placeholder="Image URL"
-                    value={imgUrl}
-                    className='create-keeb-img'
-                    onChange={(e) => setImgUrl(e.target.value)}
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setImageFile(e.target.files[0])}
                 />
                 {errors.description && <div className="error-message">{errors.description}</div>}
                 <textarea
