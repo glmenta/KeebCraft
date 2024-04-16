@@ -49,15 +49,17 @@
   }
 
   .fav-button button {
-    width: 200px;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 10px 20px;
-    background-color: #6c727a;
-    border-radius: 0px;
-    box-shadow: #2e3138;
-    border: solid 3px black;
+    display: block; /* Makes the link fill the container */
+    padding: 10px 20px; /* Padding for clickable area */
+    background-color: #007BFF; /* Bootstrap primary blue */
     color: white;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none; /* Removes underline */
+    border-radius: 4px; /* Rounded corners for links */
+    font-weight: bold;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    width: 150px;
   }
 
   .part-details {
@@ -102,8 +104,15 @@
     font-size: 20px;
     align-items: center;
   }
+  .comment-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items:flex-start;
+
+  }
   .comments-container {
-    background-color: #d3d3d3;
+    background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -112,9 +121,17 @@
     display: flex;
     flex-direction: row;
     margin-top: 20px;
+    align-items: center;
+    border: solid 3px black;
+    border-radius: 10px;
   }
   .keeb-comment-user {
-    margin-right: 30px;
+    margin: 40px;
+    margin-right: 70px;
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .keeb-comment-username {
     margin-right: 10px;

@@ -20,13 +20,18 @@
 }
 
 .part-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    grid-gap: 20px;
-    padding: 20px;
-    width: 1500px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
+.part-list-buttons {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
 .part-tile {
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -77,10 +82,11 @@
 }
 
 .create-part-button {
-    max-width: 100px;
+    max-width: 150px;
     margin-bottom: 20px;
-    margin-right: 20px;
-    margin-left: 100px;
+    margin-top: 20px;
+    /* margin-right: 20px;
+    margin-left: 100px; */
 }
 
 .back-keebs-button {

@@ -161,35 +161,40 @@ function KeebDetailPage() {
                                                 alt='user-img-alt'
                                             />
                                             <p className='keeb-comment-username'>{comment?.user_id?.username}</p>
+                                            <div className='comment-buttons'>
+                                            {userId === comment.user_id.id && (
+                                                <div className='update-comment-button'>
+                                                    <button onClick={() => {
+                                                        setSelectedComment(comment);
+                                                        setIsUpdateCommentModalOpen(true);
+                                                    }}>
+                                                        Edit Comment
+                                                    </button>
+                                                </div>
+                                            )}
+                                            {userId === comment.user_id.id && (
+                                            <div className='delete-comment-button'>
+                                                <OpenModalButton
+                                                // buttonText={< i className='fas fa-trash'>Delete Comment</i>}
+                                                buttonText={<i>Delete Comment</i>}
+                                                modalComponent={
+                                                    <DeleteCommentModal
+                                                    keebId={keebId}
+                                                    commentId={comment.id}
+                                                    refreshKey={refreshKey}
+                                                    setRefreshKey={setRefreshKey}
+                                                />
+                                                }
+                                                />
+                                            </div>
+                                            )}
+                                        </div>
                                         </div>
                                         <div className='keeb-comment-text'>
                                             <p>{comment.comment}</p>
                                         </div>
-                                        {userId === comment.user_id.id && (
-                                        <div className='delete-comment-button'>
-                                            <OpenModalButton
-                                            buttonText={< i className='fas fa-trash'>Delete Comment</i>}
-                                            modalComponent={
-                                                <DeleteCommentModal
-                                                keebId={keebId}
-                                                commentId={comment.id}
-                                                refreshKey={refreshKey}
-                                                setRefreshKey={setRefreshKey}
-                                            />
-                                            }
-                                            />
-                                        </div>
-                                        )}
-                                        {userId === comment.user_id.id && (
-                                            <div className='update-comment-button'>
-                                                <button onClick={() => {
-                                                    setSelectedComment(comment);
-                                                    setIsUpdateCommentModalOpen(true);
-                                                }}>
-                                                    Edit Comment
-                                                </button>
-                                            </div>
-                                        )}
+
+
 
                                     </div>
                                 ))}

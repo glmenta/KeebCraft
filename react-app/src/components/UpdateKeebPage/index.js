@@ -228,13 +228,14 @@ function UpdateKeebPage() {
                 </select>
                 <div className="image-upload-container">
                     {imgUrl ? (
-                        <div>
+                        <div className='image-upload-div'>
                             <img src={imgUrl} alt="Current Keeb" className="current-keeb-image" />
-                            <label>
+                            <label className='update-keeb-image-label'>
                                 Please upload a new image (required):
                                 <input
                                     type="file"
                                     accept="image/*"
+                                    className='update-keeb-image'
                                     onChange={(e) => setImageFile(e.target.files[0])}
                                 />
                             </label>

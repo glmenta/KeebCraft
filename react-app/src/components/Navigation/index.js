@@ -11,7 +11,7 @@ function Navigation({ isLoaded }){
 		<ul className="navbar">
 			<div className='navbar-elements'>
 				<div className='home-link'>
-					<li>
+					<li className='home-button'>
 						<NavLink exact to="/keebs" activeClassName="active">KeebCraft</NavLink>
 					</li>
 				</div>

@@ -116,6 +116,7 @@ const UserFavoritesPage = () => {
                 )}
             </div>
             )}
+            <div className='bottom-div'></div>
         </div>
     )
 }
