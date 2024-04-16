@@ -74,11 +74,11 @@ function UserKeebsPage() {
                 <img className='keeb-img' src={keeb?.img_url[0].url}/>
                 <div className='update-button'>
                     <Link to={`/keebs/${keeb.id}/edit`}>
-                        <button>Update Keeb!</button>
+                        <button className='update-keeb-button'>Update Keeb</button>
                     </Link>
                 </div>
             </div>
-            <button onClick={() => handleShow(keeb.id)}>Delete Keeb!</button>
+            <button onClick={() => handleShow(keeb.id)}>Delete Keeb</button>
             {deleteModal[keeb.id] && (
                 <DeleteKeebModal
                 keebId={deletedKeebId}
@@ -89,6 +89,7 @@ function UserKeebsPage() {
             )}
             </div>
         ))}
+        <div className='divider'></div>
         </div>
     );
 }

@@ -41,50 +41,51 @@ function ProfileButton({ user }) {
     setShowMenu(false);
   };
 
-  return (
-    <div className='profile'>
-      <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
-      </button>
-      <ul className={ulClassName} ref={ulRef}>
-        {user ? (
-          <div className='profile-contents'>
-            <li>{user.username}</li>
-            <li>{user.email}</li>
-            <div className='user-links'>
-              <div className='user-keeb-link'>
-                <Link className='keeb-link' to={`/users/${user.id}/keebs` } onClick={closeMenu}>Keebs</Link>
+    return (
+      <div className='profile'>
+        <button className='profile-button' ref={buttonRef} onClick={openMenu}>
+          <i className="fas fa-user-circle" />
+        </button>
+        <ul className={ulClassName} ref={ulRef}>
+          {user ? (
+            <div className='profile-contents'>
+              <li>Hi, {user.username}</li>
+              {/* <li>{user.email}</li> */}
+              <div className='user-links'>
+                Check out your:
+                <div className='user-keeb-link'>
+                  <Link className='keeb-link' to={`/users/${user.id}/keebs` } onClick={closeMenu}>Keebs</Link>
+                </div>
+                <div className='user-part-link'>
+                  <Link className='part-link' to={`/users/${user.id}/parts`} onClick={closeMenu}>Parts</Link>
+                </div>
+                <div className='user-fav-link'>
+                  <Link className='fav-link' to={`/users/${user.id}/favorites`} onClick={closeMenu}>Favorites</Link>
+                </div>
               </div>
-              <div className='user-part-link'>
-                <Link className='part-link' to={`/users/${user.id}/parts`} onClick={closeMenu}>Parts</Link>
-              </div>
-              <div className='user-fav-link'>
-                <Link className='fav-link' to={`/users/${user.id}/favorites`} onClick={closeMenu}>Favorites</Link>
-              </div>
+              <li>
+                <button onClick={handleLogout}>Log Out</button>
+              </li>
             </div>
-            <li>
-              <button onClick={handleLogout}>Log Out</button>
-            </li>
-          </div>
-        ) : (
-          <div className='profile-login-signup'>
-            <OpenModalButton
-              buttonText="Log In"
-              onItemClick={closeMenu}
-              onButtonClick={closeMenu}
-              modalComponent={<LoginFormModal />}
-            />
+          ) : (
+            <div className='profile-login-signup'>
+              <OpenModalButton
+                buttonText="Log In"
+                onItemClick={closeMenu}
+                onButtonClick={closeMenu}
+                modalComponent={<LoginFormModal />}
+              />
 
-            <OpenModalButton
-              buttonText="Sign Up"
-              onItemClick={closeMenu}
-              onButtonClick={closeMenu}
-              modalComponent={<SignupFormModal />}
-            />
-          </div>
-        )}
-      </ul>
-    </div>
+              <OpenModalButton
+                buttonText="Sign Up"
+                onItemClick={closeMenu}
+                onButtonClick={closeMenu}
+                modalComponent={<SignupFormModal />}
+              />
+            </div>
+          )}
+        </ul>
+      </div>
   );
 }
 
